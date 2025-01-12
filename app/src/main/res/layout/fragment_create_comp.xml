@@ -52,10 +52,21 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="15dp"
         android:text="Crear"
-        app:layout_constraintBottom_toTopOf="@+id/create_comp_bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@+id/camara"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputLayoutCompName" />
+
+    <Button
+        android:id="@+id/camara"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="15dp"
+        android:text="Mostrar camara"
+        app:layout_constraintBottom_toTopOf="@+id/create_comp_bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_comp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/create_comp_bottom_navigation"

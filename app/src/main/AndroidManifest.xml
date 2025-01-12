@@ -2,7 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Internet permission -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Any type of camera permission -->
+    <uses-feature
+        android:name="android.hardware.camera.any"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!-- Audio permission -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:name=".FootballApp"
