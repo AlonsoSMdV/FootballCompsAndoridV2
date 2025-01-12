@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/players_details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="Jugadores"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <ImageView
+        android:id="@+id/user_photo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintTop_toBottomOf="@id/players_details_toolbar"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_person_v2"/>
+
+    <TextView
+        android:id="@+id/player_name"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="@id/user_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:text="Nombre del jugador: "
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:paddingTop="2.5dp"/>
+    <TextView
+        android:id="@+id/player_first_surname"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="@id/player_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:text="Primer apellido: "
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:paddingTop="2.5dp"/>
+    <TextView
+        android:id="@+id/player_second_surname"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="@id/player_first_surname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:text="Segundo apellido: "
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:paddingTop="2.5dp"/>
+    <TextView
+        android:id="@+id/player_nationality"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="@id/player_second_surname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:text="Nacionalidad: "
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:paddingTop="2.5dp"/>
+    <TextView
+        android:id="@+id/player_dorsal"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="@id/player_nationality"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:text="Dorsal: "
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:paddingTop="2.5dp"/>
+    <TextView
+        android:id="@+id/player_birthdate"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="@id/player_dorsal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:text="Fecha de nacimiento: "
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:paddingTop="2.5dp"/>
+    <TextView
+        android:id="@+id/player_position"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="@id/player_birthdate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:text="Posición"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:paddingTop="2.5dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

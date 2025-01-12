@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentLogin">
+
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.example.footballcompsuserv2.ui.fragments.LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/login_to_comps"
+            app:destination="@id/compsFragment" />
+        <action
+            android:id="@+id/login_to_register"
+            app:destination="@id/fragmentRegister" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentRegister"
+        android:name="com.example.footballcompsuserv2.ui.fragments.RegisterFragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/register_to_login"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/compsFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.CompsFragment"
+        tools:layout="@layout/fragment_competition_list" >
+        <action
+            android:id="@+id/comps_to_teams"
+            app:destination="@id/teamsFragment">
+            <argument
+                android:name="idComp"
+                app:argType="integer"/>
+        </action>
+
+        <action
+            android:id="@+id/comps_to_create"
+            app:destination="@id/createCompsFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/createCompsFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.CreateCompFragment"
+        tools:layout="@layout/fragment_create_comp">
+        <action
+            android:id="@+id/create_to_comps"
+            app:destination="@id/compsFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/teamsFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.TeamFragment"
+        tools:layout="@layout/fragment_team_list">
+        <action
+            android:id="@+id/teams_to_comps"
+            app:destination="@id/compsFragment"/>
+        <argument
+            android:name="idComp"
+            app:argType="integer"/>
+
+        <action
+            android:id="@+id/teams_to_players"
+            app:destination="@id/playersFragment">
+            <argument
+                android:name="idTeam"
+                app:argType="integer"/>
+        </action>
+
+        <action
+            android:id="@+id/teams_to_create"
+            app:destination="@id/createTeamFragment">
+            <argument
+                android:name="idCompSelected"
+                app:argType="integer"/>
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/createTeamFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.CreateTeamFragment"
+        tools:layout="@layout/fragment_create_team">
+        <action
+            android:id="@+id/create_to_teams"
+            app:destination="@id/teamsFragment"/>
+        <argument
+            android:name="idCompSelected"
+            app:argType="integer"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/playersFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.PlayerListFragment"
+        tools:layout="@layout/fragment_player_list">
+        <action
+            android:id="@+id/players_to_teams"
+            app:destination="@id/teamsFragment"/>
+        <argument
+            android:name="idTeam"
+            app:argType="integer"/>
+
+        <action
+            android:id="@+id/players_to_create"
+            app:destination="@id/createPlayerFragment">
+            <argument
+                android:name="idTeamSelected"
+                app:argType="integer"/>
+        </action>
+
+        <action
+            android:id="@+id/players_to_details"
+            app:destination="@id/playerDetails">
+            <argument
+                android:name="idPlayer"
+                app:argType="integer"/>
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/createPlayerFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.CreatePlayerFragment"
+        tools:layout="@layout/fragment_create_player">
+        <action
+            android:id="@+id/create_to_players"
+            app:destination="@id/playersFragment"/>
+        <argument
+            android:name="idTeamSelected"
+            app:argType="integer"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/playerDetails"
+        android:name="com.example.footballcompsuserv2.ui.fragments.PlayerDetailsFragment"
+        tools:layout="@layout/fragment_players_detail">
+
+        <action
+            android:id="@+id/details_to_players"
+            app:destination="@id/playersFragment"/>
+        <argument
+            android:name="idPlayer"
+            app:argType="integer"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileDetails"
+        android:name="com.example.footballcompsuserv2.ui.fragments.ProfileDetailsFragment"
+        tools:layout="@layout/fragment_profile_details">
+        <action
+            android:id="@+id/logout"
+            app:destination="@id/fragmentLogin"/>
+    </fragment>
+
+</navigation>
