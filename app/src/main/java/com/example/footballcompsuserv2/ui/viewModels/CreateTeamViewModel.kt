@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.teams.ITeamRepository
 import com.example.footballcompsuserv2.data.teams.Team
-import com.example.footballcompsuserv2.ui.viewModels.CreatePlayerUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +20,7 @@ class CreateTeamViewModel @Inject constructor(
     val uiState: StateFlow<CreatePlayerUiState>
         get() = _uiState.asStateFlow()
 
-    fun CreateTeam(team: TeamCreate){
+    fun createTeam(team: TeamCreate){
         viewModelScope.launch {
             teamRepo.createTeam(team)
         }

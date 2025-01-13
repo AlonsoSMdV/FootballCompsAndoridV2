@@ -61,7 +61,7 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
                         league = idComp!!
                     )
                 )
-                viewModel.CreateTeam(createTeam)
+                viewModel.createTeam(createTeam)
                 findNavController().navigate(R.id.create_to_teams)
             }
         }

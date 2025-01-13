@@ -1,7 +1,6 @@
 package com.example.footballcompsuserv2.data.leagues
 
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface ICompsRepository {

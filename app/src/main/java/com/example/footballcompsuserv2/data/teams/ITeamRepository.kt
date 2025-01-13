@@ -1,7 +1,6 @@
 package com.example.footballcompsuserv2.data.teams
 
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface ITeamRepository {

@@ -16,7 +16,6 @@ import com.example.footballcompsuserv2.ui.MainActivity
 import com.example.footballcompsuserv2.ui.viewModels.LoginRegisterViewModel
 import com.example.footballcompsuserv2.ui.viewModels.RegisterUIState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

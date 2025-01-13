@@ -2,11 +2,9 @@ package com.example.footballcompsuserv2.data.leagues
 
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.ICompRemoteDataSource
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class CompsRepository @Inject constructor(
