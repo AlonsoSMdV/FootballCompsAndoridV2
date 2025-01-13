@@ -20,7 +20,7 @@ class CreatePlayerViewModel @Inject constructor(
     val uiState: StateFlow<CreatePlayerUiState>
         get() = _uiState.asStateFlow()
 
-    fun CreatePlayer(player: PlayerCreate){
+    fun createPlayer(player: PlayerCreate){
         viewModelScope.launch {
             playerRepo.createPlayer(player)
         }

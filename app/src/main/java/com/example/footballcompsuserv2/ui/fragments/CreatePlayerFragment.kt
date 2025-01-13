@@ -72,7 +72,7 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
                         team = idTeam!!
                     )
                 )
-                viewModel.CreatePlayer(createPlayer)
+                viewModel.createPlayer(createPlayer)
                 findNavController().navigate(R.id.create_to_players)
             }
         }

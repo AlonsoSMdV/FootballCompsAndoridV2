@@ -78,6 +78,16 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
             }
         }
 
+        val btnCamera = view.findViewById<Button>(R.id.buttonCamera)
+        btnCamera.setOnClickListener {
+            if (hasCameraPermissions(requireContext())){
+                findNavController().navigate(R.id.create_to_camera)
+            }else{
+                launcher.launch(PERMISSIONS_REQUIRED)
+            }
+
+        }
+
 
         val btnCreate = view.findViewById<Button>(R.id.create_comp)
         btnCreate.setOnClickListener{
@@ -91,7 +101,7 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
                         name = name
                     )
                 )
-                viewModel.CreateComp(createComp)
+                viewModel.createComp(createComp)
                 findNavController().navigate(R.id.create_to_comps)
             }
         }

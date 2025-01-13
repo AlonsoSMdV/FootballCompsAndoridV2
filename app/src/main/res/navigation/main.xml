@@ -50,6 +50,9 @@
         <action
             android:id="@+id/create_to_comps"
             app:destination="@id/compsFragment"/>
+        <action
+            android:id="@+id/create_to_camera"
+            app:destination="@id/cameraPreviewFragment" />
     </fragment>
 
     <fragment
@@ -155,5 +158,9 @@
             android:id="@+id/logout"
             app:destination="@id/fragmentLogin"/>
     </fragment>
+    <fragment
+        android:id="@+id/cameraPreviewFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.CameraPreviewFragment"
+        android:label="CameraPreviewFragment" />
 
 </navigation>

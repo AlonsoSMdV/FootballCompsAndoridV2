@@ -20,7 +20,9 @@ class CreateCompViewModel @Inject constructor(
     val uiState: StateFlow<CreatePlayerUiState>
         get() = _uiState.asStateFlow()
 
-    fun CreateComp(comp: CompCreate){
+    val photo:
+
+    fun createComp(comp: CompCreate){
         viewModelScope.launch {
             compRepo.createComp(comp)
         }
