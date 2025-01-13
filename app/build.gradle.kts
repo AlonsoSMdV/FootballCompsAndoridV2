@@ -59,6 +59,10 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     implementation("androidx.camera:camera-extensions:${camerax_version}")
 
+    // Coil
+    implementation(libs.coil)
+    implementation(libs.coil.network.okhttp)
+
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation ("androidx.datastore:datastore-preferences:1.1.1")
@@ -84,6 +88,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }
 kapt {
     correctErrorTypes = true

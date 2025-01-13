@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.footballcompsuserv2.R
+import com.example.footballcompsuserv2.databinding.ActivityMainBinding
 import com.example.footballcompsuserv2.ui.datastores.ThemePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,11 +19,13 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var bottomNav: BottomNavigationView
-    private lateinit var themePreference    : ThemePreferences
+    private lateinit var binding: ActivityMainBinding
+    lateinit var themePreference    : ThemePreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
         //Implementación del datastore y  el boton del activity_main.xml
         themePreference = ThemePreferences(this)

@@ -3,6 +3,7 @@ package com.example.footballcompsuserv2.ui.fragments
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +13,19 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import coil3.load
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributes
 import com.example.footballcompsuserv2.databinding.FragmentCreateCompBinding
 import com.example.footballcompsuserv2.ui.viewModels.CreateCompViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 private var PERMISSIONS_REQUIRED =
@@ -29,11 +35,11 @@ private var PERMISSIONS_REQUIRED =
 @AndroidEntryPoint
 class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
     private lateinit var binding: FragmentCreateCompBinding
-    private val viewModel: CreateCompViewModel by viewModels()
+    private val viewModel: CreateCompViewModel by activityViewModels()
 
-    val contract = ActivityResultContracts.RequestMultiplePermissions()
+    private val contract = ActivityResultContracts.RequestMultiplePermissions()
 
-    val launcher = registerForActivityResult(contract)
+    private val launcher = registerForActivityResult(contract)
     {
         permissions ->
         var granted = true
@@ -45,6 +51,8 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
         }
         if (granted){
             //Navigate to camera
+            navigateToCamera()
+
         }else{
             Toast.makeText(requireContext(), "No tiene permisos de camara", Toast.LENGTH_LONG).show()
         }
@@ -62,10 +70,18 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
         return binding.root
     }
 
+    /**
+     * Función que navega al fragmento de Preview de camara
+     */
+    private fun navigateToCamera() {
+        val action = CreateCompFragmentDirections.createToCamera()
+        findNavController().navigate(action)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.camara.setOnClickListener{
+        binding.goToCamera.setOnClickListener{
             if(hasCameraPermissions(requireContext())){
                 // navigateToCamera()
             }else {
@@ -78,14 +94,29 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
             }
         }
 
-        val btnCamera = view.findViewById<Button>(R.id.buttonCamera)
+        val btnCamera = view.findViewById<Button>(R.id.go_to_camera)
         btnCamera.setOnClickListener {
             if (hasCameraPermissions(requireContext())){
-                findNavController().navigate(R.id.create_to_camera)
+                navigateToCamera()
             }else{
                 launcher.launch(PERMISSIONS_REQUIRED)
             }
-
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.photo.collect{
+                    photoUri ->
+                    when(photoUri){
+                        Uri.EMPTY -> {
+                            //No hay foto, podemos poner un placeholder
+                        }
+                        else -> {
+                            //tenemos la foto, la ponemos en la UI aprovechando coil
+                            binding.imageView.load(photoUri)
+                        }
+                    }
+                }
+            }
         }
 
 
