@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil3.load
 import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.CompetitionViewModel
 import com.example.footballcompsuserv2.data.leagues.Competition
@@ -29,7 +30,9 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
         fun bind(competition: Competition) {
             binding.compName.text = competition.name
             binding.compId.text = competition.id
-
+            if (competition.logo!=null) {
+                binding.compImage.load(competition.logo)
+            }
             binding.deleteCompButton.setOnClickListener{
                 viewModel.deleteComp(competition.id.toInt())
             }

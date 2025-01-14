@@ -63,6 +63,9 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
 
+    //Lotties
+    implementation("com.airbnb.android:lottie:5.0.3")
+
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation ("androidx.datastore:datastore-preferences:1.1.1")

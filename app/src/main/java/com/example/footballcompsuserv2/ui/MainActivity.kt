@@ -20,7 +20,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     lateinit var bottomNav: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
-    lateinit var themePreference    : ThemePreferences
+    private lateinit var themePreference    : ThemePreferences
+    lateinit var themeToggleButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val themeToggleButton = findViewById<Button>(R.id.theme_button)
+        themeToggleButton = findViewById<Button>(R.id.theme_button)
         themeToggleButton.setOnClickListener {
             lifecycleScope.launch {
                 val currentTheme = themePreference.themeFlow.first()
@@ -59,7 +60,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragmentLogin, R.id.fragmentRegister -> {
                     bottomNav.visibility = View.GONE
                 }
-                else -> bottomNav.visibility = View.VISIBLE
+                R.id.cameraPreviewFragment -> {
+                    bottomNav.visibility = View.GONE
+                    themeToggleButton.visibility = View.GONE
+                }
+                else -> {
+                    bottomNav.visibility = View.VISIBLE
+                    themeToggleButton.visibility = View.VISIBLE
+                }
             }
         }
 
