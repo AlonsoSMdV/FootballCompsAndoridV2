@@ -93,6 +93,7 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
         binding.goToCamera.setOnClickListener{
             if(hasCameraPermissions(requireContext())){
                 // navigateToCamera()
+
             }else {
                 launcher.launch(PERMISSIONS_REQUIRED)
             }
