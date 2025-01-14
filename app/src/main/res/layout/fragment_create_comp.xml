@@ -63,11 +63,20 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="15dp"
         android:text="Mostrar camara"
-        app:layout_constraintBottom_toTopOf="@+id/image_view"
+        app:layout_constraintBottom_toTopOf="@+id/select_photo_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_comp" />
-
+    <Button
+        android:id="@+id/select_photo_btn"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="15dp"
+        android:text="Select from local storage"
+        app:layout_constraintBottom_toTopOf="@+id/image_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/go_to_camera" />
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"

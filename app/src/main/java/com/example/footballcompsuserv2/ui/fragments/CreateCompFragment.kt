@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -57,6 +58,14 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
             Toast.makeText(requireContext(), "No tiene permisos de camara", Toast.LENGTH_LONG).show()
         }
     }
+
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
+        if (uri != null){
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.onImageCaptured(uri)
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -94,6 +103,10 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
             }
         }
 
+        binding.selectPhotoBtn.setOnClickListener {
+            pickMedia.launch(PickVisualMediaRequest((ActivityResultContracts.PickVisualMedia.ImageOnly)))
+        }
+
         val btnCamera = view.findViewById<Button>(R.id.go_to_camera)
         btnCamera.setOnClickListener {
             if (hasCameraPermissions(requireContext())){
@@ -129,7 +142,9 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
             }else{
                 val createComp = CompCreate(
                     data = CompRawAttributes(
-                        name = name
+                        name = name,
+                        logo = null,
+                        isFavourite = false
                     )
                 )
                 viewModel.createComp(createComp)

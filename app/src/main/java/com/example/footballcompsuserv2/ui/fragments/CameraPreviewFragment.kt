@@ -48,7 +48,7 @@ class CameraPreviewFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        (activity as MainActivity).themeToggleButton.visibility = View.GONE
         (activity as MainActivity).bottomNav.visibility =View.GONE
         val preview = binding.cameraPreview
         cameraController = LifecycleCameraController(requireContext())
