@@ -8,6 +8,12 @@
         android:visible="true"
         app:showAsAction="always"/>
     <item
+        android:id="@+id/navigation_favs"
+        android:icon="@drawable/ic_fav"
+        android:title="Favourites"
+        android:visible="true"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_profile"
         android:title="Profile"

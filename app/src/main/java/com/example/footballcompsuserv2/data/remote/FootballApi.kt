@@ -20,7 +20,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
-interface FootballApi {
+interface   FootballApi {
     @GET("leagues/?populate=logo")
     suspend fun getCompetitions(): Response<CompListRaw>
     @GET("leagues/{id}")
