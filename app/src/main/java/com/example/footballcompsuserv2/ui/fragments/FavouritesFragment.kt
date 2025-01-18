@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FavouritesFragment: Fragment(R.layout.fragment_favourites) {
+
     private lateinit var binding: FragmentFavouritesBinding
     private val viewModel: FavouritesViewModel by viewModels()
 }
