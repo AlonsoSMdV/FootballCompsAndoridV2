@@ -158,9 +158,16 @@
             android:id="@+id/logout"
             app:destination="@id/fragmentLogin"/>
     </fragment>
+
     <fragment
         android:id="@+id/cameraPreviewFragment"
         android:name="com.example.footballcompsuserv2.ui.fragments.CameraPreviewFragment"
         android:label="CameraPreviewFragment" />
+
+
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.FavouritesFragment"
+        tools:layout="@layout/fragment_favourites" />
 
 </navigation>

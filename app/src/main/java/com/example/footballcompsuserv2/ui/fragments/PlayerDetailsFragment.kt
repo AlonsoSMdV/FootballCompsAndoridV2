@@ -25,7 +25,7 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPlayersDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
