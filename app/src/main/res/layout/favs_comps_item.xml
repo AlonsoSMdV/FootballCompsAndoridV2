@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:padding="25dp"
+    android:clickable="false"
+    android:focusable="false">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/fav_comp_card"
+        android:layout_width="125dp"
+        android:clickable="true"
+        android:layout_height="155dp"
+        android:layout_marginBottom="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:clickable="false"
+            android:focusable="false">
+
+
+
+            <TextView
+                android:id="@+id/comp_fav_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:id="@+id/comp_fav_image"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:padding="5dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:contentDescription="Logo de una liga"
+                tools:srcCompat="@tools:sample/avatars"
+                />
+
+            <TextView
+                android:id="@+id/comp_fav_name"
+                android:layout_width="125dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:clickable="false"
+                android:focusable="false"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <CheckBox
+        android:id="@+id/comps_toggle_favs"
+        android:button="@null"
+        android:background="@drawable/ic_fav2"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+</LinearLayout>
