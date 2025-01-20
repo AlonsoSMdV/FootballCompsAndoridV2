@@ -12,6 +12,10 @@ class TeamRemoteDataSource @Inject constructor(
         return teamApi.getTeams()
     }
 
+    override suspend fun readFavs(filters: Map<String, String>): Response<TeamListRaw> {
+        return teamApi.getFavTeams(filters)
+    }
+
     override suspend fun readTeamsByLeague(filters: Map<String, String>): Response<TeamListRaw> {
         return teamApi.getTeamsByLeague(filters)
     }

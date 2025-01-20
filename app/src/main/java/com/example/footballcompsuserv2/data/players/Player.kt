@@ -9,5 +9,7 @@ data class Player (
     val nationality: String,
     val dorsal: Int,
     val position: String,
+    val isFavourite: Boolean,
+    val photo: String?,
     val teamId: String
 )

@@ -5,6 +5,7 @@ import retrofit2.Response
 
 interface ICompRemoteDataSource {
     suspend fun readAll(): Response<CompListRaw>
+    suspend fun readFavs(filters: Map<String, String>): Response<CompListRaw>
     suspend fun readOne(id:Int): Response<Competition>
     suspend fun createComp(comp: CompCreate)
     suspend fun deleteComp(id: Int)

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface IPlayerRepository {
     val setStream: StateFlow<List<Player>>
     suspend fun readAll(): List<Player>
+    suspend fun readFavs(isFav: Boolean): List<Player>
     suspend fun readPlayersByTeam(teamId: Int): List<Player>
     suspend fun readOne(id: Int): Player
     suspend fun createPlayer(player: PlayerCreate)

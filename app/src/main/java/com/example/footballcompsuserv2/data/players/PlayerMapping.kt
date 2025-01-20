@@ -13,6 +13,8 @@ fun PlayerRaw.toExternal(): Player {
         dorsal = this.attributes.dorsal,
         position = this.attributes.position,
         teamId = this.attributes.team.toString(),
+        isFavourite = this.attributes.isFavourite,
+        photo = this.attributes.playerProfilePhoto?.data?.attributes?.formats?.small?.url ?:"",
         birthdate = this.attributes.birthdate
     )
 }

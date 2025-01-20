@@ -69,7 +69,9 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
                         dorsal = dorsal.toInt(),
                         birthdate = birthdate,
                         position = position,
-                        team = idTeam!!
+                        team = idTeam!!,
+                        isFavourite = false,
+                        playerProfilePhoto = null
                     )
                 )
                 viewModel.createPlayer(createPlayer)

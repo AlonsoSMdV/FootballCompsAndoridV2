@@ -26,6 +26,10 @@ class PlayerRepository @Inject constructor(
         return players
     }
 
+    override suspend fun readFavs(isFav: Boolean): List<Player> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun readPlayersByTeam(teamId: Int): List<Player> {
         val filters = mapOf(
             "filters[team][id][\$eq]" to teamId.toString()
@@ -43,7 +47,7 @@ class PlayerRepository @Inject constructor(
     override suspend fun readOne(id: Int): Player {
         val res = remoteData.readOne(id)
         return if (res.isSuccessful)res.body()!!
-        else Player("0","","", "", "", "", 0, "0", "")
+        else Player("0","","", "", "", "", 0, "0", false, null,"")
     }
 
     override suspend fun createPlayer(player: PlayerCreate) {

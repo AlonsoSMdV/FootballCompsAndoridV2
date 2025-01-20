@@ -7,6 +7,8 @@ fun TeamRaw.toExternal(): Team {
     return Team(
         id = this.id.toString(),
         name = this.attributes.name,
+        isFavourite = this.attributes.isFavourite,
+        tLogo = this.attributes.teamLogo?.data?.attributes?.formats?.small?.url ?:"",
         comId = this.attributes.league.toString()
     )
 }

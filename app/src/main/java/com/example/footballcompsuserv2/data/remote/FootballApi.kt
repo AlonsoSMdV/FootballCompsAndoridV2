@@ -25,6 +25,8 @@ interface   FootballApi {
     suspend fun getCompetitions(): Response<CompListRaw>
     @GET("leagues/{id}")
     suspend fun getOneCompetition(@Path("id")id: Int): Response<Competition>
+    @GET("leagues")
+    suspend fun getFavComps(@QueryMap filters: Map<String, String>):Response<CompListRaw>
     @POST("leagues")
     suspend fun createComp(@Body comp: CompCreate)
     @DELETE("leagues/{id}")
@@ -32,6 +34,8 @@ interface   FootballApi {
 
     @GET("teams")
     suspend fun getTeams(): Response<TeamListRaw>
+    @GET("teams")
+    suspend fun getFavTeams(@QueryMap filters: Map<String, String>): Response<TeamListRaw>
     @GET("teams/{id}")
     suspend fun getOneTeam(id : Int): Response<Team>
     @GET("teams")
@@ -43,6 +47,8 @@ interface   FootballApi {
 
     @GET("players")
     suspend fun getPlayers(): Response<PlayerListRaw>
+    @GET("players")
+    suspend fun getFavPlayers(@QueryMap filters: Map<String, String>): Response<PlayerListRaw>
     @GET("players/{id}")
     suspend fun getOnePlayer(@Path("id")id : Int): Response<Player>
     @GET("players")

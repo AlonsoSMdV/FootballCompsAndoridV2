@@ -25,6 +25,10 @@ class TeamRepository @Inject constructor(
         return teams
     }
 
+    override suspend fun readFavs(isFav: Boolean): List<Team> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun readTeamsByLeague(leagueId: Int): List<Team> {
         val filters = mapOf(
             "filters[league][id][\$eq]" to leagueId.toString()
@@ -42,7 +46,7 @@ class TeamRepository @Inject constructor(
     override suspend fun readOne(id: Int): Team {
         val res = remoteData.readOne(id)
         return if (res.isSuccessful)res.body()!!
-        else Team("0","", "0")
+        else Team("0","", false, null,"")
     }
 
     override suspend fun createTeam(team: TeamCreate) {

@@ -26,6 +26,10 @@ class CompsRepository @Inject constructor(
         return comps
     }
 
+    override suspend fun readFavs(isFav: Boolean): List<Competition> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun readOne(id: Int): Competition {
         val res = remoteData.readOne(id)
         return if (res.isSuccessful)res.body()!!

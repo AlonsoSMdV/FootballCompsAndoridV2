@@ -58,7 +58,9 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
                     data = TeamRawAttributes(
                         name = name,
                         numberOfPlayers = nPlayers.toInt(),
-                        league = idComp!!
+                        league = idComp!!,
+                        isFavourite = false,
+                        teamLogo = null
                     )
                 )
                 viewModel.createTeam(createTeam)
