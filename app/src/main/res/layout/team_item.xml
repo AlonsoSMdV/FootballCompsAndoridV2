@@ -33,14 +33,20 @@
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+    <CheckBox
+        android:id="@+id/toggle_teams_favs"
+        android:button="@null"
+        android:background="@drawable/ic_fav2"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
     <Button
         android:id="@+id/delete_team_button"
         android:layout_width="125dp"
         android:layout_height="50dp"
         android:layout_gravity="end"
         android:backgroundTint="@color/md_theme_error"
-        android:text="Borrar"/>
-
+        android:text="Borrar" />
 
 
 </LinearLayout>
