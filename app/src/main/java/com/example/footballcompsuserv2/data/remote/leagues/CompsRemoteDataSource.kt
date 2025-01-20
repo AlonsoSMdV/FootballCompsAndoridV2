@@ -12,7 +12,7 @@ class CompsRemoteDataSource @Inject constructor(
         return compApi.getCompetitions()
     }
 
-    override suspend fun readFavs(filters: Map<String, String>): Response<CompListRaw> {
+    override suspend fun readFavs(filters: Map<String, Boolean>): Response<CompListRaw> {
         return compApi.getFavComps(filters)
     }
 

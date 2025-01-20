@@ -12,7 +12,7 @@ class PlayerRemoteDataSource @Inject constructor(
         return playerApi.getPlayers()
     }
 
-    override suspend fun readFavs(filters: Map<String, String>): Response<PlayerListRaw> {
+    override suspend fun readFavs(filters: Map<String, Boolean>): Response<PlayerListRaw> {
         return playerApi.getFavPlayers(filters)
     }
 

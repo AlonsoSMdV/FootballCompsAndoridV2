@@ -26,7 +26,17 @@ class TeamRepository @Inject constructor(
     }
 
     override suspend fun readFavs(isFav: Boolean): List<Team> {
-        TODO("Not yet implemented")
+        val filters = mapOf(
+            "filters[isFavourite][\$eq]=true" to isFav
+        )
+        val res = remoteData.readFavs(filters)
+        val teams = _state.value.toMutableList()
+        if (res.isSuccessful){
+            val teamList = res.body()?.data ?: emptyList()
+            _state.value = teamList.toExternal()
+        }
+        else _state.value = teams
+        return teams
     }
 
     override suspend fun readTeamsByLeague(leagueId: Int): List<Team> {

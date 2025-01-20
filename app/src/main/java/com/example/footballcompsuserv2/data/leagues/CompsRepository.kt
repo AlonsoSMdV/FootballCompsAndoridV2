@@ -27,7 +27,17 @@ class CompsRepository @Inject constructor(
     }
 
     override suspend fun readFavs(isFav: Boolean): List<Competition> {
-        TODO("Not yet implemented")
+        val filters = mapOf(
+            "filters[isFavourite][\$eq]=true" to isFav
+        )
+        val res = remoteData.readFavs(filters)
+        val comps = _state.value.toMutableList()
+        if (res.isSuccessful){
+            val compList = res.body()?.data ?: emptyList()
+            _state.value = compList.toExternal()
+        }
+        else _state.value = comps
+        return comps
     }
 
     override suspend fun readOne(id: Int): Competition {
