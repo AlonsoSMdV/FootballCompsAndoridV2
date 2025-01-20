@@ -1,5 +1,6 @@
 package com.example.footballcompsuserv2.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -61,6 +62,7 @@ class FavoritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newItems: List<FavoriteItem>) {
         items = newItems
         notifyDataSetChanged()
