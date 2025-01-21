@@ -43,7 +43,7 @@ class CompsRepository @Inject constructor(
     override suspend fun readOne(id: Int): Competition {
         val res = remoteData.readOne(id)
         return if (res.isSuccessful)res.body()!!
-        else Competition("0","", "", false)
+        else Competition("0","", "", "", "",false)
     }
 
     override suspend fun createComp(comp: CompCreate) {
@@ -53,5 +53,10 @@ class CompsRepository @Inject constructor(
     override suspend fun deleteComp(id: Int) {
         remoteData.deleteComp(id)
     }
+
+    override suspend fun updateComp(id: Int, comp: CompCreate) {
+        remoteData.updateComp(id, comp)
+    }
+
 
 }

@@ -27,4 +27,8 @@ class CompsRemoteDataSource @Inject constructor(
     override suspend fun deleteComp(id: Int) {
         return compApi.deleteComp(id)
     }
+
+    override suspend fun updateComp(id: Int, comp: CompCreate) {
+        return compApi.updateComp(id, comp)
+    }
 }

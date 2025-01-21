@@ -2,12 +2,16 @@ package com.example.footballcompsuserv2.data.leagues
 
 
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
+import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributes
+import com.example.footballcompsuserv2.data.remote.leagues.LogoWrapper
 
 fun CompRaw.toExternal(): Competition {
     return Competition(
         id = this.id.toString(),
         name = this.attributes.name,
         logo = this.attributes.logo?.data?.attributes?.formats?.small?.url ?:"",
+        logoId = this.attributes.logo?.data?.id.toString(),
+        logoName = this.attributes.logo?.data?.attributes?.name,
         isFavourite = this.attributes.isFavourite
     )
 }

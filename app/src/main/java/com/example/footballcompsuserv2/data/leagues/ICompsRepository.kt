@@ -10,4 +10,5 @@ interface ICompsRepository {
     suspend fun readOne(id: Int): Competition
     suspend fun createComp(comp: CompCreate)
     suspend fun deleteComp(id: Int)
+    suspend fun updateComp(id: Int, comp: CompCreate)
 }

@@ -9,4 +9,5 @@ interface ICompRemoteDataSource {
     suspend fun readOne(id:Int): Response<Competition>
     suspend fun createComp(comp: CompCreate)
     suspend fun deleteComp(id: Int)
+    suspend fun updateComp(id: Int, compCopy: CompCreate)
 }
