@@ -46,11 +46,21 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
                 viewModel.deleteComp(competition.id.toInt())
             }
 
+            binding.favouriteButton.apply {
+                setImageResource(
+                    if (competition.isFavourite) R.drawable.ic_fav_filled
+                    else R.drawable.ic_fav2
+                )
+                setOnClickListener {
+                    viewModel.toggleFavourite(competition)
+                }
+            }
+
+
             binding.compCard.setOnClickListener {
                 val action = CompsFragmentDirections.compsToTeams(competition.id.toInt())
                 it.findNavController().navigate(action)
             }
-
 
         }
     }

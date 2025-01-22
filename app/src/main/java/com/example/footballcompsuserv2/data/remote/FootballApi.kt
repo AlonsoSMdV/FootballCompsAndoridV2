@@ -33,7 +33,7 @@ interface   FootballApi {
     suspend fun createComp(@Body comp: CompCreate)
     @DELETE("leagues/{id}")
     suspend fun deleteComp(@Path("id")id: Int)
-    @PATCH("leagues/{id}")
+    @PUT("leagues/{id}")
     suspend fun updateComp(@Path("id")id: Int, @Body comp: CompCreate)
 
     @GET("teams")
@@ -61,6 +61,7 @@ interface   FootballApi {
     suspend fun createPlayer(@Body player: PlayerCreate)
     @DELETE("players/{id}")
     suspend fun deletePlayer(@Path("id")id: Int)
+    @PUT("players/{id}")
 
     @POST("auth/local")
     suspend fun login(@Body loginUser: LoginRaw): Response<LoginRegisterResponse>

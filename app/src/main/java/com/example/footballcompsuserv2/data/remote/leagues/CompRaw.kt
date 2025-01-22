@@ -7,7 +7,7 @@ data class CompRaw (
 
 data class CompRawAttributes(
     val name:String,
-    val isFavourite: Boolean,
+    var isFavourite: Boolean,
     val logo: LogoWrapper?
 )
 data class LogoRaw(

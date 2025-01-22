@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.leagues.ICompsRepository
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
+import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,10 +32,17 @@ class CompetitionViewModel @Inject constructor(
         }
     }
 
-    fun updateComp(id: Int, competition: CompCreate){
+    fun toggleFavourite(competition: Competition) {
         viewModelScope.launch {
-            compRepo.updateComp(id, competition)
-            withContext(Dispatchers.IO){
+            val updatedCompetition = CompCreate(
+                data = CompRawAttributes(
+                    name = competition.name,
+                    isFavourite = !competition.isFavourite,
+                    logo = null // No enviamos el logo para que no se modifique
+                )
+            )
+            compRepo.updateComp(competition.id.toInt(), updatedCompetition)
+            withContext(Dispatchers.IO) {
                 compRepo.readAll()
             }
         }

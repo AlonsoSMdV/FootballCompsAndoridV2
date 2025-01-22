@@ -10,8 +10,6 @@ fun CompRaw.toExternal(): Competition {
         id = this.id.toString(),
         name = this.attributes.name,
         logo = this.attributes.logo?.data?.attributes?.formats?.small?.url ?:"",
-        logoId = this.attributes.logo?.data?.id.toString(),
-        logoName = this.attributes.logo?.data?.attributes?.name,
         isFavourite = this.attributes.isFavourite
     )
 }

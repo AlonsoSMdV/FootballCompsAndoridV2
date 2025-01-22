@@ -50,12 +50,14 @@
                 android:focusable="false"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-    <CheckBox
-        android:id="@+id/toggle_copmps_favs"
-        android:button="@null"
-        android:background="@drawable/ic_fav2"
+    <ImageButton
+        android:id="@+id/favourite_button"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:background="@null"
+        android:src="@drawable/ic_fav2"
+        tools:ignore="ImageContrastCheck" />
     <Button
         android:id="@+id/delete_comp_button"
         android:layout_width="125dp"
