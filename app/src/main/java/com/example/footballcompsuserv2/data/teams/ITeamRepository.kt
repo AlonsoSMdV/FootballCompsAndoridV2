@@ -12,4 +12,5 @@ interface ITeamRepository {
     suspend fun readOne(id: Int): Team
     suspend fun createTeam(team: TeamCreate)
     suspend fun deleteTeam(id: Int)
+    suspend fun updateTeam(id: Int, team: TeamCreate)
 }

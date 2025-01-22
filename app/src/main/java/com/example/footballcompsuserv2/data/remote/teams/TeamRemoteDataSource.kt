@@ -32,5 +32,9 @@ class TeamRemoteDataSource @Inject constructor(
         return teamApi.deleteTeam(id)
     }
 
+    override suspend fun updateTeam(id: Int, team: TeamCreate) {
+        return teamApi.updateTeam(id, team)
+    }
+
 
 }

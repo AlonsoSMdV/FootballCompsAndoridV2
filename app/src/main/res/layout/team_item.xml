@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="15dp">
 
@@ -33,12 +34,14 @@
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-    <CheckBox
-        android:id="@+id/toggle_teams_favs"
-        android:button="@null"
-        android:background="@drawable/ic_fav2"
+    <ImageButton
+        android:id="@+id/favourite_button_teams"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:background="@null"
+        android:src="@drawable/ic_fav2"
+        tools:ignore="ImageContrastCheck" />
 
     <Button
         android:id="@+id/delete_team_button"

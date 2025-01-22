@@ -1,16 +1,16 @@
 package com.example.footballcompsuserv2.data.remote.teams
 
-import com.example.footballcompsuserv2.data.remote.leagues.LogoWrapper
 
 data class TeamRaw(val id: Int,
                    val attributes: TeamRawAttributes
 )
 
-data class TeamRawAttributes(val name: String,
-                             val numberOfPlayers: Int,
-                             val isFavourite: Boolean,
-                             val teamLogo: LogoWrapper?,
-                             val league: Int
+data class TeamRawAttributes(
+    val name: String,
+    val numberOfPlayers: Int,
+    val isFavourite: Boolean,
+    val teamLogo: LogoWrapper?,
+    val league: Int?
 )
 
 

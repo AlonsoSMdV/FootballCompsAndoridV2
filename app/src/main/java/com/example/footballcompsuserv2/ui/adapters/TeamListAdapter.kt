@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.ui.fragments.TeamFragmentDirections
 import com.example.footballcompsuserv2.data.teams.Team
 import com.example.footballcompsuserv2.databinding.TeamItemBinding
@@ -32,6 +33,16 @@ class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: 
             binding.teamName.text = team.name
             binding.deleteTeamButton.setOnClickListener {
                 viewModel.deleteTeam(team.id.toInt(), compId)
+            }
+
+            binding.favouriteButtonTeams.apply {
+                setImageResource(
+                    if (team.isFavourite) R.drawable.ic_fav_filled
+                    else R.drawable.ic_fav2
+                )
+                setOnClickListener {
+                    viewModel.toggleFavouriteTeams(team)
+                }
             }
             binding.teamCard.setOnClickListener {
                 val action = TeamFragmentDirections.teamsToPlayers(team.id.toInt())

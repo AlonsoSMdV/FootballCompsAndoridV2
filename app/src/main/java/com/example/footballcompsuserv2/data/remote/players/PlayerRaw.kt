@@ -1,6 +1,5 @@
 package com.example.footballcompsuserv2.data.remote.players
 
-import com.example.footballcompsuserv2.data.remote.leagues.LogoWrapper
 
 data class PlayerRaw (
     val id: Int,

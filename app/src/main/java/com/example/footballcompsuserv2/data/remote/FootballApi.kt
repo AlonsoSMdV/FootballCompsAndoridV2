@@ -48,6 +48,8 @@ interface   FootballApi {
     suspend fun createTeam(@Body team: TeamCreate)
     @DELETE("teams/{id}")
     suspend fun deleteTeam(@Path("id")id: Int)
+    @PUT("teams/{id}")
+    suspend fun updateTeam(@Path("id")id: Int, @Body team: TeamCreate)
 
     @GET("players")
     suspend fun getPlayers(): Response<PlayerListRaw>
@@ -61,7 +63,6 @@ interface   FootballApi {
     suspend fun createPlayer(@Body player: PlayerCreate)
     @DELETE("players/{id}")
     suspend fun deletePlayer(@Path("id")id: Int)
-    @PUT("players/{id}")
 
     @POST("auth/local")
     suspend fun login(@Body loginUser: LoginRaw): Response<LoginRegisterResponse>

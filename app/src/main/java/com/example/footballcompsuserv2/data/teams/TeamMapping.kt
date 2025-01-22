@@ -9,7 +9,8 @@ fun TeamRaw.toExternal(): Team {
         name = this.attributes.name,
         isFavourite = this.attributes.isFavourite,
         tLogo = this.attributes.teamLogo?.data?.attributes?.formats?.small?.url ?:"",
-        comId = this.attributes.league.toString()
+        comId = this.attributes.league.toString(),
+        nPlayers = this.attributes.numberOfPlayers
     )
 }
 fun List<TeamRaw>.toExternal():List<Team> = map(TeamRaw::toExternal)
