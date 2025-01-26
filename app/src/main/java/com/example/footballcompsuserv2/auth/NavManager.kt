@@ -1,0 +1,26 @@
+package com.example.footballcompsuserv2.auth
+
+import com.example.footballcompsuserv2.R
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class NavManager @Inject constructor(
+    private  val authSvc: AuthService
+){
+    private val authDest: Set<Int> = setOf(
+        R.id.compsFragment,
+        R.id.teamsFragment,
+        R.id.playersFragment,
+        R.id.playerDetails,
+        R.id.profileDetails,
+        R.id.createCompsFragment,
+        R.id.createTeamFragment,
+        R.id.createPlayerFragment,
+        R.id.favouritesFragment
+    )
+
+    fun navsToLogin(destId: Int): Boolean{
+        return authDest.contains(destId) && !authSvc.isAuthenticated()
+    }
+}
