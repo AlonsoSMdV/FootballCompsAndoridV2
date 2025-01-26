@@ -41,7 +41,7 @@ class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: 
                     else R.drawable.ic_fav2
                 )
                 setOnClickListener {
-                    viewModel.toggleFavouriteTeams(team)
+                    viewModel.toggleFavouriteTeams(team, compId)
                 }
             }
             binding.teamCard.setOnClickListener {

@@ -33,7 +33,7 @@ class TeamViewModel @Inject constructor(
         }
     }
 
-    fun toggleFavouriteTeams(team: Team) {
+    fun toggleFavouriteTeams(team: Team, leagueId: Int) {
         viewModelScope.launch {
             val updatedTeam = TeamCreate(
                 data = TeamRawAttributes(
@@ -47,7 +47,7 @@ class TeamViewModel @Inject constructor(
             )
             teamRepo.updateTeam(team.id.toInt(), updatedTeam)
             withContext(Dispatchers.IO) {
-                teamRepo.readAll()
+                teamRepo.readTeamsByLeague(leagueId)
             }
         }
     }

@@ -1,6 +1,7 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="green_light">#75BD5E</color>
     <color name="md_theme_primary">#48672E</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
     <color name="md_theme_primaryContainer">#C9EEA7</color>
