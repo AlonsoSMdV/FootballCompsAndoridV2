@@ -63,6 +63,8 @@ interface   FootballApi {
     suspend fun createPlayer(@Body player: PlayerCreate)
     @DELETE("players/{id}")
     suspend fun deletePlayer(@Path("id")id: Int)
+    @PUT("players/{id}")
+    suspend fun updatePlayer(@Path("id")id: Int, @Body player: PlayerCreate)
 
     @POST("auth/local")
     suspend fun login(@Body loginUser: LoginRaw): Response<LoginRegisterResponse>

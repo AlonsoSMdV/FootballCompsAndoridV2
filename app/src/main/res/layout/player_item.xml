@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="125dp"
     android:orientation="vertical"
@@ -18,6 +19,11 @@
             android:layout_height="match_parent"
             android:baselineAligned="false"
             android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_player"
+                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -31,18 +37,17 @@
                 android:layout_marginEnd="5dp"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/id_player"/>
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-    <CheckBox
-        android:id="@+id/toggle_players_favs"
-        android:button="@null"
-        android:background="@drawable/ic_fav2"
+    <ImageButton
+        android:id="@+id/button_players_favs"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:background="@null"
+        android:src="@drawable/ic_fav2"
+        tools:ignore="ImageContrastCheck" />
     <Button
         android:id="@+id/delete_player_button"
         android:layout_width="wrap_content"

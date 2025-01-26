@@ -11,8 +11,8 @@ import com.example.footballcompsuserv2.databinding.FavsCompsItemBinding
 import com.example.footballcompsuserv2.databinding.FavsPlayersItemBinding
 import com.example.footballcompsuserv2.databinding.FavsTeamsItemBinding
 
-class FavoritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var items: List<FavoriteItem> = emptyList()
+class FavouritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var items: List<FavouriteItem> = emptyList()
 
     // Define different view types
     companion object {
@@ -22,10 +22,10 @@ class FavoritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     // Sealed class to handle different types of favorite items
-    sealed class FavoriteItem {
-        data class CompetitionItem(val competition: Competition) : FavoriteItem()
-        data class TeamItem(val team: Team) : FavoriteItem()
-        data class PlayerItem(val player: Player) : FavoriteItem()
+    sealed class FavouriteItem {
+        data class CompetitionItem(val competition: Competition) : FavouriteItem()
+        data class TeamItem(val team: Team) : FavouriteItem()
+        data class PlayerItem(val player: Player) : FavouriteItem()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -46,9 +46,9 @@ class FavoritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = items[position]) {
-            is FavoriteItem.CompetitionItem -> (holder as CompetitionViewHolder).bind(item.competition)
-            is FavoriteItem.TeamItem -> (holder as TeamViewHolder).bind(item.team)
-            is FavoriteItem.PlayerItem -> (holder as PlayerViewHolder).bind(item.player)
+            is FavouriteItem.CompetitionItem -> (holder as CompetitionViewHolder).bind(item.competition)
+            is FavouriteItem.TeamItem -> (holder as TeamViewHolder).bind(item.team)
+            is FavouriteItem.PlayerItem -> (holder as PlayerViewHolder).bind(item.player)
         }
     }
 
@@ -56,14 +56,14 @@ class FavoritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is FavoriteItem.CompetitionItem -> TYPE_COMPETITION
-            is FavoriteItem.TeamItem -> TYPE_TEAM
-            is FavoriteItem.PlayerItem -> TYPE_PLAYER
+            is FavouriteItem.CompetitionItem -> TYPE_COMPETITION
+            is FavouriteItem.TeamItem -> TYPE_TEAM
+            is FavouriteItem.PlayerItem -> TYPE_PLAYER
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(newItems: List<FavoriteItem>) {
+    fun submitList(newItems: List<FavouriteItem>) {
         items = newItems
         notifyDataSetChanged()
     }

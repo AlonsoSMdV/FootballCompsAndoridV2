@@ -9,9 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.databinding.FragmentFavouritesBinding
-import com.example.footballcompsuserv2.ui.adapters.FavoritesAdapter
+import com.example.footballcompsuserv2.ui.adapters.FavouritesAdapter
 import com.example.footballcompsuserv2.ui.viewModels.FavouritesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -21,7 +20,7 @@ class FavouritesFragment: Fragment() {
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
 
-    private val favoritesAdapter = FavoritesAdapter()
+    private val favouritesAdapter = FavouritesAdapter()
     private val viewModel: FavouritesViewModel by viewModels()
 
     override fun onCreateView(
@@ -41,7 +40,7 @@ class FavouritesFragment: Fragment() {
 
     private fun setupRecyclerView() {
         binding.favsList.apply {
-            adapter = favoritesAdapter
+            adapter = favouritesAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         }
@@ -50,8 +49,8 @@ class FavouritesFragment: Fragment() {
     private fun observeFavorites() {
         // Observe competitions, teams and players from ViewModel
         lifecycleScope.launch {
-            viewModel.getFavorites().collect { favorites ->
-                favoritesAdapter.submitList(favorites)
+            viewModel.getFavourites().collect { favorites ->
+                favouritesAdapter.submitList(favorites)
             }
         }
     }

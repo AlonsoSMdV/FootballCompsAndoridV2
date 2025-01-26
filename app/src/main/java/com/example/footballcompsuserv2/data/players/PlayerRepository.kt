@@ -67,4 +67,8 @@ class PlayerRepository @Inject constructor(
         remoteData.deletePlayer(id)
     }
 
+    override suspend fun updatePlayer(id: Int, player: PlayerCreate) {
+        remoteData.updatePlayer(id, player)
+    }
+
 }

@@ -10,4 +10,5 @@ interface IPlayerRemoteDataSource {
     suspend fun readOne(id:Int): Response<Player>
     suspend fun createPlayer(player: PlayerCreate)
     suspend fun deletePlayer(id: Int)
+    suspend fun updatePlayer(id: Int, player: PlayerCreate)
 }

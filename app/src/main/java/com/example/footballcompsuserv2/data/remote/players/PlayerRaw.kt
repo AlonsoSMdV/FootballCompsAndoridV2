@@ -16,7 +16,7 @@ data class PlayerRawAttributes(
     val position: String,
     val isFavourite: Boolean,
     val playerProfilePhoto: LogoWrapper?,
-    val team: Int
+    val team: Int?
 )
 
 data class LogoRaw(

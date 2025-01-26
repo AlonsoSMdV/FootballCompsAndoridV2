@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.footballcompsuserv2.data.players.IPlayerRepository
 import com.example.footballcompsuserv2.data.players.Player
+import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
+import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,8 +46,31 @@ class PlayerListViewModel @Inject constructor(
                 }
             }
         }
+    }
 
+    fun toggleFavouritePlayers(player: Player, teamId: Int) {
+        viewModelScope.launch {
+            val updatedPlayer = PlayerCreate(
+                data = PlayerRawAttributes(
+                    name = player.name,
+                    firstSurname = player.firstSurname,
+                    secondSurname = player.secondSurname,
+                    position = player.position,
+                    birthdate = player.birthdate,
+                    nationality = player.nationality,
+                    dorsal = player.dorsal,
+                    isFavourite = !player.isFavourite,
+                    team = null,
+                    playerProfilePhoto = null
+                    /**No enviamos el logo para que no se modifique**/
 
+                )
+            )
+            playerRepo.updatePlayer(player.id.toInt(), updatedPlayer)
+            withContext(Dispatchers.IO) {
+                playerRepo.readPlayersByTeam(teamId)
+            }
+        }
     }
 
     fun observePlayersByTeam(teamId:Int) {

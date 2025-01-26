@@ -31,4 +31,8 @@ class PlayerRemoteDataSource @Inject constructor(
     override suspend fun deletePlayer(id: Int) {
         return playerApi.deletePlayer(id)
     }
+
+    override suspend fun updatePlayer(id: Int, player: PlayerCreate) {
+        return playerApi.updatePlayer(id, player)
+    }
 }
