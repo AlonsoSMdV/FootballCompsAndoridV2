@@ -170,4 +170,10 @@
         android:name="com.example.footballcompsuserv2.ui.fragments.FavouritesFragment"
         tools:layout="@layout/fragment_favourites" />
 
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
+
 </navigation>
