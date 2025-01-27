@@ -16,19 +16,40 @@
         app:defaultNavHost="true"
         android:name="androidx.navigation.fragment.NavHostFragment"/>
 
-
-    <Button
-        android:id="@+id/theme_button"
-        android:layout_width="125dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="80dp"
-        android:text="Cambiar Tema"
-        android:layout_centerInParent="true" />
+        android:id="@+id/theme_layout"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!-- Icono de la izquierda -->
+        <ImageView
+            android:id="@+id/icon_day"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Tema claro"
+            android:src="@drawable/ic_day" />
+
+        <!-- Switch -->
+        <Switch
+            android:id="@+id/theme_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:checked="false"/>
+
+        <!-- Icono de la derecha -->
+        <ImageView
+            android:id="@+id/icon_night"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Tema oscuro"
+            android:src="@drawable/ic_night" />
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

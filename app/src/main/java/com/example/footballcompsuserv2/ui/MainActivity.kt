@@ -1,10 +1,13 @@
 package com.example.footballcompsuserv2.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
+import android.widget.ImageView
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -27,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var navMng: NavManager
 
-    lateinit var themeToggleButton: Button
+    lateinit var themeToggleButton: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +50,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        themeToggleButton = findViewById<Button>(R.id.theme_button)
-        themeToggleButton.setOnClickListener {
+        themeToggleButton = findViewById<Switch>(R.id.theme_switch)
+        val iconDay = findViewById<ImageView>(R.id.icon_day)
+        val iconNight = findViewById<ImageView>(R.id.icon_night)
+        lifecycleScope.launch {
+            val currentTheme = themePreference.themeFlow.first()
+            themeToggleButton.isChecked = currentTheme
+            updateIcons(currentTheme, iconDay, iconNight)
+        }
+
+        themeToggleButton.setOnCheckedChangeListener { _, isChecked ->
             lifecycleScope.launch {
-                val currentTheme = themePreference.themeFlow.first()
-                themePreference.saveTheme(!currentTheme)
+                themePreference.saveTheme(isChecked)
+                updateIcons(isChecked, iconDay, iconNight)
             }
         }
 
@@ -101,6 +112,18 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+    }
+    fun updateIcons(isDarkMode: Boolean, iconLeft: ImageView, iconRight: ImageView) {
+        val wht = ContextCompat.getColor(this, R.color.white) // Color para el modo activado
+        val blck = Color.BLACK // Color negro para el modo desactivado
+
+        if (isDarkMode) {
+            iconLeft.setColorFilter(wht) // Modo oscuro: ícono izquierdo blanco
+            iconRight.setColorFilter(wht) // Modo oscuro: ícono derecho negro
+        } else {
+            iconLeft.setColorFilter(blck) // Modo claro: ícono izquierdo negro
+            iconRight.setColorFilter(blck) // Modo claro: ícono derecho blanco
         }
     }
 }
