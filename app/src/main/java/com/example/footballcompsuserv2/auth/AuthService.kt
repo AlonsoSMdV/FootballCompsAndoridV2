@@ -16,12 +16,18 @@ class AuthService @Inject constructor(
         return sharedPrfc.getString(TKN, null)
     }
 
-    fun clearToken(){
-        sharedPrfc.edit().remove(TKN).apply()
+    fun clearCredentials(){
+        sharedPrfc.edit().remove(TKN).remove("USER_ID").apply()
     }
 
     fun saveToken(token: String){
         sharedPrfc.edit().putString(TKN, token).apply()
+    }
+
+    fun saveId(id: String){
+        if (id.isNotBlank()){
+            sharedPrfc.edit().putString("USER_ID", id).apply()
+        }
     }
 
     fun isAuthenticated(): Boolean{
