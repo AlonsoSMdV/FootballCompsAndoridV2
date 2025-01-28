@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
     private lateinit var binding: FragmentPlayersDetailBinding
-    private lateinit var  viewModel: PlayerDetailsViewModel
+    private lateinit var viewModel: PlayerDetailsViewModel
 
     private var playerId: Int? = null
 
@@ -36,7 +36,6 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,22 +46,25 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
 
         viewModel = ViewModelProvider(this).get(PlayerDetailsViewModel::class.java)
         playerId = arguments?.getInt("idPlayer")
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.player.collect { player ->
+                    player?.let { getPlayer(it) }
+                }
+            }
+        }
+
         viewModel.getPlayerDetails(playerId!!)
-        viewModel.player.observe(viewLifecycleOwner, Observer { player ->
-            getPlayer(player)
-        })
-
-
-
     }
 
-    private fun getPlayer(player: Player){
-        binding.playerName.text = player.name ?: "Nombre no disponible"
-        binding.playerFirstSurname.text = player.firstSurname ?: "Apellido no disponible"
-        binding.playerSecondSurname.text = player.secondSurname ?: "Segundo apellido no disponible"
-        binding.playerNationality.text = player.nationality ?: "Nacionalidad no disponible"
-        binding.playerDorsal.text = player.dorsal.toString() ?: "Dorsal no disponible"
-        binding.playerBirthdate.text = player.birthdate ?: "Fecha de nacimiento no disponible"
-        binding.playerPosition.text = player.position ?: "Posición no disponible"
+    private fun getPlayer(player: Player) {
+        binding.playerName.text = "Nombre: ${player.name ?: "No disponible"}"
+        binding.playerFirstSurname.text = "Primer apellido: ${player.firstSurname ?: "No disponible"}"
+        binding.playerSecondSurname.text = "Segundo apellido: ${player.secondSurname ?: "No disponible"}"
+        binding.playerNationality.text = "Nacionalidad: ${player.nationality ?: "No disponible"}"
+        binding.playerDorsal.text = "Dorsal: ${player.dorsal?.toString() ?: "No disponible"}"
+        binding.playerBirthdate.text = "Fecha de nacimiento: ${player.birthdate ?: "No disponible"}"
+        binding.playerPosition.text = "Posición: ${player.position ?: "No disponible"}"
     }
 }

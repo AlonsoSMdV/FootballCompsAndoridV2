@@ -2,6 +2,7 @@ package com.example.footballcompsuserv2.data.players
 
 import com.example.footballcompsuserv2.data.remote.players.IPlayerRemoteDataSource
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
+import com.example.footballcompsuserv2.data.remote.players.PlayerResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,10 +55,16 @@ class PlayerRepository @Inject constructor(
     }
 
     override suspend fun readOne(id: Int): Player {
+
         val res = remoteData.readOne(id)
 
-        return if (res.isSuccessful) res.body()!!
-        else Player("0","","", "", "", "", 0, "0", false, null,"")
+        return if (res.isSuccessful) {
+            val player = res.body()?.data?.toExternal()
+                ?: Player("0", "", "", "", "", "", 0 ,"", false, null, "")
+            player
+        } else {
+           Player("0", "", "", "", "", "", 0 ,"", false, null, "")
+        }
     }
 
     override suspend fun createPlayer(player: PlayerCreate) {

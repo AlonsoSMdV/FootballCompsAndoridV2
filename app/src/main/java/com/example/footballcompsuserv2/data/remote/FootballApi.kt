@@ -9,6 +9,7 @@ import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRegisterRe
 import com.example.footballcompsuserv2.data.remote.loginRegister.RegisterRaw
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
 import com.example.footballcompsuserv2.data.remote.players.PlayerListRaw
+import com.example.footballcompsuserv2.data.remote.players.PlayerResponse
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamListRaw
 import com.example.footballcompsuserv2.data.teams.Team
@@ -56,7 +57,7 @@ interface   FootballApi {
     @GET("players")
     suspend fun getFavPlayers(@QueryMap filters: Map<String, Boolean>): Response<PlayerListRaw>
     @GET("players/{id}")
-    suspend fun getOnePlayer(@Path("id")id : Int): Response<Player>
+    suspend fun getOnePlayer(@Path("id")id : Int): Response<PlayerResponse>
     @GET("players")
     suspend fun getPlayersByTeam(@QueryMap filters: Map<String, String>): Response<PlayerListRaw>
     @POST("players")

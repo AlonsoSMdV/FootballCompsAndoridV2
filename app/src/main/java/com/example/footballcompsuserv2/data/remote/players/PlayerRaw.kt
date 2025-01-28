@@ -43,3 +43,6 @@ data class LogoDetail(
 
 
 data class PlayerCreate(val data: PlayerRawAttributes)
+data class PlayerResponse(
+    val data: PlayerRaw  // Cambiado de List<PlayerRaw> a PlayerRaw
+)

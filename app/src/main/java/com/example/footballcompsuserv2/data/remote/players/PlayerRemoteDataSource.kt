@@ -20,7 +20,7 @@ class PlayerRemoteDataSource @Inject constructor(
         return playerApi.getPlayersByTeam(filters)
     }
 
-    override suspend fun readOne(id: Int): Response<Player> {
+    override suspend fun readOne(id: Int): Response<PlayerResponse> {
         return  playerApi.getOnePlayer(id)
     }
 
