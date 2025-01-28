@@ -2,6 +2,7 @@ package com.example.footballcompsuserv2.data.players
 
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.players.PlayerRaw
+import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributes
 
 fun PlayerRaw.toExternal(): Player {
     return Player(

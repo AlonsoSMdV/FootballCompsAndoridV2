@@ -55,7 +55,8 @@ class PlayerRepository @Inject constructor(
 
     override suspend fun readOne(id: Int): Player {
         val res = remoteData.readOne(id)
-        return if (res.isSuccessful)res.body()!!
+
+        return if (res.isSuccessful) res.body()!!
         else Player("0","","", "", "", "", 0, "0", false, null,"")
     }
 
