@@ -12,6 +12,7 @@ import com.example.footballcompsuserv2.data.remote.players.PlayerListRaw
 import com.example.footballcompsuserv2.data.remote.players.PlayerResponse
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamListRaw
+import com.example.footballcompsuserv2.data.remote.user.UserRaw
 import com.example.footballcompsuserv2.data.teams.Team
 import retrofit2.Response
 import retrofit2.http.Body
@@ -66,6 +67,9 @@ interface   FootballApi {
     suspend fun deletePlayer(@Path("id")id: Int)
     @PUT("players/{id}")
     suspend fun updatePlayer(@Path("id")id: Int, @Body player: PlayerCreate)
+
+    @GET("users/me")
+    suspend fun getActualUser(): Response<UserRaw>
 
     @POST("auth/local")
     suspend fun login(@Body loginUser: LoginRaw): Response<LoginRegisterResponse>

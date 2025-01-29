@@ -7,14 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.footballcompsuserv2.R
+import com.example.footballcompsuserv2.data.user.User
+import com.example.footballcompsuserv2.databinding.FragmentProfileDetailsBinding
+import com.example.footballcompsuserv2.ui.viewModels.ProfileViewModel
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var binding: FragmentProfileDetailsBinding
+    private val viewModel: ProfileViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +40,13 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
 
         sharedPreferences = requireContext().getSharedPreferences("football_prefs", 0)
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.user.count { user ->
+
+                }
+            }
+        }
         val btnLogout = view.findViewById<Button>(R.id.btn_logout)
         btnLogout.setOnClickListener {
             logout()
@@ -42,6 +61,9 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
                 .setPopUpTo(R.id.logout, true)
                 .build())
         }
+    }
+    private fun getUser(user: User){
+        binding.userName.editableText = user.name ?: "Nombre de Usuario"
     }
 
     override fun onDestroyView() {
