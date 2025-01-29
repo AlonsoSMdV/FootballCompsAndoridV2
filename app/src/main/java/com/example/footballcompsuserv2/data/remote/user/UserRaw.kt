@@ -2,6 +2,6 @@ package com.example.footballcompsuserv2.data.remote.user
 
 data class UserRaw (
     val id: Int,
-    val name: String,
+    val username: String,
     val email: String
 )

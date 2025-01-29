@@ -2,6 +2,7 @@ package com.example.footballcompsuserv2.ui.fragments
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,10 +41,13 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
 
         sharedPreferences = requireContext().getSharedPreferences("football_prefs", 0)
 
+        binding = FragmentProfileDetailsBinding.bind(view)
+
+        viewModel.getActualUser()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.user.count { user ->
-
+                viewModel.user.collect { user ->
+                    user?.let { getUser(it) }
                 }
             }
         }
@@ -63,7 +67,8 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
         }
     }
     private fun getUser(user: User){
-        binding.userName.editableText = user.name ?: "Nombre de Usuario"
+        binding.userName.setText(user.name)
+        binding.userEmail.setText(user.email)
     }
 
     override fun onDestroyView() {

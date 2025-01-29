@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/user_photo"
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -16,6 +17,7 @@
         android:layout_marginTop="32dp"
         android:src="@drawable/ic_person_v2"
         android:contentDescription="user_photo"
+        app:shapeAppearanceOverlay="@style/CircularImageView"
         android:padding="8dp"/>
 
     <TextView
@@ -27,46 +29,64 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="24dp"
         android:text="Datos del usuario"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/material_on_surface_emphasis_high_type"
         android:textAlignment="center"/>
 
-    <EditText
-        android:id="@+id/user_name"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/il_user_namet"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/details"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Nombre de usuario"
-        android:inputType="text"
-        android:padding="12dp"/>
+        app:startIconDrawable="@drawable/ic_user"
+        app:startIconTint="@color/material_on_surface_emphasis_medium">
 
-    <EditText
-        android:id="@+id/user_email"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_user_email"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/user_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/il_user_namet"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"/>
+        app:startIconDrawable="@drawable/ic_email"
+        app:startIconTint="@color/material_on_surface_emphasis_medium">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/user_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_logout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/user_email"
+        app:layout_constraintTop_toBottomOf="@id/til_user_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="Cerrar Sesión"
         android:textColor="@color/white"
-        android:backgroundTint="@color/design_default_color_error"
+        app:backgroundTint="@color/design_default_color_error"
         android:padding="12dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_logout"
+        app:iconGravity="textStart"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
