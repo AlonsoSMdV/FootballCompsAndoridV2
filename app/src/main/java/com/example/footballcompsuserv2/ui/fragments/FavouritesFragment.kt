@@ -17,11 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FavouritesFragment: Fragment() {
+class FavouritesFragment : Fragment() {
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
 
-    private val favouritesAdapter = FavouritesAdapter()
+    private val competitionsAdapter = FavouritesAdapter()
+    private val teamsAdapter = FavouritesAdapter()
+    private val playersAdapter = FavouritesAdapter()
     private val viewModel: FavouritesViewModel by viewModels()
 
     override fun onCreateView(
@@ -36,16 +38,30 @@ class FavouritesFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.favsList.apply {
-            adapter = favouritesAdapter
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+        binding.favCompsList.apply {
+            adapter = competitionsAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
-        // Observe competitions, teams and players from ViewModel
+        binding.favTeamsList.apply {
+            adapter = teamsAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        binding.favPlayersList.apply {
+            adapter = playersAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+
         lifecycleScope.launch {
             viewModel.getFavourites().collect { favorites ->
-                favouritesAdapter.submitList(favorites)
+                val competitions = favorites.filterIsInstance<FavouritesAdapter.FavouriteItem.CompetitionItem>()
+                val teams = favorites.filterIsInstance<FavouritesAdapter.FavouriteItem.TeamItem>()
+                val players = favorites.filterIsInstance<FavouritesAdapter.FavouriteItem.PlayerItem>()
+
+                competitionsAdapter.submitList(competitions)
+                teamsAdapter.submitList(teams)
+                playersAdapter.submitList(players)
             }
         }
     }
