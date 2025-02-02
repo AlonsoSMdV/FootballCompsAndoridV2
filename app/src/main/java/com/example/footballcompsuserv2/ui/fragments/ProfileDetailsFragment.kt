@@ -1,5 +1,6 @@
 package com.example.footballcompsuserv2.ui.fragments
 
+import android.app.ActionBar.LayoutParams
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -7,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
+import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.user.User
 import com.example.footballcompsuserv2.databinding.FragmentProfileDetailsBinding
+import com.example.footballcompsuserv2.ui.MainActivity
 import com.example.footballcompsuserv2.ui.viewModels.ProfileViewModel
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
