@@ -29,7 +29,7 @@ interface   FootballApi {
     suspend fun getCompetitions(): Response<CompListRaw>
     @GET("leagues/{id}")
     suspend fun getOneCompetition(@Path("id")id: Int): Response<Competition>
-    @GET("leagues")
+    @GET("leagues?populate=logo&")
     suspend fun getFavComps(@QueryMap filters: Map<String, Boolean>):Response<CompListRaw>
     @POST("leagues")
     suspend fun createComp(@Body comp: CompCreate)
@@ -40,7 +40,7 @@ interface   FootballApi {
 
     @GET("teams")
     suspend fun getTeams(): Response<TeamListRaw>
-    @GET("teams")
+    @GET("teams?populate=teamLogo&")
     suspend fun getFavTeams(@QueryMap filters: Map<String, Boolean>): Response<TeamListRaw>
     @GET("teams/{id}")
     suspend fun getOneTeam(id : Int): Response<Team>
@@ -55,7 +55,7 @@ interface   FootballApi {
 
     @GET("players")
     suspend fun getPlayers(): Response<PlayerListRaw>
-    @GET("players")
+    @GET("players?populate=playerProfilePhoto&")
     suspend fun getFavPlayers(@QueryMap filters: Map<String, Boolean>): Response<PlayerListRaw>
     @GET("players/{id}?populate=playerProfilePhoto")
     suspend fun getOnePlayer(@Path("id")id : Int): Response<PlayerResponse>

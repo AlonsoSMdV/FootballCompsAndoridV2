@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil3.load
 import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.teams.Team
@@ -75,6 +76,9 @@ class FavouritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(competition: Competition) {
             binding.apply {
                 compFavName.text = competition.name
+                if (competition.logo != null){
+                    binding.compFavImage.load(competition.logo)
+                }
                 // Load image using your preferred image loading library
                 // Glide.with(itemView).load(competition.logoUrl).into(ivCompetitionLogo)
             }
@@ -87,6 +91,9 @@ class FavouritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(team: Team) {
             binding.apply {
                 teamFavName.text = team.name
+                if (team.tLogo != null){
+                    binding.teamFavImage.load(team.tLogo)
+                }
                 // Load team image
             }
         }
@@ -98,6 +105,9 @@ class FavouritesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(player: Player) {
             binding.apply {
                 playerFavName.text = player.name
+                if (player.photo != null){
+                    binding.playerFavImage.load(player.photo)
+                }
                 // Load player image and other details
             }
         }
