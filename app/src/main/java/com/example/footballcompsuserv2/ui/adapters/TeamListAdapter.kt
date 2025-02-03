@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil3.load
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.ui.fragments.TeamFragmentDirections
 import com.example.footballcompsuserv2.data.teams.Team
@@ -31,6 +32,9 @@ class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: 
     class TeamViewHolder(private val binding: TeamItemBinding, private val viewModel: TeamViewModel, private val compId: Int): RecyclerView.ViewHolder(binding.root){
         fun bind(team: Team){
             binding.teamName.text = team.name
+            if (team.tLogo != null){
+                binding.teamImage.load(team.tLogo)
+            }
             binding.deleteTeamButton.setOnClickListener {
                 viewModel.deleteTeam(team.id.toInt(), compId)
             }

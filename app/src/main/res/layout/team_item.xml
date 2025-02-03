@@ -25,8 +25,9 @@
             android:gravity="center_vertical">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:id="@+id/team_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_no_image"
                 app:shapeAppearanceOverlay="@style/RoundedImageView"/>

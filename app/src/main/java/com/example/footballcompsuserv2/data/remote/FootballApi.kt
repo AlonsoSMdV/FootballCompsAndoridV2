@@ -44,7 +44,7 @@ interface   FootballApi {
     suspend fun getFavTeams(@QueryMap filters: Map<String, Boolean>): Response<TeamListRaw>
     @GET("teams/{id}")
     suspend fun getOneTeam(id : Int): Response<Team>
-    @GET("teams")
+    @GET("teams?populate=teamLogo&")
     suspend fun getTeamsByLeague(@QueryMap filters: Map<String, String>): Response<TeamListRaw>
     @POST("teams")
     suspend fun createTeam(@Body team: TeamCreate)
