@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import coil3.load
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.databinding.FragmentPlayersDetailBinding
@@ -59,6 +60,9 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
     }
 
     private fun getPlayer(player: Player) {
+        if (player.photo!=null){
+            binding.playerPhoto.load(player.photo)
+        }
         binding.playerName.text = "Nombre: ${player.name ?: "No disponible"}"
         binding.playerFirstSurname.text = "Primer apellido: ${player.firstSurname ?: "No disponible"}"
         binding.playerSecondSurname.text = "Segundo apellido: ${player.secondSurname ?: "No disponible"}"

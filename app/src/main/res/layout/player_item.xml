@@ -30,6 +30,7 @@
                 android:visibility="gone"/>
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/player_img"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
