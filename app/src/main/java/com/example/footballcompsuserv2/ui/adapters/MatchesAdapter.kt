@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.example.footballcompsuserv2.data.matches.Match
 import com.example.footballcompsuserv2.data.teams.ITeamRepository
 import com.example.footballcompsuserv2.data.teams.Team
 import com.example.footballcompsuserv2.databinding.MatchesItemBinding
+import com.example.footballcompsuserv2.ui.fragments.MatchesFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.MatchesViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -54,6 +56,11 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
             binding.visitingTeamName.text = match.visitorTeamName
             binding.localTeamImg.load(match.localTeamImg)
             binding.visitingTeamImg.load(match.visitorTeamImg)
+
+            binding.place.setOnClickListener {
+                val action = MatchesFragmentDirections.matchToPlace(match.place.toString())
+                it.findNavController().navigate(action)
+            }
 
 
         }

@@ -179,6 +179,16 @@
         android:id="@+id/matchesFragment"
         android:name="com.example.footballcompsuserv2.ui.fragments.MatchesFragment"
         android:label="MatchesFragment"
-        tools:layout="@layout/fragment_matches"/>
+        tools:layout="@layout/fragment_matches">
+        <action
+            android:id="@+id/match_to_place"
+            app:destination="@id/mapsFragment">
+            <argument
+                android:name="place"
+                app:argType="string"/>
+        </action>
+
+    </fragment>
+
 
 </navigation>

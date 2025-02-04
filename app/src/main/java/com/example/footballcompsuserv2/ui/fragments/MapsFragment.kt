@@ -1,5 +1,6 @@
 package com.example.footballcompsuserv2.ui.fragments
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.util.Locale
 
 class MapsFragment : Fragment() {
     private lateinit var binding: FragmentMapsBinding
@@ -38,9 +40,17 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val place = arguments?.getString("place")
+        place?.let {
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+            val addresses = geocoder.getFromLocationName(it, 1)
+            if (addresses?.isNotEmpty() == true){
+                val location = addresses[0]
+                val latLng = LatLng(location.latitude, location.longitude)
+                googleMap.addMarker(MarkerOptions().position(latLng).title(it))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
+            }
+        }
     }
 
     override fun onCreateView(

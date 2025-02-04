@@ -4,6 +4,7 @@ import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompListRaw
+//import com.example.footballcompsuserv2.data.remote.leagues.CreatedMediaItemResponse
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRaw
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRegisterResponse
 import com.example.footballcompsuserv2.data.remote.loginRegister.RegisterRaw
@@ -16,13 +17,18 @@ import com.example.footballcompsuserv2.data.remote.teams.TeamListRaw
 import com.example.footballcompsuserv2.data.remote.teams.TeamResponse
 import com.example.footballcompsuserv2.data.remote.user.UserRaw
 import com.example.footballcompsuserv2.data.teams.Team
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
@@ -81,4 +87,9 @@ interface   FootballApi {
 
     @POST("auth/local/register")
     suspend fun register(@Body registerUser: RegisterRaw): Response<LoginRegisterResponse>
+
+    /*@Multipart
+    @POST("upload")
+    suspend fun addPhoto(@PartMap partMap: MutableMap<String, RequestBody>,
+                            @Part files: MultipartBody.Part): Response<List<CreatedMediaItemResponse>>*/
 }
