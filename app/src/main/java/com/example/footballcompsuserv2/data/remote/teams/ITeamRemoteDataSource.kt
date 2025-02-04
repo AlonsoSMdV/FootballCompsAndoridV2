@@ -7,7 +7,7 @@ interface ITeamRemoteDataSource {
     suspend fun readAll(): Response<TeamListRaw>
     suspend fun readFavs(filters: Map<String, Boolean>): Response<TeamListRaw>
     suspend fun readTeamsByLeague(filters: Map<String, String>): Response<TeamListRaw>
-    suspend fun readOne(id: Int): Response<Team>
+    suspend fun readOne(id: Int): Response<TeamResponse>
     suspend fun createTeam(team: TeamCreate)
     suspend fun deleteTeam(id: Int)
     suspend fun updateTeam(id: Int, team: TeamCreate)

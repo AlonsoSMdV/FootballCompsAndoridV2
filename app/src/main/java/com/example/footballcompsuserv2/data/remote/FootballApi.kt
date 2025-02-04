@@ -7,11 +7,13 @@ import com.example.footballcompsuserv2.data.remote.leagues.CompListRaw
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRaw
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRegisterResponse
 import com.example.footballcompsuserv2.data.remote.loginRegister.RegisterRaw
+import com.example.footballcompsuserv2.data.remote.matches.MatchesListRaw
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
 import com.example.footballcompsuserv2.data.remote.players.PlayerListRaw
 import com.example.footballcompsuserv2.data.remote.players.PlayerResponse
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamListRaw
+import com.example.footballcompsuserv2.data.remote.teams.TeamResponse
 import com.example.footballcompsuserv2.data.remote.user.UserRaw
 import com.example.footballcompsuserv2.data.teams.Team
 import retrofit2.Response
@@ -43,7 +45,7 @@ interface   FootballApi {
     @GET("teams?populate=teamLogo&")
     suspend fun getFavTeams(@QueryMap filters: Map<String, Boolean>): Response<TeamListRaw>
     @GET("teams/{id}")
-    suspend fun getOneTeam(id : Int): Response<Team>
+    suspend fun getOneTeam(id : Int): Response<TeamResponse>
     @GET("teams?populate=teamLogo&")
     suspend fun getTeamsByLeague(@QueryMap filters: Map<String, String>): Response<TeamListRaw>
     @POST("teams")
@@ -67,6 +69,9 @@ interface   FootballApi {
     suspend fun deletePlayer(@Path("id")id: Int)
     @PUT("players/{id}")
     suspend fun updatePlayer(@Path("id")id: Int, @Body player: PlayerCreate)
+
+    @GET("matches")
+    suspend fun getMatches():Response<MatchesListRaw>
 
     @GET("users/me")
     suspend fun getActualUser(): Response<UserRaw>

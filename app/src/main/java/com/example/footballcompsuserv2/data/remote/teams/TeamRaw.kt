@@ -37,3 +37,4 @@ data class LogoDetail(
 )
 
 data class TeamCreate(val data: TeamRawAttributes)
+data class TeamResponse(val data: TeamRaw)

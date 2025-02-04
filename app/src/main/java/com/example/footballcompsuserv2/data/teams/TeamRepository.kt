@@ -54,7 +54,7 @@ class TeamRepository @Inject constructor(
 
     override suspend fun readOne(id: Int): Team {
         val res = remoteData.readOne(id)
-        return if (res.isSuccessful)res.body()!!
+        return if (res.isSuccessful)res.body()?.data?.toExternal()?:Team("0", "", false, 0, null, "")
         else Team("0","", false, 0,null, "")
     }
 
