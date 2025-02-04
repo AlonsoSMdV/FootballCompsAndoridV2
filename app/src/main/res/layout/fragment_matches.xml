@@ -37,17 +37,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_to_create_matches"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="50dp"
-        android:layout_marginEnd="15dp"
-        android:contentDescription="createMatch"
-        app:layout_constraintBottom_toTopOf="@id/matches_bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_add"
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>

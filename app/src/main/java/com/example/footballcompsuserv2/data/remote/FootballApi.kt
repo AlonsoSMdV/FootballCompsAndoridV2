@@ -44,7 +44,7 @@ interface   FootballApi {
     suspend fun getTeams(): Response<TeamListRaw>
     @GET("teams?populate=teamLogo&")
     suspend fun getFavTeams(@QueryMap filters: Map<String, Boolean>): Response<TeamListRaw>
-    @GET("teams/{id}")
+    @GET("teams/{id}?populate=teamLogo")
     suspend fun getOneTeam(id : Int): Response<TeamResponse>
     @GET("teams?populate=teamLogo&")
     suspend fun getTeamsByLeague(@QueryMap filters: Map<String, String>): Response<TeamListRaw>
@@ -70,7 +70,7 @@ interface   FootballApi {
     @PUT("players/{id}")
     suspend fun updatePlayer(@Path("id")id: Int, @Body player: PlayerCreate)
 
-    @GET("matches")
+    @GET("matches?populate=local.teamLogo,visitor.teamLogo")
     suspend fun getMatches():Response<MatchesListRaw>
 
     @GET("users/me")

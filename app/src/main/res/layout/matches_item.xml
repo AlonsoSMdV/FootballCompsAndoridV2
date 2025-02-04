@@ -8,7 +8,7 @@
     android:padding="8dp">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/team_card"
+        android:id="@+id/match_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -16,117 +16,150 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         android:layout_marginBottom="4dp">
-
+        <!-- Linear layout principal de la card-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="vertical">
 
-
-            <LinearLayout
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_no_image"
-                        app:shapeAppearanceOverlay="@style/RoundedImageView"/>
-
-                    <TextView
-                        android:id="@+id/local_team_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:textSize="16sp"
-                        android:maxLines="2"
-                        android:ellipsize="end"
-                        android:layout_marginTop="30dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_no_image"
-                        app:shapeAppearanceOverlay="@style/RoundedImageView"/>
-
-                    <TextView
-                        android:id="@+id/visiting_team_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:textSize="16sp"
-                        android:maxLines="2"
-                        android:ellipsize="end"
-                        android:layout_marginTop="30dp"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
+            <!-- Linear layout del encuentro-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:textSize="16sp"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:text="Fecha(dia)"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:textSize="16sp"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:text="Fecha(hora)"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:textSize="16sp"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:text="0-0"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:textSize="16sp"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:text="Lugar"/>
-            </LinearLayout>
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
+                <!-- Linear layout de los equipos-->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+                    <!-- Linear layout del equipo local-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/local_team_img"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_no_image"
+                            app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+                        <TextView
+                            android:id="@+id/local_team_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                    <!-- Linear layout del equipo visitante-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/visiting_team_img"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_no_image"
+                            app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+                        <TextView
+                            android:id="@+id/visiting_team_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <!-- Linear layout del resultado y lugar-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/result"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="0-0"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/place"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="Lugar"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+            <!-- Linear layout de la fecha y o-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Fecha(dia)"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Fecha(hora)"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </LinearLayout>
+
+
+
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

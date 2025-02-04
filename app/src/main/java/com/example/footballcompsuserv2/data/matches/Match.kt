@@ -7,5 +7,9 @@ data class Match (
     val result: String?,
     val place : String,
     val local: String?,
-    val visitor: String?
+    val visitor: String?,
+    val localTeamName: String?,
+    val visitorTeamName: String?,
+    val localTeamImg: String?,
+    val visitorTeamImg: String?
 )

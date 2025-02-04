@@ -12,8 +12,40 @@ data class MatchesRawAttributes(
     val hour: String,
     val result: String?,
     val place: String,
-    val local: Int?,
-    val visitor: Int?
+    val local: TeamRelation?,
+    val visitor: TeamRelation?
+)
+data class TeamRelation(
+    val data: TeamData?
+)
+
+data class TeamData(
+    val id: Int,
+    val attributes: TeamRelAtts?
+)
+
+data class TeamRelAtts(
+    val name: String,
+    val teamLogo: TeamRelLogo?
+)
+
+data class TeamRelLogo(
+    val data: TRLogo?
+)
+
+data class TRLogo(
+    val id: Int,
+    val attributes: RelAtts?
+)
+data class RelAtts(
+    val formats: FormatRel
+)
+data class FormatRel(
+    val small: RelLogoDetail
+)
+
+data class RelLogoDetail(
+    val url: String
 )
 
 
