@@ -17,8 +17,8 @@ import javax.inject.Inject
 class CreateCompViewModel @Inject constructor(
     private val compRepo: ICompsRepository
 ): ViewModel() {
-    private val _uiState = MutableStateFlow<CreatePlayerUiState>(CreatePlayerUiState.Loading)
-    val uiState: StateFlow<CreatePlayerUiState>
+    private val _uiState = MutableStateFlow<CreateCompUiState>(CreateCompUiState.Loading)
+    val uiState: StateFlow<CreateCompUiState>
         get() = _uiState.asStateFlow()
 
     private val _photo = MutableStateFlow<Uri>(Uri.EMPTY)
@@ -47,8 +47,8 @@ class CreateCompViewModel @Inject constructor(
 }
 
 sealed class CreateCompUiState(){
-    data object Loading: CreatePlayerUiState()
-    class Success(val comp: List<Competition>): CreatePlayerUiState()
-    class Error(val message: String): CreatePlayerUiState()
+    data object Loading: CreateCompUiState()
+    class Success(val comp: List<Competition>): CreateCompUiState()
+    class Error(val message: String): CreateCompUiState()
 
 }

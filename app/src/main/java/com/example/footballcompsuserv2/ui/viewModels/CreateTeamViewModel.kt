@@ -17,8 +17,8 @@ import javax.inject.Inject
 class CreateTeamViewModel @Inject constructor(
     private val teamRepo: ITeamRepository
 ): ViewModel() {
-    private val _uiState = MutableStateFlow<CreatePlayerUiState>(CreatePlayerUiState.Loading)
-    val uiState: StateFlow<CreatePlayerUiState>
+    private val _uiState = MutableStateFlow<CreateTeamUiState>(CreateTeamUiState.Loading)
+    val uiState: StateFlow<CreateTeamUiState>
         get() = _uiState.asStateFlow()
 
     private val _photo = MutableStateFlow<Uri>(Uri.EMPTY)
@@ -46,8 +46,8 @@ class CreateTeamViewModel @Inject constructor(
 }
 
 sealed class CreateTeamUiState(){
-    data object Loading: CreatePlayerUiState()
-    class Success(val team: List<Team>): CreatePlayerUiState()
-    class Error(val message: String): CreatePlayerUiState()
+    data object Loading: CreateTeamUiState()
+    class Success(val team: List<Team>): CreateTeamUiState()
+    class Error(val message: String): CreateTeamUiState()
 
 }
