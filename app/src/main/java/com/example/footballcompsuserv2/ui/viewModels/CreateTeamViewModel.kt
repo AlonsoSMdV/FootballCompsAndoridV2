@@ -1,5 +1,6 @@
 package com.example.footballcompsuserv2.ui.viewModels
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
@@ -19,6 +20,23 @@ class CreateTeamViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<CreatePlayerUiState>(CreatePlayerUiState.Loading)
     val uiState: StateFlow<CreatePlayerUiState>
         get() = _uiState.asStateFlow()
+
+    private val _photo = MutableStateFlow<Uri>(Uri.EMPTY)
+    val photo: StateFlow<Uri>
+        get() = _photo.asStateFlow()
+
+    /**
+     * Función para poner en el flujo la uri de la ultima foto capturada
+     * @param uri [Uri] de la foto que apunta al archivo local
+     */
+    fun onImageCaptured(uri: Uri?) {
+        viewModelScope.launch {
+            uri?.let {
+                _photo.value = uri
+            }
+        }
+
+    }
 
     fun createTeam(team: TeamCreate){
         viewModelScope.launch {

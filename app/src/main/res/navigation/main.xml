@@ -93,6 +93,10 @@
         <argument
             android:name="idCompSelected"
             app:argType="integer"/>
+
+        <action
+            android:id="@+id/create_team_to_camera"
+            app:destination="@id/cameraPreviewFragment" />
     </fragment>
 
     <fragment
@@ -134,6 +138,10 @@
         <argument
             android:name="idTeamSelected"
             app:argType="integer"/>
+
+        <action
+            android:id="@+id/create_player_to_camera"
+            app:destination="@id/cameraPreviewFragment" />
     </fragment>
 
     <fragment
