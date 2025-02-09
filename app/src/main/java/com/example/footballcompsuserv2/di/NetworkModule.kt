@@ -20,7 +20,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
     companion object {
-        const val STRAPI = "https://footballcompsstrapiv2.onrender.com/api/"
+        const val STRAPI = "https://footballcompsstrapiv3.onrender.com/api/"
     }
     /**
      * Anotación para calificar el interceptor de autenticación
