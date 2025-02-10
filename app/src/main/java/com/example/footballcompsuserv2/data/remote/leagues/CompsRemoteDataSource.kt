@@ -2,7 +2,10 @@ package com.example.footballcompsuserv2.data.remote.leagues
 
 import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.remote.FootballApi
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.PartMap
 import javax.inject.Inject
 
 class CompsRemoteDataSource @Inject constructor(
@@ -30,5 +33,9 @@ class CompsRemoteDataSource @Inject constructor(
 
     override suspend fun updateComp(id: Int, comp: CompCreate) {
         return compApi.updateComp(id, comp)
+    }
+
+    override suspend fun uploadImg(partMap: MutableMap<String, RequestBody>, filepart: MultipartBody.Part): Response<List<CreatedMediaItemResponse>> {
+        return compApi.addPhoto(partMap, filepart)
     }
 }

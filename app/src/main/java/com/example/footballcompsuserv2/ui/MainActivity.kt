@@ -87,7 +87,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     bottomNav.visibility = View.VISIBLE
+                    iconDay.visibility = View.GONE
                     themeToggleButton.visibility = View.VISIBLE
+                    iconNight.visibility = View.GONE
                 }
             }
         }

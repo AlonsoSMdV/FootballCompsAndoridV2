@@ -4,6 +4,7 @@ import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompListRaw
+import com.example.footballcompsuserv2.data.remote.leagues.CreatedMediaItemResponse
 //import com.example.footballcompsuserv2.data.remote.leagues.CreatedMediaItemResponse
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRaw
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRegisterResponse
@@ -88,8 +89,8 @@ interface   FootballApi {
     @POST("auth/local/register")
     suspend fun register(@Body registerUser: RegisterRaw): Response<LoginRegisterResponse>
 
-    /*@Multipart
+    @Multipart
     @POST("upload")
     suspend fun addPhoto(@PartMap partMap: MutableMap<String, RequestBody>,
-                            @Part files: MultipartBody.Part): Response<List<CreatedMediaItemResponse>>*/
+                            @Part files: MultipartBody.Part): Response<List<CreatedMediaItemResponse>>
 }
