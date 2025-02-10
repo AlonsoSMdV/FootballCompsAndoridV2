@@ -50,7 +50,6 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
             binding.hour.text = time.format(timeFormatter)
 
             binding.result.text = match.result
-            binding.place.text = match.place
 
             binding.localTeamName.text = match.localTeamName
             binding.visitingTeamName.text = match.visitorTeamName
