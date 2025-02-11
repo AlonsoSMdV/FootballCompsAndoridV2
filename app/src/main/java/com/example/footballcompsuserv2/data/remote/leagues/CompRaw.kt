@@ -1,11 +1,18 @@
 package com.example.footballcompsuserv2.data.remote.leagues
 
+
+data class StrapiResponse<T>(
+    val data: T
+)
 data class CompRaw (
     val id: Int,
-    val attributes: CompRawAttributes
+    val attributes: CompRawAttributesMedia
 )
-
-data class CompRawAttributes(
+data class CompRawAtts(
+    val name:String,
+    var isFavourite: Boolean
+)
+data class CompRawAttributesMedia(
     val name:String,
     var isFavourite: Boolean,
     val logo: LogoWrapper?
@@ -32,7 +39,8 @@ data class LogoDetail(
     val url: String
 )
 
-data class CompCreate(val data: CompRawAttributes)
+data class CompCreate(val data: CompRawAtts)
+data class CompUpdate(val data: CompRawAttributesMedia)
 
 data class Media(
     val documentId: String,

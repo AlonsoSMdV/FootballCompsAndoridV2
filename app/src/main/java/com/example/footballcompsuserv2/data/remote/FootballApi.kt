@@ -4,7 +4,10 @@ import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompListRaw
+import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
+import com.example.footballcompsuserv2.data.remote.leagues.CompUpdate
 import com.example.footballcompsuserv2.data.remote.leagues.CreatedMediaItemResponse
+import com.example.footballcompsuserv2.data.remote.leagues.StrapiResponse
 //import com.example.footballcompsuserv2.data.remote.leagues.CreatedMediaItemResponse
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRaw
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRegisterResponse
@@ -41,11 +44,11 @@ interface   FootballApi {
     @GET("leagues?populate=logo&")
     suspend fun getFavComps(@QueryMap filters: Map<String, Boolean>):Response<CompListRaw>
     @POST("leagues")
-    suspend fun createComp(@Body comp: CompCreate)
+    suspend fun createComp(@Body comp: CompCreate): Response<StrapiResponse<CompRaw>>
     @DELETE("leagues/{id}")
     suspend fun deleteComp(@Path("id")id: Int)
     @PUT("leagues/{id}")
-    suspend fun updateComp(@Path("id")id: Int, @Body comp: CompCreate)
+    suspend fun updateComp(@Path("id")id: Int, @Body comp: CompUpdate)
 
     @GET("teams")
     suspend fun getTeams(): Response<TeamListRaw>

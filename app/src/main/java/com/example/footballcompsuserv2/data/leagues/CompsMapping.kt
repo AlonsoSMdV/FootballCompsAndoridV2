@@ -2,8 +2,6 @@ package com.example.footballcompsuserv2.data.leagues
 
 
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
-import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributes
-import com.example.footballcompsuserv2.data.remote.leagues.LogoWrapper
 
 fun CompRaw.toExternal(): Competition {
     return Competition(

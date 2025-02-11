@@ -22,7 +22,8 @@ import androidx.navigation.fragment.findNavController
 import coil3.load
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
-import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributes
+import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributesMedia
+import com.example.footballcompsuserv2.data.remote.leagues.CompRawAtts
 import com.example.footballcompsuserv2.databinding.FragmentCreateCompBinding
 import com.example.footballcompsuserv2.ui.viewModels.CreateCompViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +36,7 @@ private var PERMISSIONS_REQUIRED =
 
 @AndroidEntryPoint
 class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
+    private var _logoUri: Uri? = null
     private lateinit var binding: FragmentCreateCompBinding
     private val viewModel: CreateCompViewModel by activityViewModels()
 
@@ -62,8 +64,9 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
         if (uri != null){
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.onImageCaptured(uri)
+                loadLogo(uri)
             }
+
         }
     }
     override fun onCreateView(
@@ -126,7 +129,7 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
                         }
                         else -> {
                             //tenemos la foto, la ponemos en la UI aprovechando coil
-                            binding.imageView.load(photoUri)
+                            binding.compImg.load(photoUri)
                         }
                     }
                 }
@@ -142,17 +145,22 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
                 Toast.makeText(requireContext(),"Rellene todos los campos", Toast.LENGTH_SHORT).show()
             }else{
                 val createComp = CompCreate(
-                    data = CompRawAttributes(
+                    data = CompRawAtts(
                         name = name,
-                        logo = null,
                         isFavourite = false
                     )
                 )
-                viewModel.createComp(createComp)
+                viewModel.createComp(createComp, _logoUri)
                 findNavController().navigate(R.id.create_to_comps)
             }
         }
     }
+
+    private fun loadLogo(uri:Uri?) {
+        binding.compImg.load(uri)
+        _logoUri = uri
+    }
+
     private fun hasCameraPermissions(context: Context):Boolean {
         return PERMISSIONS_REQUIRED.all { permission ->
             ContextCompat.checkSelfPermission(

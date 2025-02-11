@@ -39,9 +39,9 @@ class CreateCompViewModel @Inject constructor(
     }
 
 
-    fun createComp(comp: CompCreate){
+    fun createComp(comp: CompCreate, logo: Uri?){
         viewModelScope.launch {
-            compRepo.createComp(comp)
+            compRepo.createComp(comp, logo)
         }
     }
 }

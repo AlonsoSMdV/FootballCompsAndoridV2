@@ -23,7 +23,7 @@ class CompsRemoteDataSource @Inject constructor(
         return compApi.getOneCompetition(id)
     }
 
-    override suspend fun createComp(comp: CompCreate) {
+    override suspend fun createComp(comp: CompCreate): Response<StrapiResponse<CompRaw>> {
         return compApi.createComp(comp)
     }
 
@@ -31,7 +31,7 @@ class CompsRemoteDataSource @Inject constructor(
         return compApi.deleteComp(id)
     }
 
-    override suspend fun updateComp(id: Int, comp: CompCreate) {
+    override suspend fun updateComp(id: Int, comp: CompUpdate) {
         return compApi.updateComp(id, comp)
     }
 

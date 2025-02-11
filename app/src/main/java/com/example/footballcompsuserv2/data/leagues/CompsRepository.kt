@@ -4,7 +4,10 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
+import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
+import com.example.footballcompsuserv2.data.remote.leagues.CompUpdate
 import com.example.footballcompsuserv2.data.remote.leagues.ICompRemoteDataSource
+import com.example.footballcompsuserv2.data.remote.leagues.StrapiResponse
 import com.example.footballcompsuserv2.data.teams.toExternal
 import com.example.footballcompsuserv2.di.NetworkModule
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,6 +19,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import javax.inject.Inject
 
 class CompsRepository @Inject constructor(
@@ -57,15 +61,23 @@ class CompsRepository @Inject constructor(
         else Competition("0","", "", false)
     }
 
-    override suspend fun createComp(comp: CompCreate) {
-        remoteData.createComp(comp)
+    override suspend fun createComp(comp: CompCreate, logo: Uri?): Response<StrapiResponse<CompRaw>> {
+        val response = remoteData.createComp(comp)
+        if(response.isSuccessful){
+            var uploadedComp = response.body()
+
+            logo?.let { uri ->
+                uploadLeagueLogo(uri, uploadedComp!!.data.id)
+            }
+        }
+        return response
     }
 
     override suspend fun deleteComp(id: Int) {
         remoteData.deleteComp(id)
     }
 
-    override suspend fun updateComp(id: Int, comp: CompCreate) {
+    override suspend fun updateComp(id: Int, comp: CompUpdate) {
         remoteData.updateComp(id, comp)
     }
 
@@ -90,11 +102,11 @@ class CompsRepository @Inject constructor(
             val partMap: MutableMap<String, RequestBody> = mutableMapOf()
 
             // Referencia
-            partMap["ref"] = "api::exercise.exercise".toRequestBody("text/plain".toMediaType())
+            partMap["ref"] = "api::league.league".toRequestBody("text/plain".toMediaType())
             // Id del incidente
             partMap["refId"] = exerciseId.toString().toRequestBody("text/plain".toMediaType())
             // Campo de la colección
-            partMap["field"] = "photo".toRequestBody("text/plain".toMediaType())
+            partMap["field"] = "logo".toRequestBody("text/plain".toMediaType())
 
             // Subimos el fichero
             val imageResponse = remoteData.uploadImg(

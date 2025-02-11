@@ -2,12 +2,8 @@ package com.example.footballcompsuserv2.ui.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.footballcompsuserv2.data.leagues.Competition
-import com.example.footballcompsuserv2.data.leagues.ICompsRepository
 import com.example.footballcompsuserv2.data.matches.IMatchRepository
 import com.example.footballcompsuserv2.data.matches.Match
-import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
-import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributes
 import com.example.footballcompsuserv2.data.teams.ITeamRepository
 import com.example.footballcompsuserv2.data.teams.Team
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -10,8 +10,8 @@ interface ICompRemoteDataSource {
     suspend fun readAll(): Response<CompListRaw>
     suspend fun readFavs(filters: Map<String, Boolean>): Response<CompListRaw>
     suspend fun readOne(id:Int): Response<Competition>
-    suspend fun createComp(comp: CompCreate)
+    suspend fun createComp(comp: CompCreate): Response<StrapiResponse<CompRaw>>
     suspend fun deleteComp(id: Int)
-    suspend fun updateComp(id: Int, compCopy: CompCreate)
+    suspend fun updateComp(id: Int, compCopy: CompUpdate)
     suspend fun uploadImg(partMap: MutableMap<String, RequestBody>, filepart: MultipartBody.Part): Response<List<CreatedMediaItemResponse>>
 }

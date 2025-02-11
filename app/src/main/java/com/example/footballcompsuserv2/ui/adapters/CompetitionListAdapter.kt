@@ -2,7 +2,6 @@ package com.example.footballcompsuserv2.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,13 +11,6 @@ import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.CompetitionViewModel
 import com.example.footballcompsuserv2.data.leagues.Competition
-import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
-import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributes
-import com.example.footballcompsuserv2.data.remote.leagues.FormatLogo
-import com.example.footballcompsuserv2.data.remote.leagues.LogoDetail
-import com.example.footballcompsuserv2.data.remote.leagues.LogoRaw
-import com.example.footballcompsuserv2.data.remote.leagues.LogoRawAttributes
-import com.example.footballcompsuserv2.data.remote.leagues.LogoWrapper
 import com.example.footballcompsuserv2.databinding.CompetitionItemBinding
 
 class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListAdapter<Competition, CompetitionListAdapter.CompetitionViewHolder>(
