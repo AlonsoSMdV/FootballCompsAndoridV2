@@ -4,7 +4,7 @@ import android.net.Uri
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
 import com.example.footballcompsuserv2.data.remote.leagues.CompUpdate
-import com.example.footballcompsuserv2.data.remote.leagues.StrapiResponse
+import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import kotlinx.coroutines.flow.StateFlow
 import retrofit2.Response
 

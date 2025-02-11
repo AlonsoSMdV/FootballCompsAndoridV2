@@ -35,6 +35,7 @@ private var PERMISSIONS_REQUIRED =
 
 @AndroidEntryPoint
 class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
+    private var _logoUri: Uri? = null
     private lateinit var binding: FragmentCreateTeamBinding
     private val viewModel: CreateTeamViewModel by viewModels()
     private var idComp: Int? = null
@@ -63,7 +64,7 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
         if (uri != null){
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.onImageCaptured(uri)
+                loadLogo(uri)
             }
         }
     }
@@ -153,14 +154,18 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
                         name = name,
                         numberOfPlayers = nPlayers.toInt(),
                         league = idComp!!,
-                        isFavourite = false,
-                        teamLogo = null
+                        isFavourite = false
                     )
                 )
-                viewModel.createTeam(createTeam)
+                viewModel.createTeam(createTeam, _logoUri)
                 findNavController().navigate(R.id.create_to_teams)
             }
         }
+    }
+
+    private fun loadLogo(uri:Uri?) {
+        binding.teamImageView.load(uri)
+        _logoUri = uri
     }
 
     private fun hasCameraPermissions(context: Context):Boolean {

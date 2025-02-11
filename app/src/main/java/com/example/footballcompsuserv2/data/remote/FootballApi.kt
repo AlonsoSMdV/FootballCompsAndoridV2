@@ -6,9 +6,6 @@ import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompListRaw
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
 import com.example.footballcompsuserv2.data.remote.leagues.CompUpdate
-import com.example.footballcompsuserv2.data.remote.leagues.CreatedMediaItemResponse
-import com.example.footballcompsuserv2.data.remote.leagues.StrapiResponse
-//import com.example.footballcompsuserv2.data.remote.leagues.CreatedMediaItemResponse
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRaw
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRegisterResponse
 import com.example.footballcompsuserv2.data.remote.loginRegister.RegisterRaw
@@ -18,7 +15,11 @@ import com.example.footballcompsuserv2.data.remote.players.PlayerListRaw
 import com.example.footballcompsuserv2.data.remote.players.PlayerResponse
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamListRaw
+import com.example.footballcompsuserv2.data.remote.teams.TeamRaw
 import com.example.footballcompsuserv2.data.remote.teams.TeamResponse
+import com.example.footballcompsuserv2.data.remote.teams.TeamUpdate
+import com.example.footballcompsuserv2.data.remote.uploadImg.CreatedMediaItemResponse
+import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import com.example.footballcompsuserv2.data.remote.user.UserRaw
 import com.example.footballcompsuserv2.data.teams.Team
 import okhttp3.MultipartBody
@@ -59,11 +60,11 @@ interface   FootballApi {
     @GET("teams?populate=teamLogo&")
     suspend fun getTeamsByLeague(@QueryMap filters: Map<String, String>): Response<TeamListRaw>
     @POST("teams")
-    suspend fun createTeam(@Body team: TeamCreate)
+    suspend fun createTeam(@Body team: TeamCreate): Response<StrapiResponse<TeamRaw>>
     @DELETE("teams/{id}")
     suspend fun deleteTeam(@Path("id")id: Int)
     @PUT("teams/{id}")
-    suspend fun updateTeam(@Path("id")id: Int, @Body team: TeamCreate)
+    suspend fun updateTeam(@Path("id")id: Int, @Body team: TeamUpdate)
 
     @GET("players")
     suspend fun getPlayers(): Response<PlayerListRaw>

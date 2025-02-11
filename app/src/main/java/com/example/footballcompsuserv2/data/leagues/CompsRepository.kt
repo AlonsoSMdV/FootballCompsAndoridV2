@@ -7,7 +7,7 @@ import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
 import com.example.footballcompsuserv2.data.remote.leagues.CompUpdate
 import com.example.footballcompsuserv2.data.remote.leagues.ICompRemoteDataSource
-import com.example.footballcompsuserv2.data.remote.leagues.StrapiResponse
+import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import com.example.footballcompsuserv2.data.teams.toExternal
 import com.example.footballcompsuserv2.di.NetworkModule
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -81,7 +81,7 @@ class CompsRepository @Inject constructor(
         remoteData.updateComp(id, comp)
     }
 
-    override suspend fun uploadLeagueLogo(uri: Uri, exerciseId: Int): Result<Uri> {
+    override suspend fun uploadLeagueLogo(uri: Uri, compId: Int): Result<Uri> {
         try{
             // Obtenemos el resolver de MediaStore
             val resolver = context.contentResolver
@@ -104,7 +104,7 @@ class CompsRepository @Inject constructor(
             // Referencia
             partMap["ref"] = "api::league.league".toRequestBody("text/plain".toMediaType())
             // Id del incidente
-            partMap["refId"] = exerciseId.toString().toRequestBody("text/plain".toMediaType())
+            partMap["refId"] = compId.toString().toRequestBody("text/plain".toMediaType())
             // Campo de la colección
             partMap["field"] = "logo".toRequestBody("text/plain".toMediaType())
 

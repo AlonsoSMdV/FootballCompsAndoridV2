@@ -102,7 +102,7 @@
     <ImageView
         android:id="@+id/team_image_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="360dp"
         app:layout_constraintBottom_toTopOf="@+id/create_team_bottom_navigation"
         app:layout_constraintTop_toBottomOf="@id/team_to_camera"
         app:layout_constraintEnd_toEndOf="parent"

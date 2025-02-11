@@ -2,6 +2,10 @@ package com.example.footballcompsuserv2.data.remote.teams
 
 import com.example.footballcompsuserv2.data.teams.Team
 import com.example.footballcompsuserv2.data.remote.FootballApi
+import com.example.footballcompsuserv2.data.remote.uploadImg.CreatedMediaItemResponse
+import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -24,7 +28,7 @@ class TeamRemoteDataSource @Inject constructor(
         return teamApi.getOneTeam(id)
     }
 
-    override suspend fun createTeam(team: TeamCreate) {
+    override suspend fun createTeam(team: TeamCreate): Response<StrapiResponse<TeamRaw>> {
         return teamApi.createTeam(team)
     }
 
@@ -32,8 +36,15 @@ class TeamRemoteDataSource @Inject constructor(
         return teamApi.deleteTeam(id)
     }
 
-    override suspend fun updateTeam(id: Int, team: TeamCreate) {
+    override suspend fun updateTeam(id: Int, team: TeamUpdate) {
         return teamApi.updateTeam(id, team)
+    }
+
+    override suspend fun uploadImg(
+        partMap: MutableMap<String, RequestBody>,
+        filepart: MultipartBody.Part
+    ): Response<List<CreatedMediaItemResponse>> {
+        return  teamApi.addPhoto(partMap, filepart)
     }
 
 

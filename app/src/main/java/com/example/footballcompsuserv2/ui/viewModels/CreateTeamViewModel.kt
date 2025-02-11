@@ -38,9 +38,9 @@ class CreateTeamViewModel @Inject constructor(
 
     }
 
-    fun createTeam(team: TeamCreate){
+    fun createTeam(team: TeamCreate, logo: Uri?){
         viewModelScope.launch {
-            teamRepo.createTeam(team)
+            teamRepo.createTeam(team, logo)
         }
     }
 }

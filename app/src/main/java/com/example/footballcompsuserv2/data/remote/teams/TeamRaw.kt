@@ -1,11 +1,17 @@
 package com.example.footballcompsuserv2.data.remote.teams
 
-
 data class TeamRaw(val id: Int,
-                   val attributes: TeamRawAttributes
+                   val attributes: TeamRawAttributesMedia
 )
 
 data class TeamRawAttributes(
+    val name: String,
+    val numberOfPlayers: Int,
+    val isFavourite: Boolean,
+    val league: Int?
+)
+
+data class TeamRawAttributesMedia(
     val name: String,
     val numberOfPlayers: Int,
     val isFavourite: Boolean,
@@ -37,4 +43,5 @@ data class LogoDetail(
 )
 
 data class TeamCreate(val data: TeamRawAttributes)
+data class TeamUpdate(val data: TeamRawAttributesMedia)
 data class TeamResponse(val data: TeamRaw)

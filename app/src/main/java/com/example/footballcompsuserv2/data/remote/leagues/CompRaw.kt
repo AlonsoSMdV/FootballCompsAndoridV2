@@ -1,9 +1,6 @@
 package com.example.footballcompsuserv2.data.remote.leagues
 
 
-data class StrapiResponse<T>(
-    val data: T
-)
 data class CompRaw (
     val id: Int,
     val attributes: CompRawAttributesMedia
@@ -42,20 +39,3 @@ data class LogoDetail(
 data class CompCreate(val data: CompRawAtts)
 data class CompUpdate(val data: CompRawAttributesMedia)
 
-data class Media(
-    val documentId: String,
-    val formats: MediaFormats
-)
-data class MediaFormats(
-    val small: ImageAttributes,
-    val thumbnail: ImageAttributes,
-)
-data class ImageAttributes(
-    val url: String
-)
-data class CreatedMediaItemResponse(
-    val id:Int,
-    val documentId: String,
-    val name:String,
-    val formats: MediaFormats
-)
