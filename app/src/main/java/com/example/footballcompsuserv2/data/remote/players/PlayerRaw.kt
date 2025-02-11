@@ -3,10 +3,21 @@ package com.example.footballcompsuserv2.data.remote.players
 
 data class PlayerRaw (
     val id: Int,
-    val attributes: PlayerRawAttributes
+    val attributes: PlayerRawAttributesMedia
+)
+data class PlayerRawAttributes(
+    val name: String,
+    val firstSurname: String,
+    val secondSurname: String?,
+    val nationality: String,
+    val dorsal: Int,
+    val birthdate: String,
+    val position: String,
+    val isFavourite: Boolean,
+    val team: Int?
 )
 
-data class PlayerRawAttributes(
+data class PlayerRawAttributesMedia(
     val name: String,
     val firstSurname: String,
     val secondSurname: String?,
@@ -43,6 +54,7 @@ data class LogoDetail(
 
 
 data class PlayerCreate(val data: PlayerRawAttributes)
+data class PlayerUpdate(val data: PlayerRawAttributesMedia)
 data class PlayerResponse(
     val data: PlayerRaw  // Cambiado de List<PlayerRaw> a PlayerRaw
 )

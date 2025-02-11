@@ -35,6 +35,7 @@ private var PERMISSIONS_REQUIRED =
 
 @AndroidEntryPoint
 class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
+    private var _photoUri: Uri? = null
     private lateinit var binding: FragmentCreatePlayerBinding
     private val viewModel: CreatePlayerViewModel by viewModels()
     private var idTeam: Int? = null
@@ -63,7 +64,7 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
         if (uri != null){
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.onImageCaptured(uri)
+                loadLogo(uri)
             }
         }
     }
@@ -162,15 +163,20 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
                         birthdate = birthdate,
                         position = position,
                         team = idTeam!!,
-                        isFavourite = false,
-                        playerProfilePhoto = null
+                        isFavourite = false
                     )
                 )
-                viewModel.createPlayer(createPlayer)
+                viewModel.createPlayer(createPlayer, _photoUri)
                 findNavController().navigate(R.id.create_to_players)
             }
         }
     }
+
+    private fun loadLogo(uri:Uri?) {
+        binding.playerImageView.load(uri)
+        _photoUri = uri
+    }
+
     private fun hasCameraPermissions(context: Context):Boolean {
         return PERMISSIONS_REQUIRED.all { permission ->
             ContextCompat.checkSelfPermission(

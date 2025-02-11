@@ -12,7 +12,9 @@ import com.example.footballcompsuserv2.data.remote.loginRegister.RegisterRaw
 import com.example.footballcompsuserv2.data.remote.matches.MatchesListRaw
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
 import com.example.footballcompsuserv2.data.remote.players.PlayerListRaw
+import com.example.footballcompsuserv2.data.remote.players.PlayerRaw
 import com.example.footballcompsuserv2.data.remote.players.PlayerResponse
+import com.example.footballcompsuserv2.data.remote.players.PlayerUpdate
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamListRaw
 import com.example.footballcompsuserv2.data.remote.teams.TeamRaw
@@ -75,11 +77,11 @@ interface   FootballApi {
     @GET("players?populate=playerProfilePhoto&")
     suspend fun getPlayersByTeam(@QueryMap filters: Map<String, String>): Response<PlayerListRaw>
     @POST("players")
-    suspend fun createPlayer(@Body player: PlayerCreate)
+    suspend fun createPlayer(@Body player: PlayerCreate): Response<StrapiResponse<PlayerRaw>>
     @DELETE("players/{id}")
     suspend fun deletePlayer(@Path("id")id: Int)
     @PUT("players/{id}")
-    suspend fun updatePlayer(@Path("id")id: Int, @Body player: PlayerCreate)
+    suspend fun updatePlayer(@Path("id")id: Int, @Body player: PlayerUpdate)
 
     @GET("matches?populate=local.teamLogo,visitor.teamLogo")
     suspend fun getMatches():Response<MatchesListRaw>

@@ -45,7 +45,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         findNavController().navigate(R.id.login_to_comps)
                     }
                     is LoginUIState.Error -> {
-                        Toast.makeText(context, loginUIState.message, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, loginUIState.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }

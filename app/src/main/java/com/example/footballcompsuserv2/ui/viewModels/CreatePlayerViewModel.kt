@@ -36,9 +36,9 @@ class CreatePlayerViewModel @Inject constructor(
             }
         }
     }
-    fun createPlayer(player: PlayerCreate){
+    fun createPlayer(player: PlayerCreate, photo: Uri?){
         viewModelScope.launch {
-            playerRepo.createPlayer(player)
+            playerRepo.createPlayer(player, photo)
         }
     }
 }

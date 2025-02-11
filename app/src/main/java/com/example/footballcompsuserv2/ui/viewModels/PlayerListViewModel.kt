@@ -6,6 +6,8 @@ import com.example.footballcompsuserv2.data.players.IPlayerRepository
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
 import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributes
+import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributesMedia
+import com.example.footballcompsuserv2.data.remote.players.PlayerUpdate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,8 +52,8 @@ class PlayerListViewModel @Inject constructor(
 
     fun toggleFavouritePlayers(player: Player, teamId: Int) {
         viewModelScope.launch {
-            val updatedPlayer = PlayerCreate(
-                data = PlayerRawAttributes(
+            val updatedPlayer = PlayerUpdate(
+                data = PlayerRawAttributesMedia(
                     name = player.name,
                     firstSurname = player.firstSurname,
                     secondSurname = player.secondSurname,
@@ -62,6 +64,7 @@ class PlayerListViewModel @Inject constructor(
                     isFavourite = !player.isFavourite,
                     team = null,
                     playerProfilePhoto = null
+                    /**No enviamos el logo para que no se modifique**/
                     /**No enviamos el logo para que no se modifique**/
 
                 )
