@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.footballcompsuserv2.databinding.FragmentCameraPreviewBinding
 import com.example.footballcompsuserv2.ui.MainActivity
 import com.example.footballcompsuserv2.ui.viewModels.CreateCompViewModel
+import com.example.footballcompsuserv2.ui.viewModels.CreatePlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -28,7 +29,7 @@ import java.util.concurrent.Executors
 @AndroidEntryPoint
 class CameraPreviewFragment: Fragment() {
     private lateinit var binding: FragmentCameraPreviewBinding
-    private  val viewModel: CreateCompViewModel by activityViewModels()
+    private  val viewModel: CreatePlayerViewModel by activityViewModels()
 
     private lateinit var cameraController: LifecycleCameraController
 

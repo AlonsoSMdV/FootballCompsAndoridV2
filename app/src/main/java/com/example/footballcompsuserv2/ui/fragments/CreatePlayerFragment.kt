@@ -14,6 +14,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -37,7 +38,7 @@ private var PERMISSIONS_REQUIRED =
 class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
     private var _photoUri: Uri? = null
     private lateinit var binding: FragmentCreatePlayerBinding
-    private val viewModel: CreatePlayerViewModel by viewModels()
+    private val viewModel: CreatePlayerViewModel by activityViewModels()
     private var idTeam: Int? = null
 
     private val contract = ActivityResultContracts.RequestMultiplePermissions()
@@ -130,7 +131,8 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
                         }
                         else -> {
                             //tenemos la foto, la ponemos en la UI aprovechando coil
-                            binding.playerImageView.load(photoUri)
+                            loadLogo(photoUri)
+
                         }
                     }
                 }
