@@ -1,24 +1,35 @@
 package com.example.footballcompsuserv2.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.Switch
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.auth.NavManager
 import com.example.footballcompsuserv2.databinding.ActivityMainBinding
+import com.example.footballcompsuserv2.ui.Notifications.NotificationWorker
 import com.example.footballcompsuserv2.ui.datastores.ThemePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -119,6 +130,30 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val requestPermissionLauncher = registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    startNotificationWorker()
+                }
+            }
+
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                startNotificationWorker() // Ya tiene permisos, iniciar Worker
+            }
+        } else {
+            // En versiones menores a Android 13 no se necesita permiso para notificaciones
+            startNotificationWorker()
+        }
+
+
     }
     fun updateIcons(isDarkMode: Boolean, iconLeft: ImageView, iconRight: ImageView) {
         val wht = ContextCompat.getColor(this, R.color.white) // Color para el modo activado
@@ -131,5 +166,22 @@ class MainActivity : AppCompatActivity() {
             iconLeft.setColorFilter(blck) // Modo claro: ícono izquierdo negro
             iconRight.setColorFilter(blck) // Modo claro: ícono derecho blanco
         }
+    }
+
+    private fun startNotificationWorker() {
+        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(
+            15, TimeUnit.MINUTES // Mínimo permitido por WorkManager = 15 mins
+        ).setConstraints(
+            Constraints.Builder()
+                .setRequiresBatteryNotLow(true)
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+        ).build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "notification_worker",
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest
+        )
     }
 }
