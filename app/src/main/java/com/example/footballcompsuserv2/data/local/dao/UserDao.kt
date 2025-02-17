@@ -9,11 +9,11 @@ import com.example.footballcompsuserv2.data.local.entities.UserEntity
 @Dao
 interface UserDao {
     @Query("SELECT * FROM users WHERE id = :userId")
-    suspend fun getUser(userId: Int): UserEntity?
+    suspend fun getLocalUser(userId: Int): UserEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUser(user: UserEntity)
+    suspend fun insertLocalUser(user: UserEntity)
 
     @Query("DELETE FROM users")
-    suspend fun clearUsers()
+    suspend fun clearLocalUsers()
 }

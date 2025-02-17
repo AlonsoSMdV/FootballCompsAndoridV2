@@ -9,5 +9,5 @@ import kotlinx.coroutines.flow.Flow
 interface MatchDao {
 
     @Query("SELECT * FROM matches")
-    suspend fun getMatches(): Flow<List<MatchEntity>>
+    suspend fun getLocalMatches(): Flow<List<MatchEntity>>
 }

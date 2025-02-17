@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.Flow
 interface LeagueDao {
 
     @Query("SELECT * FROM leagues")
-    suspend fun getLeagues(): Flow<List<LeagueEntity>>
+    suspend fun getLocalLeagues(): Flow<List<LeagueEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun createLeague(leagueEntity: LeagueEntity)
+    suspend fun createLocalLeague(leagueEntity: LeagueEntity)
 
     @Delete
-    suspend fun deleteLeague(leagueEntity: LeagueEntity)
+    suspend fun deleteLocalLeague(leagueEntity: LeagueEntity)
 }
