@@ -46,8 +46,11 @@ android {
 
 dependencies {
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+
     implementation("androidx.hilt:hilt-work:1.2.0")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
+    
+
 
     // Maps SDK for Android
     implementation ("com.google.android.gms:play-services-maps:18.2.0")

@@ -23,7 +23,7 @@ import androidx.work.WorkManager
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.auth.NavManager
 import com.example.footballcompsuserv2.databinding.ActivityMainBinding
-import com.example.footballcompsuserv2.ui.Notifications.NotificationWorker
+import com.example.footballcompsuserv2.ui.notifications.NotificationWorker
 import com.example.footballcompsuserv2.ui.datastores.ThemePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,6 +91,8 @@ class MainActivity : AppCompatActivity() {
             when(dest.id){
                 R.id.fragmentLogin, R.id.fragmentRegister -> {
                     bottomNav.visibility = View.GONE
+                    iconDay.visibility = View.VISIBLE
+                    iconNight.visibility = View.VISIBLE
                 }
                 R.id.cameraPreviewFragment -> {
                     bottomNav.visibility = View.GONE
