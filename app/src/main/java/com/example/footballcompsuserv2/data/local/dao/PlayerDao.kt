@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface PlayerDao {
 
     @Query("SELECT * FROM players WHERE teamId = :id")
-    suspend fun getLocalPlayersByTeam(id: Int): Flow<List<PlayerEntity>>
+    fun getLocalPlayersByTeam(id: Int): Flow<List<PlayerEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createLocalPlayer(playerEntity: PlayerEntity)
