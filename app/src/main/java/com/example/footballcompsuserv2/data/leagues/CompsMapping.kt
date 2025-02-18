@@ -1,7 +1,9 @@
 package com.example.footballcompsuserv2.data.leagues
 
 
+import com.example.footballcompsuserv2.data.local.entities.LeagueEntity
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
+
 
 fun CompRaw.toExternal(): Competition {
     return Competition(
@@ -12,3 +14,23 @@ fun CompRaw.toExternal(): Competition {
     )
 }
 fun List<CompRaw>.toExternal():List<Competition> = map(CompRaw::toExternal)
+
+fun Competition.toLocal(): LeagueEntity{
+    return LeagueEntity(
+        id = this.id.toInt(),
+        name = this.name,
+        isFavourite = this.isFavourite,
+        logo = this.logo
+    )
+}
+fun List<Competition>.toLocal(): List<LeagueEntity> = map { it.toLocal() }
+
+fun LeagueEntity.toExternal(): Competition{
+    return Competition(
+        id = this.id.toString(),
+        name = this.name,
+        isFavourite = this.isFavourite,
+        logo = this.logo
+    )
+}
+fun List<LeagueEntity>.toLocal(): List<Competition> = map { it.toExternal() }
