@@ -77,6 +77,11 @@ class LocalDataSource @Inject constructor(
         return matchDao.getLocalMatches()
     }
 
+    override suspend fun createLocalMatch(matchEntity: MatchEntity) {
+        matchDao.createLocalMatch(matchEntity)
+        Log.d("Local Repository", "Match created!!")
+    }
+
     //Users
     override suspend fun getLocalUser(userId: Int): UserEntity? {
         return userDao.getLocalUser(userId)

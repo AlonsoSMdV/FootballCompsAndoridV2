@@ -22,6 +22,7 @@ interface ILocalDataSource {
     suspend fun deleteLocalPlayer(playerEntity: PlayerEntity)
     //Matches
     suspend fun getLocalMatches(): Flow<List<MatchEntity>>;
+    suspend fun createLocalMatch(matchEntity: MatchEntity)
     //Users
     suspend fun getLocalUser(userId: Int): UserEntity?;
     suspend fun createLocalUser(userEntity: UserEntity)
