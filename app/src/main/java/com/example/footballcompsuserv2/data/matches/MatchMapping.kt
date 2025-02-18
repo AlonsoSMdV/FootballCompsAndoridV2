@@ -38,7 +38,7 @@ fun Match.toLocal(): MatchEntity{
 }
 fun List<Match>.toLocal(): List<MatchEntity> = map { it.toLocal() }
 
-fun MatchEntity.toExternal(): Match{
+fun MatchEntity.localToExternal(): Match{
     return Match(
         id = this.id.toString(),
         day = this.day,
@@ -53,4 +53,4 @@ fun MatchEntity.toExternal(): Match{
         visitorTeamImg = this.visitorTeamImg
     )
 }
-fun List<MatchEntity>.toLocal(): List<Match> = map { it.toExternal() }
+fun List<MatchEntity>.localToExternal(): List<Match> = map { it.localToExternal() }

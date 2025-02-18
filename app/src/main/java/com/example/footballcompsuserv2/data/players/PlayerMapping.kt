@@ -37,9 +37,9 @@ fun Player.toLocal(): PlayerEntity{
         birthdate = this.birthdate
     )
 }
-fun List<Player>.toExternal():List<PlayerEntity> = map{it.toLocal()}
+fun List<Player>.toLocal():List<PlayerEntity> = map{it.toLocal()}
 
-fun PlayerEntity.toExternal(): Player{
+fun PlayerEntity.localToExternal(): Player{
     return Player(
         id = this.id.toString(),
         name = this.name,
@@ -54,4 +54,4 @@ fun PlayerEntity.toExternal(): Player{
         birthdate = this.birthdate
     )
 }
-fun List<PlayerEntity>.toExternal():List<Player> = map{it.toExternal()}
+fun List<PlayerEntity>.localToExternal():List<Player> = map{it.localToExternal()}

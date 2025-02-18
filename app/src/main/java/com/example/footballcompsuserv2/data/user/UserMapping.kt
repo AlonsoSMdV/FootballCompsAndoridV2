@@ -24,7 +24,7 @@ fun User.toLocal(): UserEntity{
 
 fun List<User>.toLocal():List<UserEntity> = map { it.toLocal() }
 
-fun UserEntity.toExternal(): User{
+fun UserEntity.localToExternal(): User{
     return User(
         id = this.id.toString(),
         name = this.userName ?: "Nombre no disponible",
@@ -32,4 +32,4 @@ fun UserEntity.toExternal(): User{
     )
 }
 
-fun List<UserEntity>.toExternal():List<User> = map { it.toExternal() }
+fun List<UserEntity>.localToExternal():List<User> = map { it.localToExternal() }

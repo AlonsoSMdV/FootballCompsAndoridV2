@@ -25,7 +25,7 @@ fun Competition.toLocal(): LeagueEntity{
 }
 fun List<Competition>.toLocal(): List<LeagueEntity> = map { it.toLocal() }
 
-fun LeagueEntity.toExternal(): Competition{
+fun LeagueEntity.localToExternal(): Competition{
     return Competition(
         id = this.id.toString(),
         name = this.name,
@@ -33,4 +33,4 @@ fun LeagueEntity.toExternal(): Competition{
         logo = this.logo
     )
 }
-fun List<LeagueEntity>.toLocal(): List<Competition> = map { it.toExternal() }
+fun List<LeagueEntity>.localToExternal(): List<Competition> = map { it.localToExternal() }

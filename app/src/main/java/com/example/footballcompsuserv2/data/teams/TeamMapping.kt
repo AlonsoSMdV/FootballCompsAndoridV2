@@ -28,7 +28,7 @@ fun Team.toLocal(): TeamEntity {
 }
 fun List<Team>.toLocal():List<TeamEntity> = map{it.toLocal()}
 
-fun TeamEntity.toExternal(): Team {
+fun TeamEntity.localToExternal(): Team {
     return Team(
         id = this.id.toString(),
         name = this.name,
@@ -38,4 +38,4 @@ fun TeamEntity.toExternal(): Team {
         nPlayers = this.nPlayers
     )
 }
-fun List<TeamEntity>.toExternal():List<Team> = map{it.toExternal()}
+fun List<TeamEntity>.localToExternal():List<Team> = map{it.localToExternal()}
