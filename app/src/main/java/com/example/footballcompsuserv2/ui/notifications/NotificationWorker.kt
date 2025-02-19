@@ -96,7 +96,7 @@ class NotificationWorker @AssistedInject constructor(
                 .setContentTitle("⚽ ¡¡¡ Atención !!!")
                 .setContentText(randomMessage)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
                 .setAutoCancel(true)
                 .build()
 
