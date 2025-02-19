@@ -10,15 +10,19 @@ import javax.inject.Singleton
 
 interface ILocalDataSource {
     //Leagues
-    suspend fun getLocalLeagues(): Flow<List<LeagueEntity>>;
+    suspend fun getLocalLeagues(): Flow<List<LeagueEntity>>
+    suspend fun getFavLocalLeagues(): Flow<List<LeagueEntity>>
     suspend fun createLocalLeague(leagueEntity: LeagueEntity)
     suspend fun deleteLocalLeague(leagueEntity: LeagueEntity)
     //Teams
     suspend fun getLocalTeamsByLeague(compId: Int): Flow<List<TeamEntity>>;
+    suspend fun getFavLocalTeams(): Flow<List<TeamEntity>>
     suspend fun createLocalTeam(teamEntity: TeamEntity)
     suspend fun deleteLocalTeam(teamEntity: TeamEntity)
     //Players
     suspend fun getLocalPlayersByTeam(teamId: Int): Flow<List<PlayerEntity>>;
+    suspend fun getLocalOnePlayer(id: Int): PlayerEntity?
+    suspend fun getFavLocalPlayers(): Flow<List<PlayerEntity>>
     suspend fun createLocalPlayer(playerEntity: PlayerEntity)
     suspend fun deleteLocalPlayer(playerEntity: PlayerEntity)
     //Matches

@@ -32,6 +32,10 @@ class LocalDataSource @Inject constructor(
         return leagueDao.getLocalLeagues()
     }
 
+    override suspend fun getFavLocalLeagues(): Flow<List<LeagueEntity>> {
+        return leagueDao.getLocalFavsLeagues()
+    }
+
     override suspend fun createLocalLeague(leagueEntity: LeagueEntity) {
         leagueDao.createLocalLeague(leagueEntity)
         Log.d("Local Repository", "League inserted!!")
@@ -47,6 +51,10 @@ class LocalDataSource @Inject constructor(
         return teamDao.getLocalTeamsByLeague(compId)
     }
 
+    override suspend fun getFavLocalTeams(): Flow<List<TeamEntity>> {
+        return teamDao.getLocalFavsTeams()
+    }
+
     override suspend fun createLocalTeam(teamEntity: TeamEntity) {
         teamDao.createLocalTeam(teamEntity)
         Log.d("Local Repository", "Team inserted!!")
@@ -60,6 +68,14 @@ class LocalDataSource @Inject constructor(
     //Players
     override suspend fun getLocalPlayersByTeam(teamId: Int): Flow<List<PlayerEntity>> {
         return playerDao.getLocalPlayersByTeam(teamId)
+    }
+
+    override suspend fun getLocalOnePlayer(id: Int): PlayerEntity? {
+        return playerDao.getLocalOnePlayer(id)
+    }
+
+    override suspend fun getFavLocalPlayers(): Flow<List<PlayerEntity>> {
+        return playerDao.getLocalFavsPlayers()
     }
 
     override suspend fun createLocalPlayer(playerEntity: PlayerEntity) {
