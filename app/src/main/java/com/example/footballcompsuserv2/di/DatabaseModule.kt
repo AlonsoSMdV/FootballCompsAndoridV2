@@ -1,7 +1,10 @@
 package com.example.footballcompsuserv2.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.example.footballcompsuserv2.data.local.FootballCompsDataBase
+import com.example.footballcompsuserv2.data.local.ILocalDataSource
+import com.example.footballcompsuserv2.data.local.LocalDataSource
 import com.example.footballcompsuserv2.data.local.dao.LeagueDao
 import com.example.footballcompsuserv2.data.local.dao.MatchDao
 import com.example.footballcompsuserv2.data.local.dao.PlayerDao
@@ -52,5 +55,24 @@ object DatabaseModule {
     @Provides
     fun provideUserDao(database: FootballCompsDataBase): UserDao {
         return database.userDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideLocalDataSource(
+        leagueDao: LeagueDao,
+        teamDao: TeamDao,
+        playerDao: PlayerDao,
+        matchDao: MatchDao,
+        userDao: UserDao,
+        sharedPreferences: SharedPreferences
+    ): ILocalDataSource{
+        return LocalDataSource(leagueDao, teamDao, playerDao, matchDao, userDao, sharedPreferences)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNetworkUtils(context: Context): NetworkUtils{
+        return NetworkUtils(context)
     }
 }
