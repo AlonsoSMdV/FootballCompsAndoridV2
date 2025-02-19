@@ -93,7 +93,7 @@ class NotificationWorker @AssistedInject constructor(
 
             val notification = NotificationCompat.Builder(applicationContext, channelId)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("⚽ Notificación #$notificationId")
+                .setContentTitle("⚽ ¡¡¡ Atención !!!")
                 .setContentText(randomMessage)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
