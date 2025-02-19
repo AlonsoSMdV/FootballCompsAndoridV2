@@ -13,6 +13,9 @@ interface TeamDao {
     @Query("SELECT * FROM teams WHERE comId = :id")
     fun getLocalTeamsByLeague(id: Int): Flow<List<TeamEntity>>
 
+    @Query("SELECT * FROM teams WHERE isFavourite = 1")
+    fun getLocalFavsTeams(): Flow<List<TeamEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createLocalTeam(teamEntity: TeamEntity)
 

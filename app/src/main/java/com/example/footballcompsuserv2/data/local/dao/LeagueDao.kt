@@ -14,6 +14,9 @@ interface LeagueDao {
     @Query("SELECT * FROM leagues")
     fun getLocalLeagues(): Flow<List<LeagueEntity>>
 
+    @Query("SELECT * FROM leagues WHERE isFavourite = 1")
+    fun getLocalFavsLeagues(): Flow<List<LeagueEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createLocalLeague(leagueEntity: LeagueEntity)
 

@@ -14,6 +14,12 @@ interface PlayerDao {
     @Query("SELECT * FROM players WHERE teamId = :id")
     fun getLocalPlayersByTeam(id: Int): Flow<List<PlayerEntity>>
 
+    @Query("SELECT * FROM players WHERE id = :id")
+    fun getLocalOnePlayer(id: Int): PlayerEntity?
+
+    @Query("SELECT * FROM players WHERE isFavourite = 1")
+    fun getLocalFavsPlayers(): Flow<List<PlayerEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createLocalPlayer(playerEntity: PlayerEntity)
 
