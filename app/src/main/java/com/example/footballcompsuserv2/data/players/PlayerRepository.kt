@@ -89,6 +89,10 @@ class PlayerRepository @Inject constructor(
             if (res.isSuccessful) {
                 val playerList = res.body()?.data ?: emptyList()
                 _state.value = playerList.toExternal()
+                // Guardar en base de datos local
+                playerList.forEach { player ->
+                    local.createLocalPlayer(player.toExternal().toLocal())
+                }
                 return _state.value
             }
             _state.value

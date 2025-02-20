@@ -87,6 +87,10 @@ class TeamRepository @Inject constructor(
             if (res.isSuccessful) {
                 val teamList = res.body()?.data ?: emptyList()
                 _state.value = teamList.toExternal()
+                // Guardar en local
+                teamList.forEach { team ->
+                    local.createLocalTeam(team.toExternal().toLocal())
+                }
                 return _state.value
             }
             _state.value
