@@ -1,5 +1,6 @@
 package com.example.footballcompsuserv2.ui.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
@@ -60,6 +61,28 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
                 val action = MatchesFragmentDirections.matchToPlace(match.place.toString())
                 it.findNavController().navigate(action)
             }
+
+            binding.share.setOnClickListener {
+                val shareText = """
+                    📢 Partido: ${match.localTeamName} 🆚 ${match.visitorTeamName}
+                    📅 Fecha: ${match.day}
+                    ⏰ Hora: ${match.hour}
+                    📍 Lugar: ${match.place}
+                    🔢 Resultado: ${match.result}
+                    
+                    ¡No te lo pierdas! ⚽🔥
+                """.trimIndent()
+
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, shareText)
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(intent, "Compartir partido")
+                it.context.startActivity(shareIntent)
+            }
+
 
 
         }
