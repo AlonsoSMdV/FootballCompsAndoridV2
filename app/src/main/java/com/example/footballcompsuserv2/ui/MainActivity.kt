@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.Switch
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -20,16 +21,21 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.auth.NavManager
 import com.example.footballcompsuserv2.databinding.ActivityMainBinding
 import com.example.footballcompsuserv2.ui.notifications.NotificationWorker
 import com.example.footballcompsuserv2.ui.datastores.ThemePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
 import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+
 import java.util.concurrent.TimeUnit
+
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -64,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         themeToggleButton = findViewById<Switch>(R.id.theme_switch)
         val iconDay = findViewById<ImageView>(R.id.icon_day)
         val iconNight = findViewById<ImageView>(R.id.icon_night)
+        //Cambio de tema de la app
         lifecycleScope.launch {
             val currentTheme = themePreference.themeFlow.first()
             themeToggleButton.isChecked = currentTheme
@@ -77,9 +84,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //NAVEGACIÓN
         val navHostFragment =  supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navCtrl = navHostFragment.navController
 
+        //NavCtrl
         bottomNav = findViewById(R.id.bottom_navigation)
         bottomNav.setupWithNavController(navCtrl)
 
@@ -107,6 +116,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //BottomNav
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_comps -> {
@@ -133,6 +143,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //NOTIFICACIONES
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val requestPermissionLauncher = registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -157,6 +168,8 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    //FUNCIÓN CAMBIO COLOR DE ICONOS
     fun updateIcons(isDarkMode: Boolean, iconLeft: ImageView, iconRight: ImageView) {
         val wht = ContextCompat.getColor(this, R.color.white) // Color para el modo activado
         val blck = Color.BLACK // Color negro para el modo desactivado
@@ -170,6 +183,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //FUNCIÓN INICIO WORKER DE NOTIFICACIONES
     private fun startNotificationWorker() {
         val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(
             15, TimeUnit.MINUTES // Mínimo permitido por WorkManager = 15 mins

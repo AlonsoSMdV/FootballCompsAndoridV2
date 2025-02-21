@@ -2,17 +2,21 @@ package com.example.footballcompsuserv2.ui.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.example.footballcompsuserv2.data.matches.IMatchRepository
 import com.example.footballcompsuserv2.data.matches.Match
 import com.example.footballcompsuserv2.data.teams.ITeamRepository
 import com.example.footballcompsuserv2.data.teams.Team
+
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +41,7 @@ class MatchesViewModel @Inject constructor(
                 }
             }
         }
+        //Leer los equipos
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 matchRepo.readAll()

@@ -5,17 +5,20 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.remote.loginRegister.RegisterRaw
 import com.example.footballcompsuserv2.ui.MainActivity
 import com.example.footballcompsuserv2.ui.viewModels.LoginRegisterViewModel
 import com.example.footballcompsuserv2.ui.viewModels.RegisterUIState
+
 import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -27,10 +30,11 @@ class RegisterFragment: Fragment(R.layout.fragment_register) {
 
         val registerButton = view.findViewById<Button>(R.id.register_btn)
 
+        //Botón de navegación al login
         val toLogin = view.findViewById<TextView>(R.id.to_login)
         (activity as MainActivity).bottomNav.visibility = View.GONE
 
-
+        //Botón de registar al usuario
         registerButton.setOnClickListener {
             val username = view.findViewById<EditText>(R.id.username).text.toString()
             val email = view.findViewById<EditText>(R.id.email).text.toString()
@@ -41,6 +45,7 @@ class RegisterFragment: Fragment(R.layout.fragment_register) {
             }
         }
 
+        //Si es exitoso mandar al login
         lifecycleScope.launch {
             viewModel.registerUIState.collect(){registerUIState ->
                 when(registerUIState){

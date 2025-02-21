@@ -3,14 +3,18 @@ package com.example.footballcompsuserv2.ui.viewModels
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.example.footballcompsuserv2.data.players.IPlayerRepository
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
+
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,6 +40,8 @@ class CreatePlayerViewModel @Inject constructor(
             }
         }
     }
+
+    //FUNCIÓN Crear jugadores
     fun createPlayer(player: PlayerCreate, photo: Uri?){
         viewModelScope.launch {
             playerRepo.createPlayer(player, photo)
@@ -43,6 +49,7 @@ class CreatePlayerViewModel @Inject constructor(
     }
 }
 
+//UISTATE
 sealed class CreatePlayerUiState(){
     data object Loading: CreatePlayerUiState()
     class Success(val player: List<Player>): CreatePlayerUiState()

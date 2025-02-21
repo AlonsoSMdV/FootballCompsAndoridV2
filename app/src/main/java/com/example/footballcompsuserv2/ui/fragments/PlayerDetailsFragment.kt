@@ -4,22 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+
 import coil3.load
+
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.databinding.FragmentPlayersDetailBinding
 import com.example.footballcompsuserv2.ui.viewModels.PlayerDetailsViewModel
+
 import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -40,11 +42,13 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Toolbar
         val toolbar = view.findViewById<Toolbar>(R.id.players_details_toolbar)
         toolbar.setOnClickListener {
             findNavController().navigate(R.id.details_to_players)
         }
 
+        //Lectura de datos del jugador seleccionado
         viewModel = ViewModelProvider(this).get(PlayerDetailsViewModel::class.java)
         playerId = arguments?.getInt("idPlayer")
 
@@ -59,6 +63,7 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
         viewModel.getPlayerDetails(playerId!!)
     }
 
+    //FUNCIÓN escritura de datos obtenidos en el xml
     private fun getPlayer(player: Player) {
         if (player.photo!=null){
             binding.playerPhoto.load(player.photo)

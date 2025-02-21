@@ -40,7 +40,7 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val place = arguments?.getString("place")
+        val place = arguments?.getString("place")//Lugar del partido seleccionado
         place?.let {
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
             val addresses = geocoder.getFromLocationName(it, 1)

@@ -3,15 +3,19 @@ package com.example.footballcompsuserv2.ui.viewModels
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.example.footballcompsuserv2.auth.AuthService
 import com.example.footballcompsuserv2.data.loginRegister.ILoginRegisterRepo
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRaw
 import com.example.footballcompsuserv2.data.remote.loginRegister.RegisterRaw
+
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +32,7 @@ class LoginRegisterViewModel @Inject constructor(
     val registerUIState: StateFlow<RegisterUIState>
         get() = _registerUIState.asStateFlow()
 
+    //FUNCIÓN login/inicio de sesión guardando el token del usuario
     fun login(login: LoginRaw){
         viewModelScope.launch {
             try {
@@ -55,6 +60,7 @@ class LoginRegisterViewModel @Inject constructor(
         }
     }
 
+    //FUNCIÓN registro guardando el token del usuario
     fun register(register: RegisterRaw){
         viewModelScope.launch {
             try {
@@ -76,6 +82,7 @@ class LoginRegisterViewModel @Inject constructor(
     }
 }
 
+//UISTATES
 sealed class LoginUIState{
     data object Loading: LoginUIState()
     class Success(val message: String): LoginUIState()

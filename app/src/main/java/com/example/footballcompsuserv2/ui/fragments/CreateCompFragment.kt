@@ -93,14 +93,7 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.goToCamera.setOnClickListener{
-            if(hasCameraPermissions(requireContext())){
-                // navigateToCamera()
 
-            }else {
-                launcher.launch(PERMISSIONS_REQUIRED)
-            }
-        }
         binding.createCompsToolbar.apply {
             setNavigationOnClickListener {
                 findNavController().navigateUp()
@@ -111,14 +104,6 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
             pickMedia.launch(PickVisualMediaRequest((ActivityResultContracts.PickVisualMedia.ImageOnly)))
         }
 
-        val btnCamera = view.findViewById<Button>(R.id.go_to_camera)
-        btnCamera.setOnClickListener {
-            if (hasCameraPermissions(requireContext())){
-                navigateToCamera()
-            }else{
-                launcher.launch(PERMISSIONS_REQUIRED)
-            }
-        }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.photo.collect{

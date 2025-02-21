@@ -2,19 +2,21 @@ package com.example.footballcompsuserv2.ui.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.example.footballcompsuserv2.data.players.IPlayerRepository
 import com.example.footballcompsuserv2.data.players.Player
-import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
-import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributes
 import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributesMedia
 import com.example.footballcompsuserv2.data.remote.players.PlayerUpdate
+
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +27,7 @@ class PlayerListViewModel @Inject constructor(
     val  uiState: StateFlow<PlayerListUiState>
         get() = _uiState.asStateFlow()
 
+    //Borrar jugadores
     fun deletePlayer(playerId: Int, teamId: Int){
         viewModelScope.launch {
             playerRepo.deletePlayer(playerId)
@@ -33,9 +36,8 @@ class PlayerListViewModel @Inject constructor(
             }
         }
     }
+
     init {
-
-
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 playerRepo.setStream.collect{
@@ -50,6 +52,7 @@ class PlayerListViewModel @Inject constructor(
         }
     }
 
+    //Poner jugadores en favoritos
     fun toggleFavouritePlayers(player: Player, teamId: Int) {
         viewModelScope.launch {
             val updatedPlayer = PlayerUpdate(
@@ -76,6 +79,7 @@ class PlayerListViewModel @Inject constructor(
         }
     }
 
+    //FUNCIÓN leer jugadores por id de equipo
     fun observePlayersByTeam(teamId:Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
@@ -86,6 +90,7 @@ class PlayerListViewModel @Inject constructor(
 
 }
 
+//UISTATE
 sealed class PlayerListUiState(){
     data object Loading: PlayerListUiState()
     class Success(val playerList: List<Player>): PlayerListUiState()

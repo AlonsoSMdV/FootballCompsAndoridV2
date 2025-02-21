@@ -3,14 +3,18 @@ package com.example.footballcompsuserv2.ui.viewModels
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.leagues.ICompsRepository
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
+
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +42,7 @@ class CreateCompViewModel @Inject constructor(
 
     }
 
-
+    //Crear ligas
     fun createComp(comp: CompCreate, logo: Uri?){
         viewModelScope.launch {
             compRepo.createComp(comp, logo)
@@ -46,6 +50,7 @@ class CreateCompViewModel @Inject constructor(
     }
 }
 
+//UISTATE
 sealed class CreateCompUiState(){
     data object Loading: CreateCompUiState()
     class Success(val comp: List<Competition>): CreateCompUiState()

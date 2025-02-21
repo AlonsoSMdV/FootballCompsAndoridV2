@@ -4,13 +4,17 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+
 import com.example.footballcompsuserv2.R
+
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+
 import kotlin.random.Random
 
 @HiltWorker
@@ -22,6 +26,8 @@ class NotificationWorker @AssistedInject constructor(
     private val PREFS_NAME = "NotificationPrefs"
     private val KEY_WELCOME_SENT = "welcome_sent"
 
+    //INICIO DE LAS NOTIFICACIONES
+    //Si es la primera vez que se inicia la app pedirá permisos y mostrará una notificación de bienvenida y luego las normales
     override suspend fun doWork(): Result {
         val prefs = applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val isWelcomeSent = prefs.getBoolean(KEY_WELCOME_SENT, false)
@@ -39,6 +45,7 @@ class NotificationWorker @AssistedInject constructor(
         return Result.success()
     }
 
+    //Notificación de bienvenida
     private fun showWelcomeNotification() {
         val channelId = "noti_channel"
         val notificationManager =
@@ -47,7 +54,7 @@ class NotificationWorker @AssistedInject constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                "Notificaciones de la App",
+                "Notificaciones de bienvenida",
                 NotificationManager.IMPORTANCE_HIGH
             )
             notificationManager.createNotificationChannel(channel)
@@ -65,6 +72,8 @@ class NotificationWorker @AssistedInject constructor(
         notificationManager.notify(1, notification)
     }
 
+    //Notificaciones regulares, muestra entre 1 y 3 notificaciones con un mensaje aleatorio y no repetido en cada notificación
+    //Los mensajes son limitados pero hay una función para que no se repita al mandar notificacion
     private fun showRegularNotification(notificationId: Int) {
         val channelId = "noti_channel"
         val notificationManager =

@@ -4,19 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
+
 import com.example.footballcompsuserv2.ui.adapters.TeamListAdapter
 import com.example.footballcompsuserv2.ui.viewModels.TeamListUiState
 import com.example.footballcompsuserv2.ui.viewModels.TeamViewModel
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.databinding.FragmentTeamListBinding
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -41,22 +46,23 @@ class TeamFragment: Fragment(R.layout.fragment_team_list) {
         binding = FragmentTeamListBinding.bind(view)
         val compSelected = idComp!!
 
+        //Toolbar
         binding.teamsToolbar.apply {
             setNavigationOnClickListener {
                 findNavController().navigate(R.id.teams_to_comps)
             }
         }
 
+        //Botónn de navegacion al Fragmento de crear equipos
         val btnToCreate = view.findViewById<FloatingActionButton>(R.id.button_to_create_team)
         btnToCreate.setOnClickListener {
             val action = TeamFragmentDirections.teamsToCreate(compSelected)
             it.findNavController().navigate(action)
         }
 
+        //Adapter para mostrar los equipos
         val adapter = TeamListAdapter(viewModel, compSelected)
         binding.teamList.adapter = adapter
-
-
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

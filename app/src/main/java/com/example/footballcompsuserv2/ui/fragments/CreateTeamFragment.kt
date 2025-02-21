@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -19,7 +20,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+
 import coil3.load
+
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.remote.teams.LeagueData
 import com.example.footballcompsuserv2.data.remote.teams.LeagueId
@@ -27,9 +30,12 @@ import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamRawAttributes
 import com.example.footballcompsuserv2.databinding.FragmentCreateTeamBinding
 import com.example.footballcompsuserv2.ui.viewModels.CreateTeamViewModel
+
 import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.launch
 
+//Permisos
 private var PERMISSIONS_REQUIRED =
     arrayOf(
         Manifest.permission.CAMERA,
@@ -42,6 +48,7 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
     private val viewModel: CreateTeamViewModel by viewModels()
     private var idComp: Int? = null
 
+    //IMAGES
     private val contract = ActivityResultContracts.RequestMultiplePermissions()
 
     private val launcher = registerForActivityResult(contract)
@@ -63,6 +70,7 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
         }
     }
 
+    //Elegir imagen de la galeria
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
         if (uri != null){
             viewLifecycleOwner.lifecycleScope.launch {
@@ -97,14 +105,8 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.teamToCamera.setOnClickListener{
-            if(hasCameraPermissions(requireContext())){
-                // navigateToCamera()
 
-            }else {
-                launcher.launch(PERMISSIONS_REQUIRED)
-            }
-        }
+
 
         binding.createTeamToolbar.apply {
             setNavigationOnClickListener {
@@ -116,14 +118,7 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
             pickMedia.launch(PickVisualMediaRequest((ActivityResultContracts.PickVisualMedia.ImageOnly)))
         }
 
-        val btnCamera = view.findViewById<Button>(R.id.team_to_camera)
-        btnCamera.setOnClickListener {
-            if (hasCameraPermissions(requireContext())){
-                navigateToCamera()
-            }else{
-                launcher.launch(PERMISSIONS_REQUIRED)
-            }
-        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.photo.collect{
