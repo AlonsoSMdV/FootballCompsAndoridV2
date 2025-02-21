@@ -16,7 +16,15 @@ data class TeamRawAttributesMedia(
     val numberOfPlayers: Int,
     val isFavourite: Boolean,
     val teamLogo: LogoWrapper?,
-    val league: Int?
+    val league: LeagueData?
+)
+
+data class LeagueData(
+    val data: LeagueId
+)
+
+data class LeagueId(
+    val id: Int
 )
 
 
