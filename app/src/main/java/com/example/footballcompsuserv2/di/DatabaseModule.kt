@@ -2,6 +2,7 @@ package com.example.footballcompsuserv2.di
 
 import android.content.Context
 import android.content.SharedPreferences
+
 import com.example.footballcompsuserv2.data.local.FootballCompsDataBase
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.local.LocalDataSource
@@ -10,13 +11,16 @@ import com.example.footballcompsuserv2.data.local.dao.MatchDao
 import com.example.footballcompsuserv2.data.local.dao.PlayerDao
 import com.example.footballcompsuserv2.data.local.dao.TeamDao
 import com.example.footballcompsuserv2.data.local.dao.UserDao
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+
 import javax.inject.Singleton
 
+//Providers de local
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {

@@ -4,7 +4,8 @@ package com.example.footballcompsuserv2.data.leagues
 import com.example.footballcompsuserv2.data.local.entities.LeagueEntity
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
 
-
+//MAPPEOS DE CLASES
+//REMOTO->NEUTRAL
 fun CompRaw.toExternal(): Competition {
     return Competition(
         id = this.id.toString(),
@@ -15,6 +16,7 @@ fun CompRaw.toExternal(): Competition {
 }
 fun List<CompRaw>.toExternal():List<Competition> = map(CompRaw::toExternal)
 
+//NEUTRAL -> LOCAL
 fun Competition.toLocal(): LeagueEntity{
     return LeagueEntity(
         id = this.id.toInt(),
@@ -25,6 +27,7 @@ fun Competition.toLocal(): LeagueEntity{
 }
 fun List<Competition>.toLocal(): List<LeagueEntity> = map { it.toLocal() }
 
+//LOCAL -> NEUTRAL
 fun LeagueEntity.localToExternal(): Competition{
     return Competition(
         id = this.id.toString(),

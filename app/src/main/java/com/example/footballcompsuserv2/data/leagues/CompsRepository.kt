@@ -26,6 +26,7 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 import javax.inject.Inject
 
+//Clase que obtiene, crea, actualiza o borra los datos de la liga ya sea por remoto o local(si no hay red)
 class CompsRepository @Inject constructor(
     private val remoteData: ICompRemoteDataSource,
     private val local: ILocalDataSource, // Agregamos la fuente de datos local
@@ -37,8 +38,9 @@ class CompsRepository @Inject constructor(
     override val setStream: StateFlow<List<Competition>>
         get() = _state.asStateFlow()
 
+    //OBTENER todos los datos
     override suspend fun readAll(): List<Competition> {
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red los trae en remoto y los guarda en local
             val res = remoteData.readAll()
             if (res.isSuccessful) {
                 val compList = res.body()?.data ?: emptyList()
@@ -52,7 +54,7 @@ class CompsRepository @Inject constructor(
                 return compList.toExternal()
             }
             _state.value // Si falla la API, devolver el estado actual
-        } else {
+        } else {//Si no da un mensaje de no hay conexión
             // Cargar datos locales cuando no haya conexión
             local.getLocalLeagues().collect { localComps ->
                 _state.value = localComps.localToExternal()
@@ -61,8 +63,9 @@ class CompsRepository @Inject constructor(
         }
     }
 
+    //OBTENER solo las ligas favoritos
     override suspend fun readFavs(isFav: Boolean): List<Competition> {
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red los trae en remoto
             val filters = mapOf("filters[isFavourite][\$eq]" to isFav)
             val res = remoteData.readFavs(filters)
             if (res.isSuccessful) {
@@ -77,7 +80,7 @@ class CompsRepository @Inject constructor(
                 return _state.value.filter { it.isFavourite }
             }
             emptyList()
-        } else {
+        } else {//Si no los trae del local
             // Cargar datos locales cuando no haya conexión
             local.getFavLocalLeagues().collect { localComps ->
                 _state.value = localComps.localToExternal().filter { it.isFavourite }
@@ -86,47 +89,52 @@ class CompsRepository @Inject constructor(
         }
     }
 
+    //OBTENER una liga elegida
     override suspend fun readOne(id: Int): Competition {
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red trae los datos del remoto
             val res = remoteData.readOne(id)
             if (res.isSuccessful) res.body()!!
             else Competition("0", "", "", false)
-        } else {
+        } else {//Si no da mensaje de no hay conexion
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
             Competition("0", "", "", false)
         }
     }
 
+    //AÑADIR liga a la base de datos
     override suspend fun createComp(comp: CompCreate, logo: Uri?): Response<StrapiResponse<CompRaw>> {
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red lo añade en remoto
             val response = remoteData.createComp(comp)
             if (response.isSuccessful) {
                 val uploadedComp = response.body()
                 logo?.let { uri -> uploadLeagueLogo(uri, uploadedComp!!.data.id) }
             }
             response
-        } else {
+        } else {//Si no da mensaje de no hay conexion
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
             Response.error(400, "No hay conexión".toResponseBody(null)) // Devolver error simulado
         }
     }
 
+    //BORRAR liga de la base de datos
     override suspend fun deleteComp(id: Int) {
-        if (networkUtils.isNetworkAvailable()) {
+        if (networkUtils.isNetworkAvailable()) {//Si hay red lo borra del remoto
             remoteData.deleteComp(id)
-        } else {
+        } else {//Si no da mensaje de no hay conexion
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override suspend fun updateComp(id: Int, comp: CompUpdate) {
+    //MODIFICAR liga de la base de datos
+    override suspend fun updateComp(id: Int, comp: CompUpdate) {//Si hay red lo modifica en remoto
         if (networkUtils.isNetworkAvailable()) {
             remoteData.updateComp(id, comp)
-        } else {
+        } else {//Si no da mensaje de no hay conexion
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
         }
     }
 
+    //SUBIR IMAGENES a la base de datos
     override suspend fun uploadLeagueLogo(uri: Uri, compId: Int): Result<Uri> {
         try{
             // Obtenemos el resolver de MediaStore

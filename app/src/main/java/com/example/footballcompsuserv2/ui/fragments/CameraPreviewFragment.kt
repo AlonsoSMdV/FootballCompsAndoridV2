@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -16,12 +17,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+
 import com.example.footballcompsuserv2.databinding.FragmentCameraPreviewBinding
 import com.example.footballcompsuserv2.ui.MainActivity
-import com.example.footballcompsuserv2.ui.viewModels.CreateCompViewModel
 import com.example.footballcompsuserv2.ui.viewModels.CreatePlayerViewModel
+
 import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.launch
+
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.Executors

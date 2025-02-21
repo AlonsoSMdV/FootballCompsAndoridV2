@@ -1,14 +1,16 @@
 package com.example.footballcompsuserv2.data.matches
 
-import android.content.Context
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.remote.matches.IMatchesRemoteDataSource
 import com.example.footballcompsuserv2.di.NetworkUtils
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+
 import javax.inject.Inject
 
+//Clase que obtiene del partido ya sea por remoto o local(si no hay red)
 class MatchRepository @Inject constructor(
     private val remote: IMatchesRemoteDataSource,
     private val local: ILocalDataSource, // Agregamos la fuente de datos local
@@ -19,6 +21,7 @@ class MatchRepository @Inject constructor(
     override val setStream: StateFlow<List<Match>>
         get() = _state.asStateFlow()
 
+    //OBTENER todos los datos
     override suspend fun readAll(): List<Match> {
         val matches = mutableListOf<Match>()
         if (networkUtils.isNetworkAvailable()) {

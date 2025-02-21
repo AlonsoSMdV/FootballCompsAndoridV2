@@ -2,6 +2,7 @@ package com.example.footballcompsuserv2.data.local
 
 import android.content.SharedPreferences
 import android.util.Log
+
 import com.example.footballcompsuserv2.data.local.dao.LeagueDao
 import com.example.footballcompsuserv2.data.local.dao.MatchDao
 import com.example.footballcompsuserv2.data.local.dao.PlayerDao
@@ -12,10 +13,13 @@ import com.example.footballcompsuserv2.data.local.entities.MatchEntity
 import com.example.footballcompsuserv2.data.local.entities.PlayerEntity
 import com.example.footballcompsuserv2.data.local.entities.TeamEntity
 import com.example.footballcompsuserv2.data.local.entities.UserEntity
+
 import kotlinx.coroutines.flow.Flow
+
 import javax.inject.Inject
 import javax.inject.Singleton
 
+//Clase con las funciones para obtener, añadir y borra datos en la base de datos local
 @Singleton
 class LocalDataSource @Inject constructor(
     private val leagueDao: LeagueDao,

@@ -1,10 +1,11 @@
 package com.example.footballcompsuserv2.data.remote.players
 
-import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.uploadImg.CreatedMediaItemResponse
 import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
+
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+
 import retrofit2.Response
 
 interface IPlayerRemoteDataSource {

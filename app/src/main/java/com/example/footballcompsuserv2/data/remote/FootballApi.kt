@@ -1,7 +1,6 @@
 package com.example.footballcompsuserv2.data.remote
 
 import com.example.footballcompsuserv2.data.leagues.Competition
-import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompListRaw
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
@@ -23,15 +22,15 @@ import com.example.footballcompsuserv2.data.remote.teams.TeamUpdate
 import com.example.footballcompsuserv2.data.remote.uploadImg.CreatedMediaItemResponse
 import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import com.example.footballcompsuserv2.data.remote.user.UserRaw
-import com.example.footballcompsuserv2.data.teams.Team
+
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
-import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
@@ -39,7 +38,9 @@ import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
+//Interfaz on funciones para traer, añadir, borrar, o modificar datos de strapi
 interface   FootballApi {
+    //LIGAS
     @GET("leagues/?populate=logo")
     suspend fun getCompetitions(): Response<CompListRaw>
     @GET("leagues/{id}")
@@ -53,6 +54,7 @@ interface   FootballApi {
     @PUT("leagues/{id}")
     suspend fun updateComp(@Path("id")id: Int, @Body comp: CompUpdate)
 
+    //EQUIPOS
     @GET("teams")
     suspend fun getTeams(): Response<TeamListRaw>
     @GET("teams?populate=teamLogo&")
@@ -68,6 +70,7 @@ interface   FootballApi {
     @PUT("teams/{id}")
     suspend fun updateTeam(@Path("id")id: Int, @Body team: TeamUpdate)
 
+    //JUGADORES
     @GET("players")
     suspend fun getPlayers(): Response<PlayerListRaw>
     @GET("players?populate=playerProfilePhoto&")
@@ -83,9 +86,11 @@ interface   FootballApi {
     @PUT("players/{id}")
     suspend fun updatePlayer(@Path("id")id: Int, @Body player: PlayerUpdate)
 
+    //PARTIDOS
     @GET("matches?populate=local.teamLogo,visitor.teamLogo")
     suspend fun getMatches():Response<MatchesListRaw>
 
+    //USUARIOS
     @GET("users/me")
     suspend fun getActualUser(): Response<UserRaw>
 
@@ -95,6 +100,7 @@ interface   FootballApi {
     @POST("auth/local/register")
     suspend fun register(@Body registerUser: RegisterRaw): Response<LoginRegisterResponse>
 
+    //IMAGENES
     @Multipart
     @POST("upload")
     suspend fun addPhoto(@PartMap partMap: MutableMap<String, RequestBody>,

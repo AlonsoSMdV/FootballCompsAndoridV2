@@ -1,6 +1,7 @@
 package com.example.footballcompsuserv2.auth
 
 import com.example.footballcompsuserv2.R
+
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -8,6 +9,7 @@ import javax.inject.Singleton
 class NavManager @Inject constructor(
     private  val authSvc: AuthService
 ){
+    //Fragmentos a los uqe hace falta autenticacion para poder navegar
     private val authDest: Set<Int> = setOf(
         R.id.compsFragment,
         R.id.teamsFragment,

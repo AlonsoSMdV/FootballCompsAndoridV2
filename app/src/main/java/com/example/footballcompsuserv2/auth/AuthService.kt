@@ -1,6 +1,7 @@
 package com.example.footballcompsuserv2.auth
 
 import android.content.SharedPreferences
+
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -8,6 +9,7 @@ import javax.inject.Singleton
 class AuthService @Inject constructor(
     private val sharedPrfc: SharedPreferences
 ){
+    //Funciones mediante sharedPreferences para obtener, guardar y borrar el token
     companion object{
         private const val TKN = "JWT_TOKEN"
     }

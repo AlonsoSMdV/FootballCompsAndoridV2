@@ -2,11 +2,14 @@ package com.example.footballcompsuserv2.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+
 import coil3.load
+
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.ui.fragments.TeamFragmentDirections
 import com.example.footballcompsuserv2.data.teams.Team
@@ -29,16 +32,23 @@ class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: 
         holder.bind(team)
     }
 
+    //ViewHolder de equipo
     class TeamViewHolder(private val binding: TeamItemBinding, private val viewModel: TeamViewModel, private val compId: Int): RecyclerView.ViewHolder(binding.root){
         fun bind(team: Team){
+            //Nombre
             binding.teamName.text = team.name
+
+            //Img
             if (team.tLogo != null){
                 binding.teamImage.load(team.tLogo)
             }
+
+            //Botón de borrar
             binding.deleteTeamButton.setOnClickListener {
                 viewModel.deleteTeam(team.id.toInt(), compId)
             }
 
+            //Botón de favoritos
             binding.favouriteButtonTeams.apply {
                 setImageResource(
                     if (team.isFavourite) R.drawable.ic_fav_filled
@@ -48,6 +58,8 @@ class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: 
                     viewModel.toggleFavouriteTeams(team, compId)
                 }
             }
+
+            //Hacer que al clickar en la card navegue a los jugadores del equipo
             binding.teamCard.setOnClickListener {
                 val action = TeamFragmentDirections.teamsToPlayers(team.id.toInt())
                 it.findNavController().navigate(action)

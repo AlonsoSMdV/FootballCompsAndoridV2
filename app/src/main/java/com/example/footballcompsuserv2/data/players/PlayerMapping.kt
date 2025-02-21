@@ -1,10 +1,10 @@
 package com.example.footballcompsuserv2.data.players
 
 import com.example.footballcompsuserv2.data.local.entities.PlayerEntity
-import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.remote.players.PlayerRaw
-import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributes
 
+//MAPPEOS DE CLASES
+//REMOTO->NEUTRAL
 fun PlayerRaw.toExternal(): Player {
     return Player(
         id = this.id.toString(),
@@ -22,6 +22,7 @@ fun PlayerRaw.toExternal(): Player {
 }
 fun List<PlayerRaw>.toExternal():List<Player> = map(PlayerRaw::toExternal)
 
+//NEUTRAL -> LOCAL
 fun Player.toLocal(): PlayerEntity{
     return PlayerEntity(
         id = this.id.toInt(),
@@ -39,6 +40,7 @@ fun Player.toLocal(): PlayerEntity{
 }
 fun List<Player>.toLocal():List<PlayerEntity> = map{it.toLocal()}
 
+//LOCAL -> NEUTRAL
 fun PlayerEntity.localToExternal(): Player{
     return Player(
         id = this.id.toString(),

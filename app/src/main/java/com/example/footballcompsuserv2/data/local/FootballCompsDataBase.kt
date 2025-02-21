@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+
 import com.example.footballcompsuserv2.data.local.dao.LeagueDao
 import com.example.footballcompsuserv2.data.local.dao.MatchDao
 import com.example.footballcompsuserv2.data.local.dao.PlayerDao
@@ -15,6 +16,7 @@ import com.example.footballcompsuserv2.data.local.entities.PlayerEntity
 import com.example.footballcompsuserv2.data.local.entities.TeamEntity
 import com.example.footballcompsuserv2.data.local.entities.UserEntity
 
+//BASE DE DATOS EN LOCAL
 @Database(entities = [LeagueEntity::class,
                       TeamEntity::class,
                       PlayerEntity::class,
@@ -41,6 +43,7 @@ abstract class FootballCompsDataBase: RoomDatabase() {
             }
         }
 
+        //CREAR LA BASE DE DATOS
         private fun buildDatabase(context: Context): FootballCompsDataBase{
             return  Room.databaseBuilder(
                     context.applicationContext,

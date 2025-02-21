@@ -1,14 +1,18 @@
 package com.example.footballcompsuserv2.data.user
 
 import android.util.Log
+
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.remote.user.UserRemoteDataSource
 import com.example.footballcompsuserv2.di.NetworkUtils
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+
 import javax.inject.Inject
 
+//Clase que obtiene los datos del usuario ya sea por remoto o local(si no hay red)
 class UserRepository @Inject constructor(
     private val remoteDS: UserRemoteDataSource,
     private val local: ILocalDataSource,
@@ -19,9 +23,10 @@ class UserRepository @Inject constructor(
     override val setStream: StateFlow<List<User>>
         get() = _state.asStateFlow()
 
+    //Obtener los datos del usuario
     override suspend fun getActualUser(): User {
         var userId = 0;
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red los coge del remoto y los guarda en el local
             val res = remoteDS.getActualUser()
             if (res.isSuccessful) {
                 val user = res.body()?.toExternal() ?: User("", "", "")
@@ -33,7 +38,7 @@ class UserRepository @Inject constructor(
                 Log.e("UserRepository", "Error en la API: ${res.errorBody()?.string()}")
                 User("", "", "")
             }
-        } else {
+        } else {// sino los carga en el local(Hay que arreglar esta parte)
             try {
                 val localUser = local.getLocalUser(userId)
                 Log.d("UserRepository", "Usuario obtenido de LOCAL: $localUser")

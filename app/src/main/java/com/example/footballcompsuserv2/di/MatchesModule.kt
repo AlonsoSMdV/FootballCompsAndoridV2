@@ -4,10 +4,12 @@ import com.example.footballcompsuserv2.data.matches.IMatchRepository
 import com.example.footballcompsuserv2.data.matches.MatchRepository
 import com.example.footballcompsuserv2.data.remote.matches.IMatchesRemoteDataSource
 import com.example.footballcompsuserv2.data.remote.matches.MatchesRemoteDataSource
+
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+
 import javax.inject.Singleton
 
 @Module

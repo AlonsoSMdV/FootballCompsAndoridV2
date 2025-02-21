@@ -105,15 +105,14 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
+        //Toolbar
         binding.createTeamToolbar.apply {
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
         }
 
+        //Botón de seleccionar fotos de la galeria
         binding.teamSelectPhotoBtn.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest((ActivityResultContracts.PickVisualMedia.ImageOnly)))
         }
@@ -136,7 +135,7 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
             }
         }
 
-
+        //Botón para confirmar la creación del equipo
         val btnCreate = view.findViewById<Button>(R.id.create_team)
         btnCreate.setOnClickListener{
             val name = binding.editTextTeamName.text.toString()
@@ -160,11 +159,13 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
         }
     }
 
+    //FUNCIÓN para cargar la imagen
     private fun loadLogo(uri:Uri?) {
         binding.teamImageView.load(uri)
         _logoUri = uri
     }
 
+    //FUNCIÓN que comprueba que haya permisos
     private fun hasCameraPermissions(context: Context):Boolean {
         return PERMISSIONS_REQUIRED.all { permission ->
             ContextCompat.checkSelfPermission(

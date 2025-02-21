@@ -2,8 +2,9 @@ package com.example.footballcompsuserv2.data.teams
 
 import com.example.footballcompsuserv2.data.local.entities.TeamEntity
 import com.example.footballcompsuserv2.data.remote.teams.TeamRaw
-import com.example.footballcompsuserv2.data.teams.Team
 
+//MAPPEOS DE CLASES
+//REMOTO->NEUTRAL
 fun TeamRaw.toExternal(): Team {
     return Team(
         id = this.id.toString(),
@@ -16,6 +17,7 @@ fun TeamRaw.toExternal(): Team {
 }
 fun List<TeamRaw>.toExternal():List<Team> = map(TeamRaw::toExternal)
 
+//NEUTRAL -> LOCAL
 fun Team.toLocal(): TeamEntity {
     return TeamEntity(
         id = this.id.toInt(),
@@ -28,6 +30,7 @@ fun Team.toLocal(): TeamEntity {
 }
 fun List<Team>.toLocal():List<TeamEntity> = map{it.toLocal()}
 
+//LOCAL -> NEUTRAL
 fun TeamEntity.localToExternal(): Team {
     return Team(
         id = this.id.toString(),

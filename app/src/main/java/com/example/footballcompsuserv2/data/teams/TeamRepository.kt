@@ -3,8 +3,9 @@ package com.example.footballcompsuserv2.data.teams
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
+
 import androidx.core.net.toUri
-import com.example.footballcompsuserv2.data.leagues.localToExternal
+
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.remote.teams.ITeamRemoteDataSource
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
@@ -13,19 +14,25 @@ import com.example.footballcompsuserv2.data.remote.teams.TeamUpdate
 import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import com.example.footballcompsuserv2.di.NetworkModule
 import com.example.footballcompsuserv2.di.NetworkUtils
+
 import dagger.hilt.android.qualifiers.ApplicationContext
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody.Companion.toResponseBody
+
 import retrofit2.Response
+
 import javax.inject.Inject
 
+//Clase que obtiene, crea, actualiza o borra los datos del equipo ya sea por remoto o local(si no hay red)
 class TeamRepository @Inject constructor(
     private val remoteData: ITeamRemoteDataSource,
     private val local: ILocalDataSource, // Fuente de datos local
@@ -37,8 +44,9 @@ class TeamRepository @Inject constructor(
     override val setStream: StateFlow<List<Team>>
         get() = _state.asStateFlow()
 
+    //OBTENER todos los datos
     override suspend fun readAll(): List<Team> {
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red los trae en remoto y los guarda en local
             val res = remoteData.readAll()
             if (res.isSuccessful) {
                 val teamList = res.body()?.data ?: emptyList()
@@ -52,14 +60,15 @@ class TeamRepository @Inject constructor(
             } else {
                 _state.value
             }
-        } else {
+        } else {//Si no da un mensaje de no hay conexión
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
             _state.value
         }
     }
 
+    //OBTENER solo los equipos favoritos
     override suspend fun readFavs(isFav: Boolean): List<Team> {
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red los trae en remoto
             val filters = mapOf(
                 "filters[isFavourite][\$eq]" to isFav
             )
@@ -70,7 +79,7 @@ class TeamRepository @Inject constructor(
                 return _state.value.filter { it.isFavourite }
             }
             emptyList()
-        } else {
+        } else {//Si no los trae del local
             local.getFavLocalTeams().collect { localTeams ->
                 _state.value = localTeams.localToExternal().filter { it.isFavourite }
             }
@@ -78,7 +87,8 @@ class TeamRepository @Inject constructor(
         }
     }
 
-    override suspend fun readTeamsByLeague(leagueId: Int): List<Team> {
+    //OBTENER los jugadores por la liga elegido
+    override suspend fun readTeamsByLeague(leagueId: Int): List<Team> {//Si hay red trae los datos en remoto y los guarda al local
         return if (networkUtils.isNetworkAvailable()) {
             val filters = mapOf(
                 "filters[league][id][\$eq]" to leagueId.toString()
@@ -94,7 +104,7 @@ class TeamRepository @Inject constructor(
                 return _state.value
             }
             _state.value
-        } else {
+        } else {//Si no los trae del local
             local.getLocalTeamsByLeague(leagueId).collect { localTeams ->
                 _state.value = localTeams.localToExternal()
             }
@@ -102,46 +112,51 @@ class TeamRepository @Inject constructor(
         }
     }
 
+    //OBTENER un equipo elegido
     override suspend fun readOne(id: Int): Team {
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red trae los datos del remoto
             val res = remoteData.readOne(id)
             res.body()?.data?.toExternal() ?: Team("0", "", false, 0, null, "")
-        } else {
+        } else {//Si no da mensaje de no hay conexion
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
             Team("0", "", false, 0, null, "")
         }
     }
 
+    //AÑADIR equipo a la base de datos
     override suspend fun createTeam(team: TeamCreate, logo: Uri?): Response<StrapiResponse<TeamRaw>> {
-        return if (networkUtils.isNetworkAvailable()) {
+        return if (networkUtils.isNetworkAvailable()) {//Si hay red lo añade en remoto
             val response = remoteData.createTeam(team)
             if (response.isSuccessful) {
                 val uploadedTeam = response.body()
                 logo?.let { uri -> uploadTeamLogo(uri, uploadedTeam!!.data.id) }
             }
             response
-        } else {
+        } else {//Si no da mensaje de no hay conexion
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
             Response.error(400, "No hay conexión".toResponseBody(null)) // Devolver error simulado
         }
     }
 
+    //BORRAR equipo de la base de datos
     override suspend fun deleteTeam(id: Int) {
-        if (networkUtils.isNetworkAvailable()) {
+        if (networkUtils.isNetworkAvailable()) {//Si hay red lo borra del remoto
             remoteData.deleteTeam(id)
-        } else {
+        } else {//Si no da mensaje de no hay conexion
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
         }
     }
 
+    //MODIFICAR equipo de la base de datos
     override suspend fun updateTeam(id: Int, team: TeamUpdate) {
-        if (networkUtils.isNetworkAvailable()) {
+        if (networkUtils.isNetworkAvailable()) {//Si hay red lo modifica en remoto
             remoteData.updateTeam(id, team)
-        } else {
+        } else {//Si no da mensaje de no hay conexion
             Toast.makeText(context, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
         }
     }
 
+    //SUBIR IMAGENES a la base de datos
     override suspend fun uploadTeamLogo(uri: Uri, teamId: Int): Result<Uri> {
         try{
             // Obtenemos el resolver de MediaStore

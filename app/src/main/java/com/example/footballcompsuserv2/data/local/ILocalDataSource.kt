@@ -5,8 +5,8 @@ import com.example.footballcompsuserv2.data.local.entities.MatchEntity
 import com.example.footballcompsuserv2.data.local.entities.PlayerEntity
 import com.example.footballcompsuserv2.data.local.entities.TeamEntity
 import com.example.footballcompsuserv2.data.local.entities.UserEntity
+
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Singleton
 
 interface ILocalDataSource {
     //Leagues

@@ -3,22 +3,19 @@ package com.example.footballcompsuserv2.ui.adapters
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+
 import coil3.load
+
 import com.example.footballcompsuserv2.data.matches.Match
-import com.example.footballcompsuserv2.data.teams.ITeamRepository
-import com.example.footballcompsuserv2.data.teams.Team
 import com.example.footballcompsuserv2.databinding.MatchesItemBinding
 import com.example.footballcompsuserv2.ui.fragments.MatchesFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.MatchesViewModel
-import kotlinx.coroutines.launch
+
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -38,11 +35,15 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
         holder.bind(match)
     }
 
+    //ViewHolder de partidos
     class MatchViewHolder(private val binding: MatchesItemBinding, private val viewModel: MatchesViewModel) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(match: Match) {
+            //Formatear la fecha para que quede mas estética
             val dateFormatter = DateTimeFormatter.ofPattern("d 'de' MMMM yyyy", Locale("es"))
+            //Variable para guardar la fecha formateada
             val date = LocalDate.parse(match.day)
+            //fecha
             binding.day.text = date.format(dateFormatter)
 
             // Format time
@@ -50,18 +51,25 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
             val time = LocalTime.parse(match.hour)
             binding.hour.text = time.format(timeFormatter)
 
+            //Resultado
             binding.result.text = match.result
 
+            //Equipo local - nombre
             binding.localTeamName.text = match.localTeamName
+            //Equipo visitante - nombre
             binding.visitingTeamName.text = match.visitorTeamName
+            //Equipo local - img
             binding.localTeamImg.load(match.localTeamImg)
+            //Equipo visitante - img
             binding.visitingTeamImg.load(match.visitorTeamImg)
 
+            //Lugar de partido
             binding.place.setOnClickListener {
                 val action = MatchesFragmentDirections.matchToPlace(match.place.toString())
                 it.findNavController().navigate(action)
             }
 
+            //Botón de compartir
             binding.share.setOnClickListener {
                 val shareText = """
                     📢 Partido: ${match.localTeamName} 🆚 ${match.visitorTeamName}

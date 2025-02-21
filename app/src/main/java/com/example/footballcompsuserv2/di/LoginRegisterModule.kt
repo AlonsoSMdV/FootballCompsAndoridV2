@@ -4,10 +4,12 @@ import com.example.footballcompsuserv2.data.loginRegister.ILoginRegisterRepo
 import com.example.footballcompsuserv2.data.loginRegister.LoginRegisterRepo
 import com.example.footballcompsuserv2.data.remote.loginRegister.ILoginRegisterRemoteDataSource
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRegisterRemoteDataSource
+
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+
 import javax.inject.Singleton
 
 @Module

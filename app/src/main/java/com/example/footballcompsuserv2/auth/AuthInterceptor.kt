@@ -1,10 +1,13 @@
 package com.example.footballcompsuserv2.auth
 
 import kotlinx.coroutines.runBlocking
+
 import okhttp3.Interceptor
 import okhttp3.Response
+
 import javax.inject.Inject
 
+//Interceptor de token para comprobar el token y si tiene lo manda con un Authentication: Bearer tkn
 class AuthInterceptor @Inject constructor(
     private val authSvc: AuthService
 ): Interceptor{

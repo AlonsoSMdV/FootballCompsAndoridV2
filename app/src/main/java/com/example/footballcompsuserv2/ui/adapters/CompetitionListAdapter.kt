@@ -2,11 +2,14 @@ package com.example.footballcompsuserv2.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+
 import coil3.load
+
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.CompetitionViewModel
@@ -26,18 +29,27 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
         holder.bind(competition)
     }
 
+    //ViewHolder de ligas
     class CompetitionViewHolder(private val binding: CompetitionItemBinding, private val viewModel: CompetitionViewModel) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(competition: Competition) {
+            //Nombre
             binding.compName.text = competition.name
+
+            //id
             binding.compId.text = competition.id
+
+            //Img
             if (competition.logo!=null) {
                 binding.compImage.load(competition.logo)
             }
+
+            //Botón de borrar
             binding.deleteCompButton.setOnClickListener{
                 viewModel.deleteComp(competition.id.toInt())
             }
 
+            //Botón de favoritos
             binding.favouriteButton.apply {
                 setImageResource(
                     if (competition.isFavourite) R.drawable.ic_fav_filled
@@ -48,7 +60,7 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
                 }
             }
 
-
+            //Navegar a los equipos de la liga
             binding.compCard.setOnClickListener {
                 val action = CompsFragmentDirections.compsToTeams(competition.id.toInt())
                 it.findNavController().navigate(action)

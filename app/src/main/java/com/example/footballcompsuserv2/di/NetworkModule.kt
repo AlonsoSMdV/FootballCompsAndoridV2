@@ -3,19 +3,23 @@ package com.example.footballcompsuserv2.di
 import com.example.footballcompsuserv2.auth.AuthInterceptor
 import com.example.footballcompsuserv2.auth.AuthService
 import com.example.footballcompsuserv2.data.remote.FootballApi
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+//Providers del remoto
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
