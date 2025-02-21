@@ -8,7 +8,7 @@ data class TeamRawAttributes(
     val name: String,
     val numberOfPlayers: Int,
     val isFavourite: Boolean,
-    val league: Int?
+    val league: LeagueData?
 )
 
 data class TeamRawAttributesMedia(

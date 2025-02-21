@@ -14,7 +14,7 @@ fun PlayerRaw.toExternal(): Player {
         nationality = this.attributes.nationality,
         dorsal = this.attributes.dorsal,
         position = this.attributes.position,
-        teamId = this.attributes.team.toString(),
+        teamId = this.attributes.team?.data?.id.toString(),
         isFavourite = this.attributes.isFavourite,
         photo = this.attributes.playerProfilePhoto?.data?.attributes?.formats?.small?.url ?:"",
         birthdate = this.attributes.birthdate

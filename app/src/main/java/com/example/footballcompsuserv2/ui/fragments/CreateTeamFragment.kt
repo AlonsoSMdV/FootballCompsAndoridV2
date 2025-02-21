@@ -21,6 +21,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import coil3.load
 import com.example.footballcompsuserv2.R
+import com.example.footballcompsuserv2.data.remote.teams.LeagueData
+import com.example.footballcompsuserv2.data.remote.teams.LeagueId
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamRawAttributes
 import com.example.footballcompsuserv2.databinding.FragmentCreateTeamBinding
@@ -153,7 +155,7 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
                     data = TeamRawAttributes(
                         name = name,
                         numberOfPlayers = nPlayers.toInt(),
-                        league = idComp!!,
+                        league = LeagueData(LeagueId(idComp!!)) ,
                         isFavourite = false
                     )
                 )

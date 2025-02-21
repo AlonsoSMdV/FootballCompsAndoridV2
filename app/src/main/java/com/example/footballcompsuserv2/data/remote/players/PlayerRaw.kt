@@ -14,7 +14,15 @@ data class PlayerRawAttributes(
     val birthdate: String,
     val position: String,
     val isFavourite: Boolean,
-    val team: Int?
+    val team: TeamData?
+)
+
+data class TeamData(
+    val data: TeamId
+)
+
+data class TeamId(
+    val id: Int
 )
 
 data class PlayerRawAttributesMedia(
@@ -27,7 +35,7 @@ data class PlayerRawAttributesMedia(
     val position: String,
     val isFavourite: Boolean,
     val playerProfilePhoto: LogoWrapper?,
-    val team: Int?
+    val team: TeamData?
 )
 
 data class LogoRaw(

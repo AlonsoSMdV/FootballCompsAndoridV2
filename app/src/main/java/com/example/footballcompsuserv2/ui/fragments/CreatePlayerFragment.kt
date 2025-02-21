@@ -24,6 +24,8 @@ import coil3.load
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
 import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributes
+import com.example.footballcompsuserv2.data.remote.players.TeamData
+import com.example.footballcompsuserv2.data.remote.players.TeamId
 import com.example.footballcompsuserv2.databinding.FragmentCreatePlayerBinding
 import com.example.footballcompsuserv2.ui.viewModels.CreatePlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -164,7 +166,7 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
                         dorsal = dorsal.toInt(),
                         birthdate = birthdate,
                         position = position,
-                        team = idTeam!!,
+                        team = TeamData(TeamId(idTeam!!)),
                         isFavourite = false
                     )
                 )
