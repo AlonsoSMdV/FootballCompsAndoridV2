@@ -131,10 +131,6 @@ class MainActivity : AppCompatActivity() {
                     navCtrl.navigate(R.id.matchesFragment)
                     true
                 }
-                R.id.navigation_maps -> {
-                    navCtrl.navigate(R.id.mapsFragment)
-                    true
-                }
                 R.id.navigation_profile -> {
                     navCtrl.navigate(R.id.profileDetails)
                     true
