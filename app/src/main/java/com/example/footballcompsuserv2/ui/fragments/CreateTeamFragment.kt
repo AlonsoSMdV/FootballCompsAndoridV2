@@ -27,6 +27,7 @@ import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.remote.teams.LeagueData
 import com.example.footballcompsuserv2.data.remote.teams.LeagueId
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
+import com.example.footballcompsuserv2.data.remote.teams.TeamCreateRawAttributes
 import com.example.footballcompsuserv2.data.remote.teams.TeamRawAttributes
 import com.example.footballcompsuserv2.databinding.FragmentCreateTeamBinding
 import com.example.footballcompsuserv2.ui.viewModels.CreateTeamViewModel
@@ -146,10 +147,10 @@ class CreateTeamFragment :Fragment(R.layout.fragment_create_team){
                 Toast.makeText(requireContext(),"Rellene todos los campos", Toast.LENGTH_SHORT).show()
             }else{
                 val createTeam = TeamCreate(
-                    data = TeamRawAttributes(
+                    data = TeamCreateRawAttributes(
                         name = name,
                         numberOfPlayers = nPlayers.toInt(),
-                        league = LeagueData(LeagueId(idComp!!)) ,
+                        league = idComp!! ,
                         isFavourite = false
                     )
                 )

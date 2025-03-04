@@ -25,6 +25,7 @@ import coil3.load
 
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
+import com.example.footballcompsuserv2.data.remote.players.PlayerCreateRawAttributes
 import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributes
 import com.example.footballcompsuserv2.data.remote.players.TeamData
 import com.example.footballcompsuserv2.data.remote.players.TeamId
@@ -169,7 +170,7 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
                 Toast.makeText(requireContext(),"Rellene todos los campos", Toast.LENGTH_SHORT).show()
             }else{
                 val createPlayer = PlayerCreate(
-                    data = PlayerRawAttributes(
+                    data = PlayerCreateRawAttributes(
                         name = name,
                         firstSurname = firstSurname,
                         secondSurname = secondSurname,
@@ -177,7 +178,7 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
                         dorsal = dorsal.toInt(),
                         birthdate = birthdate,
                         position = position,
-                        team = TeamData(TeamId(idTeam!!)),
+                        team = idTeam!!,
                         isFavourite = false
                     )
                 )
