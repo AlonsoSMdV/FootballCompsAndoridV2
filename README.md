@@ -1,39 +1,77 @@
 # **Futbol Fan** 🏆  
 
-¡Bienvenido a **Futbol Fan**, una app hecha en android studio, a la cual todavía le falta mucho por mejorar!  
+Bienvenido a **Futbol Fan**, una aplicación desarrollada en Android Studio que permite gestionar ligas, equipos y jugadores de fútbol, además de ofrecer diversas funcionalidades adicionales. Aún se encuentra en desarrollo, por lo que hay mejoras y correcciones pendientes.  
 
 ---
 
 ## **Características principales**  
 
-- **Registro e inicio de sesión**
-  - Puedes registrarte como usuario con un username, email y contraseña
-  - Puedes iniciar sesión con tu username y contraseña
-  - Puedes ver tus datis de perifl y cerrar tu sesión desde la pestaña de perfil
+### **1. Autenticación de usuario**  
+- Registro de usuario con **username, email y contraseña**.
+- Inicio de sesión con **username y contraseña**.
+- Visualización de perfil con opción para cerrar sesión.
 
-- **Gestión de ligas**  
-  - Crea y borra ligas tanto personalizadas como profesionales(si quieres tener guardados tus equipos favoritos).
+### **2. Gestión de Ligas**  
+- Creación y eliminación de ligas personalizadas o profesionales.
+- Interfaz para visualizar las ligas disponibles.
 
-- **Gestión de equipos**  
-  - Al pinchar sobre una liga te aparecerán los equipos de dicha liga
-  - Puedes crear y borrar equipos(aunque hay un fallo que no refresca la pagina de los equipos) 
+### **3. Gestión de Equipos**  
+- Al seleccionar una liga, se mostrarán los equipos asociados.
+- Creación y eliminación de equipos.
+- **Problema conocido:** La lista de equipos no recarga bien al volver de la lista de jugadores debido a la falta del Id de la competición.
 
-- **Gestión de jugadores**  
-  - Registra jugadores con datos como nombre, número, posición, nacionalidad y fecha de nacimiento
-  - Crea y borra a tu gusto(tiene el mismo fallo que los equipos parece que hay algun fallo ya que al tener que filtrar para volver a hacerlo es complicado)
-  - Detalles del jugador implementados
- 
-- **Observa los próximos partidos**  
-  - Puedes observar que partidos se jugarán, también podrás ver la hora y el lugar.
+### **4. Gestión de Jugadores**  
+- Registro de jugadores con datos como **nombre, número, posición, nacionalidad y fecha de nacimiento**.
+- Creación y eliminación de jugadores.
+- Visualización de detalles de cada jugador.
+- **Problema conocido:** Similar al de los equipos, la lista no se no recarga bien al volver del detalle de un jugador debido a la falta del Id del equipo.
 
-- **Implementaciones varias y cosas por resolver en un futuro**  
-  - Gracias a dataStore Preferences podemos cambiar el tema de la app(claro y oscuro) 
-  - Tiene un Interceptor para añadir un mensaje a la solicitud si esta lleva un token consigo
-  - Hay navegación entre fragmentos de una manera casi perfecta
-  - Notificaciones usadas mediante hilt y WorkerManager
-  - Sección de favoritos, donde podras ver las ligas, equipos y jugadores que mas te gusten
-  - Fragmento de mapa añadido para la locallización del partido
-  - También se pueden subir imágenes a la base de datos
+### **5. Calendario de Partidos**  
+- Consulta de próximos partidos con información sobre **hora y ubicación**.
+- Implementación de un mapa para visualizar la localización del encuentro.
+- Comparte los partidos próximos con tus amigos para que no se los pierdan
+
+### **6. Otras funcionalidades**  
+- **Cambio de tema (claro/oscuro)** utilizando **DataStore Preferences**.
+- **Interceptor HTTP** para adjuntar un mensaje si la solicitud contiene un token.
+- **Navegación optimizada** entre fragmentos.
+- **Notificaciones** mediante **Hilt y WorkManager**.
+- **Sección de favoritos**, donde se pueden marcar ligas, equipos y jugadores preferidos.
+- **Subida de imágenes** a la base de datos de Strapi.
+
+---
+
+## **Desarrollo y desafíos enfrentados**  
+
+### **Decisiones de diseño importantes**  
+- **DataStore Preferences** para el almacenamiento eficiente de preferencias del usuario.
+- **Hilt para la inyección de dependencias**, facilitando la gestión de componentes y optimizando el rendimiento.
+- **WorkManager** para tareas en segundo plano, como la gestión de notificaciones.
+- **Room Database** para almacenamiento local de datos.
+- **Material Design** utilizado para crear una iterfaz fácil de acceder y uso de divesos elementos estilizados, todo ello con la intención de mejorar la experenciencia del usaurio en la app
+
+### **Desafíos encontrados y soluciones aplicadas**  
+
+| Desafío | Solución |
+|---------|----------|
+| Manejo de tokens en solicitudes HTTP. | Se implementó un **Interceptor HTTP** para gestionar automáticamente los tokens en las peticiones. |
+| Persistencia de datos de usuario y configuración de la app. | Se optó por **DataStore en lugar de SharedPreferences**, ya que ofrece mejor rendimiento y soporte para datos más complejos. |
+
+---
+
+## **Próximas mejoras y funcionalidades**  
+- Corrección del problema de actualización automática en listas de equipos y jugadores.
+- Implementación de un sistema de estadísticas para equipos y jugadores.
+- Implementacionas varias en la sección de partidos
+- Implementación de la posibilidad de editar el perfil
+
+---
+
+## **Conclusión**  
+
+**Futbol Fan** es una aplicación en desarrollo con un gran potencial para convertirse en una plataforma completa para los amantes del fútbol. Aunque aún tiene errores por corregir, su estructura y funcionalidad avanzan hacia una experiencia fluida e intuitiva. ¡Gracias por probarla y contribuir a su mejora! ⚽🔥
+
+
     
         
  
