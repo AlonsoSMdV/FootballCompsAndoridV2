@@ -5,4 +5,7 @@ data class Competition (
     val name: String,
     val logo: String?,
     val isFavourite: Boolean
-)
+){
+    // Constructor vacío necesario para Firestore
+    constructor() : this("", "", "", false)
+}

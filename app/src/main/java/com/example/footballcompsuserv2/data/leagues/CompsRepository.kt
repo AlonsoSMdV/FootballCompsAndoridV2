@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.net.toUri
+import com.example.footballcompsuserv2.data.firebase.firebaseLeagues.LeagueFirebase
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
@@ -29,6 +30,7 @@ import javax.inject.Inject
 //Clase que obtiene, crea, actualiza o borra los datos de la liga ya sea por remoto o local(si no hay red)
 class CompsRepository @Inject constructor(
     private val remoteData: ICompRemoteDataSource,
+    private val firebase: LeagueFirebase,
     private val local: ILocalDataSource, // Agregamos la fuente de datos local
     private val networkUtils: NetworkUtils, // Verifica la conexión de red
     @ApplicationContext private val context: Context
@@ -41,7 +43,7 @@ class CompsRepository @Inject constructor(
     //OBTENER todos los datos
     override suspend fun readAll(): List<Competition> {
         return if (networkUtils.isNetworkAvailable()) {//Si hay red los trae en remoto y los guarda en local
-            val res = remoteData.readAll()
+            /**val res = remoteData.readAll()
             if (res.isSuccessful) {
                 val compList = res.body()?.data ?: emptyList()
                 _state.value = compList.toExternal()
@@ -52,6 +54,10 @@ class CompsRepository @Inject constructor(
                 }
 
                 return compList.toExternal()
+            }**/
+            val res = firebase.getAllLeagues()
+            if (res.isNotEmpty()){
+
             }
             _state.value // Si falla la API, devolver el estado actual
         } else {//Si no da un mensaje de no hay conexión
