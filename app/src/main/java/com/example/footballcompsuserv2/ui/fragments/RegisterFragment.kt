@@ -41,7 +41,7 @@ class RegisterFragment: Fragment(R.layout.fragment_register) {
             val password = view.findViewById<EditText>(R.id.password).text.toString()
             if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
                 val registerData = RegisterRaw(username = username, email = email, password = password)
-                viewModel.register(registerData)
+                viewModel.registerFb(email, password)
             }
         }
 

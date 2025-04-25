@@ -43,7 +43,7 @@ class CompsRepository @Inject constructor(
     //OBTENER todos los datos
     override suspend fun readAll(): List<Competition> {
         return if (networkUtils.isNetworkAvailable()) {//Si hay red los trae en remoto y los guarda en local
-            /**val res = remoteData.readAll()
+            val res = remoteData.readAll()
             if (res.isSuccessful) {
                 val compList = res.body()?.data ?: emptyList()
                 _state.value = compList.toExternal()
@@ -54,11 +54,11 @@ class CompsRepository @Inject constructor(
                 }
 
                 return compList.toExternal()
-            }**/
-            val res = firebase.getAllLeagues()
+            }
+            /**val res = firebase.getAllLeagues()
             if (res.isNotEmpty()){
 
-            }
+            }**/
             _state.value // Si falla la API, devolver el estado actual
         } else {//Si no da un mensaje de no hay conexión
             // Cargar datos locales cuando no haya conexión

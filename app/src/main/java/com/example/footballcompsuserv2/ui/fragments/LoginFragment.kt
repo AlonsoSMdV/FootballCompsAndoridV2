@@ -41,7 +41,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val password = view.findViewById<EditText>(R.id.password).text.toString()
             if (username.isNotEmpty() && password.isNotEmpty()){
                 val loginData = LoginRaw(identifier = username, password = password)
-                viewModel.login(loginData)
+                viewModel.loginFb(username, password)
             }
         }
 

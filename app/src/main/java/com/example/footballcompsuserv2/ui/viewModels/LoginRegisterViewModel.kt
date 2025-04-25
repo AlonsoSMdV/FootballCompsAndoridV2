@@ -18,6 +18,9 @@ import kotlinx.coroutines.launch
 
 import javax.inject.Inject
 
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+
 @HiltViewModel
 class LoginRegisterViewModel @Inject constructor(
     private val loginRegisterRepo: ILoginRegisterRepo,
@@ -32,6 +35,38 @@ class LoginRegisterViewModel @Inject constructor(
     val registerUIState: StateFlow<RegisterUIState>
         get() = _registerUIState.asStateFlow()
 
+    //FIREBASE
+    fun loginFb(email: String, password: String) {
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            val auth = Firebase.auth
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    _loginUIState.value = LoginUIState.Success("Login completado con éxito")
+                } else {
+                    _loginUIState.value = LoginUIState.Error("Ha habido algún error en el login")
+                }
+            }
+        } else {
+            _loginUIState.value = LoginUIState.Error("Credencial/es vacia/s")
+        }
+    }
+
+    fun registerFb(email:String, password:String){
+        if (email.isNotEmpty() && password.isNotEmpty()){
+            val auth = Firebase.auth
+
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
+                if (it.isSuccessful){
+                    authSvc.clearCredentials()
+                    _registerUIState.value = RegisterUIState.Success()
+                }else{
+                    _registerUIState.value = RegisterUIState.Error("Error al crear usuario")
+                }
+            }
+        }else{
+            _registerUIState.value = RegisterUIState.Error("Credencial/es vacia/s")
+        }
+    }
     //FUNCIÓN login/inicio de sesión guardando el token del usuario
     fun login(login: LoginRaw){
         viewModelScope.launch {
