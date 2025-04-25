@@ -36,9 +36,9 @@ class LoginRegisterViewModel @Inject constructor(
         get() = _registerUIState.asStateFlow()
 
     //FIREBASE
+    private val auth = Firebase.auth
     fun loginFb(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
-            val auth = Firebase.auth
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     _loginUIState.value = LoginUIState.Success("Login completado con éxito")
@@ -53,8 +53,6 @@ class LoginRegisterViewModel @Inject constructor(
 
     fun registerFb(email:String, password:String){
         if (email.isNotEmpty() && password.isNotEmpty()){
-            val auth = Firebase.auth
-
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
                 if (it.isSuccessful){
                     authSvc.clearCredentials()
