@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 @HiltViewModel
 class LoginRegisterViewModel @Inject constructor(
@@ -51,20 +52,51 @@ class LoginRegisterViewModel @Inject constructor(
         }
     }
 
-    fun registerFb(email:String, password:String){
+    fun registerFb(email:String, password:String, name: String, surname: String){
         if (email.isNotEmpty() && password.isNotEmpty()){
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
-                if (it.isSuccessful){
-                    authSvc.clearCredentials()
-                    _registerUIState.value = RegisterUIState.Success()
-                }else{
-                    _registerUIState.value = RegisterUIState.Error("Error al crear usuario")
+            val firestore = FirebaseFirestore.getInstance()
+
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    if (user != null) {
+                        val userData = hashMapOf(
+                            "name" to name,
+                            "surname" to surname,
+                            "email" to email,
+                            "role" to "User",
+                            "picture" to "",
+                            "playerFav" to null,
+                            "teamFav" to null,
+                            "leagueFav" to null,
+                            "userId" to user.uid  // 🔥 UID como String, no como referencia
+                        )
+
+                        firestore.collection("usuarios").add(userData)
+                            .addOnSuccessListener {
+                                authSvc.clearCredentials()
+                                _registerUIState.value = RegisterUIState.Success()
+                            }
+                            .addOnFailureListener { e ->
+                                _registerUIState.value =
+                                    RegisterUIState.Error("Error creando documento Firestore: ${e.localizedMessage}")
+                            }
+                    } else {
+                        _registerUIState.value =
+                            RegisterUIState.Error("No se pudo obtener el usuario tras el registro")
+                    }
+                } else {
+                    _registerUIState.value =
+                        RegisterUIState.Error("Usuario mal creado: ${task.exception?.localizedMessage}")
                 }
             }
-        }else{
-            _registerUIState.value = RegisterUIState.Error("Credencial/es vacia/s")
+        } else {
+            _registerUIState.value = RegisterUIState.Error("Faltan credenciales para completar el registro")
         }
     }
+
+
+
     //FUNCIÓN login/inicio de sesión guardando el token del usuario
     fun login(login: LoginRaw){
         viewModelScope.launch {

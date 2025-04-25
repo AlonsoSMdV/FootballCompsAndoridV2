@@ -36,12 +36,13 @@ class RegisterFragment: Fragment(R.layout.fragment_register) {
 
         //Botón de registar al usuario
         registerButton.setOnClickListener {
-            val username = view.findViewById<EditText>(R.id.username).text.toString()
+            val name = view.findViewById<EditText>(R.id.name).text.toString()
+            val surname = view.findViewById<EditText>(R.id.surname).text.toString()
             val email = view.findViewById<EditText>(R.id.email).text.toString()
             val password = view.findViewById<EditText>(R.id.password).text.toString()
-            if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
-                val registerData = RegisterRaw(username = username, email = email, password = password)
-                viewModel.registerFb(email, password)
+            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && surname.isNotEmpty()){
+                val registerData = RegisterRaw(username = name, email = email, password = password)
+                viewModel.registerFb(email, password, name, surname)
             }
         }
 

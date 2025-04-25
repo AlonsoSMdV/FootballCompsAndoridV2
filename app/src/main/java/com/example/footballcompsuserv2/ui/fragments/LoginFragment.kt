@@ -37,11 +37,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         //Botón para iniciar la sesión
         loginButton.setOnClickListener {
-            val username = view.findViewById<EditText>(R.id.username).text.toString()
+            val email = view.findViewById<EditText>(R.id.email).text.toString()
             val password = view.findViewById<EditText>(R.id.password).text.toString()
-            if (username.isNotEmpty() && password.isNotEmpty()){
-                val loginData = LoginRaw(identifier = username, password = password)
-                viewModel.loginFb(username, password)
+            if (email.isNotEmpty() && password.isNotEmpty()){
+                val loginData = LoginRaw(identifier = email, password = password)
+                viewModel.loginFb(email, password)
             }
         }
 
