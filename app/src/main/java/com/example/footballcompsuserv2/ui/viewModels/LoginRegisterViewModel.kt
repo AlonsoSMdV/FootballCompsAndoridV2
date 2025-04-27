@@ -1,6 +1,7 @@
 package com.example.footballcompsuserv2.ui.viewModels
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
@@ -37,23 +38,32 @@ class LoginRegisterViewModel @Inject constructor(
         get() = _registerUIState.asStateFlow()
 
     //FIREBASE
-    private val auth = Firebase.auth
+
     fun loginFb(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
+            val auth = Firebase.auth
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     _loginUIState.value = LoginUIState.Success("Login completado con éxito")
+                    Log.d("Success", "Login completo")
                 } else {
                     _loginUIState.value = LoginUIState.Error("Ha habido algún error en el login")
+                    Log.d("Error", "Login mal completado")
                 }
             }
         } else {
             _loginUIState.value = LoginUIState.Error("Credencial/es vacia/s")
+            Log.d("Error", "Credenciales vacias")
         }
+    }
+
+    fun resetLoginUIState() {
+        _loginUIState.value = LoginUIState.Loading
     }
 
     fun registerFb(email:String, password:String, name: String, surname: String){
         if (email.isNotEmpty() && password.isNotEmpty()){
+            val auth = Firebase.auth
             val firestore = FirebaseFirestore.getInstance()
 
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->

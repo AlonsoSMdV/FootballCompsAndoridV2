@@ -1,6 +1,7 @@
 package com.example.footballcompsuserv2.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -9,7 +10,9 @@ import android.widget.Toast
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 
 import com.example.footballcompsuserv2.R
@@ -46,15 +49,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
 
         //Si el login es exitoso navega al compsFragment sino muestra error
-        lifecycleScope.launch {
-            viewModel.loginUIState.collect(){loginUIState ->
-                when(loginUIState){
-                    LoginUIState.Loading -> {}
-                    is LoginUIState.Success -> {
-                        findNavController().navigate(R.id.login_to_comps)
-                    }
-                    is LoginUIState.Error -> {
-                        Toast.makeText(context, loginUIState.message, Toast.LENGTH_SHORT).show()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loginUIState.collect { loginUIState ->
+                    when (loginUIState) {
+                        LoginUIState.Loading -> {}
+                        is LoginUIState.Success -> {
+                            Log.d("LoginFragment", "LoginUIState.Success → navegando")
+                            findNavController().navigate(R.id.login_to_comps)
+                            viewModel.resetLoginUIState() // AÑADE ESTO para evitar múltiples navegaciones
+                        }
+                        is LoginUIState.Error -> {
+                            Toast.makeText(context, loginUIState.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }

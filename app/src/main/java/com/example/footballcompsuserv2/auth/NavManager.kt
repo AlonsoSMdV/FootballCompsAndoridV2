@@ -11,7 +11,7 @@ class NavManager @Inject constructor(
 ){
     //Fragmentos a los uqe hace falta autenticacion para poder navegar
     private val authDest: Set<Int> = setOf(
-        R.id.compsFragment,
+        /**R.id.compsFragment,
         R.id.teamsFragment,
         R.id.playersFragment,
         R.id.playerDetails,
@@ -19,7 +19,7 @@ class NavManager @Inject constructor(
         R.id.createCompsFragment,
         R.id.createTeamFragment,
         R.id.createPlayerFragment,
-        R.id.favouritesFragment
+        R.id.favouritesFragment**/
     )
 
     fun navsToLogin(destId: Int): Boolean{
