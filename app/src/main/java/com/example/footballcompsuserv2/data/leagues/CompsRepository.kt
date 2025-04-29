@@ -40,6 +40,10 @@ class CompsRepository @Inject constructor(
     override val setStream: StateFlow<List<Competition>>
         get() = _state.asStateFlow()
 
+    private val _stateFb = MutableStateFlow<List<CompetitionFb>>(listOf())
+    override val setStreamFb: StateFlow<List<CompetitionFb>>
+        get() = _stateFb.asStateFlow()
+
     //OBTENER todos los datos
     override suspend fun readAll(): List<Competition> {
         return if (networkUtils.isNetworkAvailable()) {//Si hay red los trae en remoto y los guarda en local

@@ -14,9 +14,10 @@ import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.CompetitionViewModel
 import com.example.footballcompsuserv2.data.leagues.Competition
+import com.example.footballcompsuserv2.data.leagues.CompetitionFb
 import com.example.footballcompsuserv2.databinding.CompetitionItemBinding
 
-class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListAdapter<Competition, CompetitionListAdapter.CompetitionViewHolder>(
+class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListAdapter<CompetitionFb, CompetitionListAdapter.CompetitionViewHolder>(
     DiffCallback()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitionViewHolder {
@@ -32,7 +33,7 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
     //ViewHolder de ligas
     class CompetitionViewHolder(private val binding: CompetitionItemBinding, private val viewModel: CompetitionViewModel) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(competition: Competition) {
+        fun bind(competition: CompetitionFb) {
             //Nombre
             binding.compName.text = competition.name
 
@@ -40,41 +41,40 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
             binding.compId.text = competition.id
 
             //Img
-            if (competition.logo!=null) {
-                binding.compImage.load(competition.logo)
+            if (competition.picture!=null) {
+                binding.compImage.load(competition.picture)
             }
 
             //Botón de borrar
             binding.deleteCompButton.setOnClickListener{
-                viewModel.deleteComp(competition.id.toInt())
+                viewModel.deleteComp(competition.id!!.toInt())
             }
 
             //Botón de favoritos
             binding.favouriteButton.apply {
                 setImageResource(
-                    if (competition.isFavourite) R.drawable.ic_fav_filled
-                    else R.drawable.ic_fav2
+                    R.drawable.ic_fav2
                 )
                 setOnClickListener {
-                    viewModel.toggleFavourite(competition)
+                    //viewModel.toggleFavourite(competition)
                 }
             }
 
             //Navegar a los equipos de la liga
             binding.compCard.setOnClickListener {
-                val action = CompsFragmentDirections.compsToTeams(competition.id.toInt())
+                val action = CompsFragmentDirections.compsToTeams(competition.id!!.toInt())
                 it.findNavController().navigate(action)
             }
 
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Competition>() {
-        override fun areItemsTheSame(oldItem: Competition, newItem: Competition): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<CompetitionFb>() {
+        override fun areItemsTheSame(oldItem: CompetitionFb, newItem: CompetitionFb): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Competition, newItem: Competition): Boolean {
+        override fun areContentsTheSame(oldItem: CompetitionFb, newItem: CompetitionFb): Boolean {
             return oldItem == newItem
         }
     }

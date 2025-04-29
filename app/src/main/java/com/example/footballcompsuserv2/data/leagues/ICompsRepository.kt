@@ -13,6 +13,7 @@ import retrofit2.Response
 
 interface ICompsRepository {
     val setStream: StateFlow<List<Competition>>
+    val setStreamFb: StateFlow<List<CompetitionFb>>
     suspend fun readAll(): List<Competition>
     suspend fun readFavs(isFav: Boolean):List<Competition>
     suspend fun readOne(id: Int): Competition

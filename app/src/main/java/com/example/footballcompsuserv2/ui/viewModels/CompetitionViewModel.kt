@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.example.footballcompsuserv2.data.leagues.Competition
+import com.example.footballcompsuserv2.data.leagues.CompetitionFb
 import com.example.footballcompsuserv2.data.leagues.ICompsRepository
 import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributesMedia
 import com.example.footballcompsuserv2.data.remote.leagues.CompUpdate
+import com.example.footballcompsuserv2.di.Firestore
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -36,7 +38,7 @@ class CompetitionViewModel @Inject constructor(
         }
     }
 
-    fun toggleFavourite(competition: Competition) {
+    /**fun toggleFavourite(competition: Competition) {
         viewModelScope.launch {
             val updatedCompetition = CompUpdate(
                 data = CompRawAttributesMedia(
@@ -50,12 +52,29 @@ class CompetitionViewModel @Inject constructor(
                 compRepo.readAll()
             }
         }
+    }**/
+
+    fun getLeaguesFb(){
+        val firestore = Firestore.getInstance()
+
+        firestore.collection("leagues").get().addOnSuccessListener { querySnapshot ->
+            val compList = mutableListOf<CompetitionFb>()
+            for (document in querySnapshot.documents){
+                val league = document.toObject(CompetitionFb::class.java)
+
+                league?.let {
+                    compList.add(it)
+                }
+            }
+            _uiState.value = CompListUiState.Success(compList.toList())
+        }
     }
 
     init {
+        getLeaguesFb()
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                compRepo.setStream.collect{
+                compRepo.setStreamFb.collect{
                     compList ->
                     if (compList.isEmpty()){
                         _uiState.value = CompListUiState.Loading
@@ -65,17 +84,13 @@ class CompetitionViewModel @Inject constructor(
                 }
             }
         }
-        viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                compRepo.readAll()
-            }
-        }
+
     }
 
 }
 
 sealed class CompListUiState(){
     data object Loading: CompListUiState()
-    class Success(val compList: List<Competition>): CompListUiState()
+    class Success(val compList: List<CompetitionFb>): CompListUiState()
     class Error(val message: String): CompListUiState()
 }
