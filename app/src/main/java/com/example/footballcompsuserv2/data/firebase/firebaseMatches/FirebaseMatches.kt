@@ -1,25 +1,12 @@
-package com.example.footballcompsuserv2.data.matches
+package com.example.footballcompsuserv2.data.firebase.firebaseMatches
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.IgnoreExtraProperties
 import java.io.Serializable
 
-data class Match (
-    val id: String,
-    val day: String,
-    val hour: String,
-    val result: String?,
-    val place : String,
-    val local: String?,
-    val visitor: String?,
-    val localTeamName: String?,
-    val visitorTeamName: String?,
-    val localTeamImg: String?,
-    val visitorTeamImg: String?
-)
 
 @IgnoreExtraProperties
-data class MatchFb(
+data class MatchFirebase(
     val id: String? = null,
     val day: String? = null,
     val hour: String? = null,

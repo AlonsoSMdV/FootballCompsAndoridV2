@@ -1,20 +1,12 @@
-package com.example.footballcompsuserv2.data.teams
+package com.example.footballcompsuserv2.data.firebase.firebaseTeams
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.IgnoreExtraProperties
 import java.io.Serializable
 
-data class Team (
-    val id: String,
-    val name: String,
-    val isFavourite: Boolean,
-    val nPlayers: Int,
-    val tLogo: String?,
-    val comId: String
-)
 
 @IgnoreExtraProperties
-data class TeamFb(
+data class TeamFirebase(
     val id: String? = null,
     val name: String? = null,
     val numberOfPlayers: String? = null,
