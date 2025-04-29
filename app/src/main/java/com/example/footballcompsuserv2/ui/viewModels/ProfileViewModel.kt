@@ -1,10 +1,12 @@
 package com.example.footballcompsuserv2.ui.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.example.footballcompsuserv2.data.user.IUserRepository
 import com.example.footballcompsuserv2.data.user.User
+import com.example.footballcompsuserv2.data.user.UserFb
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -18,14 +20,14 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val userRepo: IUserRepository
 ): ViewModel(){
-    private val _user = MutableStateFlow<User?>(null)
-    val user = _user.asStateFlow()
+    private val _userFb = MutableStateFlow<UserFb?>(null)
+    val userFb = _userFb.asStateFlow()
 
-    //FUNCIÓN Obtener el usuario que tiene la sesión iniciada
-    fun getActualUser(){
+    fun getActualUserFb(){
         viewModelScope.launch {
-            val userData = userRepo.getActualUser()
-            _user.value = userData
+            val userData = userRepo.getActualUserFb()
+            Log.d("ProfileViewModel", "Usuario recuperado: $userData")
+            _userFb.value = userData
         }
     }
 }

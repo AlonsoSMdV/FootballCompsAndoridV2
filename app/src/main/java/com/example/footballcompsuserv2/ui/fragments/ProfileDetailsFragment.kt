@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.user.User
+import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.FragmentProfileDetailsBinding
 import com.example.footballcompsuserv2.ui.datastores.ThemePreferences
 import com.example.footballcompsuserv2.ui.viewModels.ProfileViewModel
@@ -56,10 +57,10 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
         binding = FragmentProfileDetailsBinding.bind(view)
 
         //Leer usuario actual
-        viewModel.getActualUser()
+        viewModel.getActualUserFb()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.user.collect { user ->
+                viewModel.userFb.collect { user ->
                     user?.let { getUser(it) }
                 }
             }
@@ -111,9 +112,14 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
         }
     }
     //FUNCIÓN escribir los datos del usuario actual en el xml
-    private fun getUser(user: User){
+    private fun getUser(user: UserFb){
         binding.userName.setText(user.name)
         binding.userEmail.setText(user.email)
+        binding.userSurname.setText(user.surname ?: "")
+
+        binding.userTeam.setText(user.teamFav?.id ?: "No definido")
+        binding.userPlayer.setText(user.playerFav?.id ?: "No definido")
+        binding.userLeague.setText(user.leagueFav?.id ?: "No definido")
     }
 
     override fun onDestroyView() {

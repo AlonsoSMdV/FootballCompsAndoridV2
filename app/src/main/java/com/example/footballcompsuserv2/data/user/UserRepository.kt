@@ -5,10 +5,14 @@ import android.util.Log
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.remote.user.UserRemoteDataSource
 import com.example.footballcompsuserv2.di.NetworkUtils
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.tasks.await
+
 
 import javax.inject.Inject
 
@@ -22,6 +26,10 @@ class UserRepository @Inject constructor(
     private val _state = MutableStateFlow<List<User>>(listOf())
     override val setStream: StateFlow<List<User>>
         get() = _state.asStateFlow()
+
+    private val _stateFb = MutableStateFlow<List<UserFb>>(listOf())
+    override val setStreamFb: StateFlow<List<UserFb>>
+        get() = _stateFb.asStateFlow()
 
     //Obtener los datos del usuario
     override suspend fun getActualUser(): User {
@@ -49,4 +57,27 @@ class UserRepository @Inject constructor(
             }
         }
     }
+
+    override suspend fun getActualUserFb(): UserFb {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val firestore = FirebaseFirestore.getInstance()
+
+        val querySnapshot = firestore
+            .collection("usuarios")
+            .whereEqualTo("userId", uid)
+            .get()
+            .await()
+
+        if (!querySnapshot.isEmpty) {
+            val documentSnapshot = querySnapshot.documents.first()
+            val user = documentSnapshot.toObject(UserFb::class.java)
+            Log.d("UserRepository", "Usuario obtenido correctamente: $user")
+            return user ?: UserFb()
+        } else {
+            Log.e("UserRepository", "No se encontró ningún documento con userId = $uid")
+            return UserFb()
+        }
+
+    }
+
 }
