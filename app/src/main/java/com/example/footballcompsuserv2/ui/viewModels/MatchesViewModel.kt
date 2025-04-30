@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 
 import com.example.footballcompsuserv2.data.matches.IMatchRepository
 import com.example.footballcompsuserv2.data.matches.Match
+import com.example.footballcompsuserv2.data.matches.MatchFbWithTeams
 import com.example.footballcompsuserv2.data.teams.ITeamRepository
 import com.example.footballcompsuserv2.data.teams.Team
+import com.example.footballcompsuserv2.data.teams.TeamFb
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -31,7 +33,7 @@ class MatchesViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                matchRepo.setStream.collect{
+                matchRepo.setStreamFb.collect{
                         matchList ->
                     if (matchList.isEmpty()){
                         _uiState.value = MatchUIState.Loading
@@ -44,7 +46,7 @@ class MatchesViewModel @Inject constructor(
         //Leer los equipos
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                matchRepo.readAll()
+                matchRepo.getMatchesFb()
             }
         }
     }
@@ -53,12 +55,12 @@ class MatchesViewModel @Inject constructor(
 
 sealed class MatchUIState(){
     data object Loading: MatchUIState()
-    class Success(val matchList: List<Match>): MatchUIState()
+    class Success(val matchList: List<MatchFbWithTeams>): MatchUIState()
     class Error(val message: String): MatchUIState()
 }
 
 sealed class TeamUIState(){
     data object Loading: TeamUIState()
-    class Success(val team: Team): TeamUIState()
+    class Success(val team: TeamFb): TeamUIState()
     class Error(val message: String): TeamUIState()
 }

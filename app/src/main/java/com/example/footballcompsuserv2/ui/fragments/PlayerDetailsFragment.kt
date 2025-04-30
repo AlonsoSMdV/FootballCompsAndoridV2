@@ -29,7 +29,9 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
     private lateinit var binding: FragmentPlayersDetailBinding
     private lateinit var viewModel: PlayerDetailsViewModel
 
-    private var playerId: Int? = null
+    private var playerId: String? = null
+    private var teamId: String? = null
+    private var compId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,12 +47,14 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
         //Toolbar
         val toolbar = view.findViewById<Toolbar>(R.id.players_details_toolbar)
         toolbar.setOnClickListener {
-            findNavController().navigate(R.id.details_to_players)
+            val action = PlayerDetailsFragmentDirections.detailsToPlayers(teamId!!, compId!!)
         }
 
         //Lectura de datos del jugador seleccionado
         viewModel = ViewModelProvider(this).get(PlayerDetailsViewModel::class.java)
-        playerId = arguments?.getInt("idPlayer")
+        playerId = arguments?.getString("idPlayer")
+        teamId = arguments?.getString("idTeam")
+        compId = arguments?.getString("idComp")
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -60,7 +64,7 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
             }
         }
 
-        viewModel.getPlayerDetails(playerId!!)
+        viewModel.getPlayerById(playerId!!)
     }
 
     //FUNCIÓN escritura de datos obtenidos en el xml

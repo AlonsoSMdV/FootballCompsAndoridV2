@@ -24,3 +24,14 @@ data class TeamFb(
     val league: DocumentReference? = null,
     val userId: DocumentReference? = null
 ): Serializable
+
+@IgnoreExtraProperties
+data class TeamFbFields(
+    val name: String? = null,
+    val numberOfPlayers: String? = null,
+    val nMatches: Int? = null,
+    val pts: Int? = null,
+    val picture: String? = null,
+    val league: DocumentReference? = null,
+    val userId: DocumentReference? = null
+): Serializable

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 
 import com.example.footballcompsuserv2.data.matches.Match
+import com.example.footballcompsuserv2.data.matches.MatchFbWithTeams
 import com.example.footballcompsuserv2.databinding.MatchesItemBinding
 import com.example.footballcompsuserv2.ui.fragments.MatchesFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.MatchesViewModel
@@ -21,7 +22,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Match, MatchesAdapter.MatchViewHolder>(
+class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<MatchFbWithTeams, MatchesAdapter.MatchViewHolder>(
     DiffCallback()
 ) {
 
@@ -38,13 +39,12 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
     //ViewHolder de partidos
     class MatchViewHolder(private val binding: MatchesItemBinding, private val viewModel: MatchesViewModel) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(match: Match) {
+        fun bind(match: MatchFbWithTeams) {
             //Formatear la fecha para que quede mas estética
-            val dateFormatter = DateTimeFormatter.ofPattern("d 'de' MMMM yyyy", Locale("es"))
-            //Variable para guardar la fecha formateada
-            val date = LocalDate.parse(match.day)
-            //fecha
-            binding.day.text = date.format(dateFormatter)
+            val inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault())
+            val outputFormatter = DateTimeFormatter.ofPattern("d 'de' MMMM yyyy", Locale("es"))
+            val parsedDate = LocalDate.parse(match.day ?: "", inputFormatter)
+            binding.day.text = parsedDate.format(outputFormatter)
 
             // Format time
             val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
@@ -96,12 +96,12 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Match>() {
-        override fun areItemsTheSame(oldItem: Match, newItem: Match): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<MatchFbWithTeams>() {
+        override fun areItemsTheSame(oldItem: MatchFbWithTeams, newItem: MatchFbWithTeams): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {
+        override fun areContentsTheSame(oldItem: MatchFbWithTeams, newItem: MatchFbWithTeams): Boolean {
             return oldItem == newItem
         }
     }

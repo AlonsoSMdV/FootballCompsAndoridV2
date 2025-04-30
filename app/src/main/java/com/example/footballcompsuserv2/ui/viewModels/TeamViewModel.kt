@@ -7,6 +7,7 @@ import com.example.footballcompsuserv2.data.remote.teams.TeamRawAttributesMedia
 import com.example.footballcompsuserv2.data.remote.teams.TeamUpdate
 import com.example.footballcompsuserv2.data.teams.ITeamRepository
 import com.example.footballcompsuserv2.data.teams.Team
+import com.example.footballcompsuserv2.data.teams.TeamFb
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -29,17 +30,17 @@ class TeamViewModel @Inject constructor(
         get() = _uiState.asStateFlow()
 
     //Borrar equipos
-    fun deleteTeam(teamId: Int, leagueId: Int){
+    fun deleteTeam(teamId: String, leagueId: String){
         viewModelScope.launch {
-            teamRepo.deleteTeam(teamId)
+            teamRepo.deleteTeamFb(teamId)
             withContext(Dispatchers.IO){
-                teamRepo.readTeamsByLeague(leagueId)
+                teamRepo.getTeamsByleagueFb(leagueId)
             }
         }
     }
 
     //Poner equipos en favoritos
-    fun toggleFavouriteTeams(team: Team, leagueId: Int) {
+    /**fun toggleFavouriteTeams(team: Team, leagueId: String) {
         viewModelScope.launch {
             val updatedTeam = TeamUpdate(
                 data = TeamRawAttributesMedia(
@@ -54,15 +55,15 @@ class TeamViewModel @Inject constructor(
             )
             teamRepo.updateTeam(team.id.toInt(), updatedTeam)
             withContext(Dispatchers.IO) {
-                teamRepo.readTeamsByLeague(leagueId)
+                teamRepo.getTeamsByleagueFb(leagueId)
             }
         }
-    }
+    }**/
 
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                teamRepo.setStream.collect{
+                teamRepo.setStreamFb.collect{
                         teamList ->
                     if (teamList.isEmpty()){
                         _uiState.value = TeamListUiState.Loading
@@ -81,10 +82,10 @@ class TeamViewModel @Inject constructor(
     }
 
     //FUNCIÓN Leer equipos por id de liga
-    fun observeTeamsByLeague(leagueId:Int) {
+    fun observeTeamsByLeague(leagueId:String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                teamRepo.readTeamsByLeague(leagueId)
+                teamRepo.getTeamsByleagueFb(leagueId)
             }
         }
     }
@@ -94,6 +95,6 @@ class TeamViewModel @Inject constructor(
 //UISTATE
 sealed class TeamListUiState(){
     data object Loading: TeamListUiState()
-    class Success(val teamList: List<Team>): TeamListUiState()
+    class Success(val teamList: List<TeamFb>): TeamListUiState()
     class Error(val message: String): TeamListUiState()
 }

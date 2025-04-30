@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +20,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 
 import coil3.load
 
 import com.example.footballcompsuserv2.R
+import com.example.footballcompsuserv2.data.players.PlayerFbFields
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreateRawAttributes
 import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributes
@@ -47,7 +50,8 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
     private var _photoUri: Uri? = null
     private lateinit var binding: FragmentCreatePlayerBinding
     private val viewModel: CreatePlayerViewModel by activityViewModels()
-    private var idTeam: Int? = null
+    private var idTeam: String? = null
+    private var idComp: String? = null
 
     //IMAGES
     private val contract = ActivityResultContracts.RequestMultiplePermissions()
@@ -104,6 +108,8 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        idComp = arguments?.getString("idCompSelected")
+        val compId = idComp!!
         //Botón de navegar a la cámara
         binding.playerToCamera.setOnClickListener{
             if(hasCameraPermissions(requireContext())){
@@ -164,26 +170,26 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
             val dorsal = binding.editTextPlayerDorsal.text.toString()
             val birthdate = binding.editTextPlayerBirthdate.text.toString()
             val position = binding.editTextPlayerPosition.text.toString()
-            idTeam = arguments?.getInt("idTeamSelected")!!
+            idTeam = arguments?.getString("idTeamSelected")!!
+            Log.d("ID", idTeam!!)
 
             if (name.isBlank() || firstSurname.isBlank() ||  nationality.isBlank() || dorsal.isBlank() || birthdate.isBlank() || position.isBlank() ) {
                 Toast.makeText(requireContext(),"Rellene todos los campos", Toast.LENGTH_SHORT).show()
             }else{
-                val createPlayer = PlayerCreate(
-                    data = PlayerCreateRawAttributes(
-                        name = name,
-                        firstSurname = firstSurname,
-                        secondSurname = secondSurname,
-                        nationality = nationality,
-                        dorsal = dorsal.toInt(),
-                        birthdate = birthdate,
-                        position = position,
-                        team = idTeam!!,
-                        isFavourite = false
-                    )
+                val createPlayer = PlayerFbFields(
+
+                    name = name,
+                    firstSurname = firstSurname,
+                    secondSurname = secondSurname,
+                    nationality = nationality,
+                    dorsal = dorsal,
+                    birthdate = birthdate,
+                    position = position,
+
                 )
-                viewModel.createPlayer(createPlayer, _photoUri)
-                findNavController().navigate(R.id.create_to_players)
+                viewModel.createPlayer(createPlayer, _photoUri, idTeam!!)
+                val action = CreatePlayerFragmentDirections.createToPlayers(idTeam!!, compId)
+                it.findNavController().navigate(action)
             }
         }
     }

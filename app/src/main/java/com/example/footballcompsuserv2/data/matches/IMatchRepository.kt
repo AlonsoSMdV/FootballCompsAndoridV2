@@ -4,5 +4,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface IMatchRepository {
     val setStream: StateFlow<List<Match>>
+    val setStreamFb: StateFlow<List<MatchFbWithTeams>>
     suspend fun readAll(): List<Match>
+    suspend fun getMatchesFb(): List<MatchFbWithTeams>
 }

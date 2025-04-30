@@ -29,7 +29,8 @@ import kotlinx.coroutines.launch
 class PlayerListFragment : Fragment(R.layout.fragment_player_list) {
     private lateinit var binding: FragmentPlayerListBinding
     private val viewModel: PlayerListViewModel by viewModels()
-    private var idTeam: Int? = null
+    private var idTeam: String? = null
+    private var idComp: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,19 +44,23 @@ class PlayerListFragment : Fragment(R.layout.fragment_player_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        idTeam = arguments?.getInt("idTeam")
+        idTeam = arguments?.getString("idTeam")
         binding = FragmentPlayerListBinding.bind(view)
-        val idTeamSelected = idTeam!!
+        val teamId = idTeam!!
+
+        idComp = arguments?.getString("idComp")
+        val compId = idComp!!
 
         //Toolbar
         binding.playersToolbar.apply {
             setNavigationOnClickListener {
-                findNavController().navigate(R.id.players_to_teams)
+                val action = PlayerListFragmentDirections.playersToTeams(compId)
+                it.findNavController().navigate(action)
             }
         }
 
         //Adapter para mostrar los jugadores
-        val adapter = PlayerListAdapter(viewModel, idTeamSelected)
+        val adapter = PlayerListAdapter(viewModel, teamId)
         binding.playerList.adapter = adapter
 
         binding.playerList.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -63,7 +68,7 @@ class PlayerListFragment : Fragment(R.layout.fragment_player_list) {
         //Botón de navegación al fragmento de crear jugadores
         val btnToCreate = view.findViewById<FloatingActionButton>(R.id.button_to_create_player)
         btnToCreate.setOnClickListener {
-            val action = PlayerListFragmentDirections.playersToCreate(idTeamSelected)
+            val action = PlayerListFragmentDirections.playersToCreate(teamId, compId)
             it.findNavController().navigate(action)
         }
 

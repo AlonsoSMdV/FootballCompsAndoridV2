@@ -29,11 +29,11 @@ class CompetitionViewModel @Inject constructor(
     val  uiState: StateFlow<CompListUiState>
         get() = _uiState.asStateFlow()
 
-    fun deleteComp(comId: Int){
+    fun deleteComp(comId: String){
         viewModelScope.launch {
-            compRepo.deleteComp(comId)
+            compRepo.deleteLeagueFb(comId)
             withContext(Dispatchers.IO){
-                compRepo.readAll()
+                compRepo.getLeaguesFb()
             }
         }
     }
@@ -54,25 +54,11 @@ class CompetitionViewModel @Inject constructor(
         }
     }**/
 
-    fun getLeaguesFb(){
-        val firestore = Firestore.getInstance()
-
-        firestore.collection("leagues").get().addOnSuccessListener { querySnapshot ->
-            val compList = mutableListOf<CompetitionFb>()
-            for (document in querySnapshot.documents){
-                val league = document.toObject(CompetitionFb::class.java)
-
-                league?.let {
-                    it.id = document.id
-                    compList.add(it)
-                }
-            }
-            _uiState.value = CompListUiState.Success(compList.toList())
-        }
-    }
-
     init {
-        getLeaguesFb()
+        viewModelScope.launch {
+            compRepo.getLeaguesFb()
+        }
+
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 compRepo.setStreamFb.collect{

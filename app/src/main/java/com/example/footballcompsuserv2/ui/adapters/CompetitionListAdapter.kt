@@ -48,7 +48,7 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
 
             //Botón de borrar
             binding.deleteCompButton.setOnClickListener{
-                viewModel.deleteComp(competition.id!!.toInt())
+                viewModel.deleteComp(competition.id!!)
             }
 
             //Botón de favoritos
@@ -63,8 +63,16 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
 
             //Navegar a los equipos de la liga
             binding.compCard.setOnClickListener {
-                Log.d("ID", "Id: ${competition.id}")
                 val action = CompsFragmentDirections.compsToTeams(competition.id!!)
+                it.findNavController().navigate(action)
+            }
+
+            binding.deleteCompButton.setOnClickListener {
+                viewModel.deleteComp(competition.id!!)
+            }
+
+            binding.updateCompButton.setOnClickListener {
+                val action = CompsFragmentDirections.compsToUpdate(competition.id!!)
                 it.findNavController().navigate(action)
             }
 

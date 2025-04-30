@@ -12,7 +12,6 @@ data class User (
 
 @IgnoreExtraProperties
 data class UserFb(
-    var id: String? = null,
     val name: String? = null,
     val surname: String? = null,
     val email: String? = null,

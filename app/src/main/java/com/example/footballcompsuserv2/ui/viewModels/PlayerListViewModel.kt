@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 
 import com.example.footballcompsuserv2.data.players.IPlayerRepository
 import com.example.footballcompsuserv2.data.players.Player
+import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributesMedia
 import com.example.footballcompsuserv2.data.remote.players.PlayerUpdate
 
@@ -28,11 +29,11 @@ class PlayerListViewModel @Inject constructor(
         get() = _uiState.asStateFlow()
 
     //Borrar jugadores
-    fun deletePlayer(playerId: Int, teamId: Int){
+    fun deletePlayer(playerId: String, teamId: String){
         viewModelScope.launch {
-            playerRepo.deletePlayer(playerId)
+            playerRepo.deletePlayerFb(playerId)
             withContext(Dispatchers.IO){
-                playerRepo.readPlayersByTeam(teamId)
+                playerRepo.getPlayersByTeamFb(teamId)
             }
         }
     }
@@ -40,7 +41,7 @@ class PlayerListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                playerRepo.setStream.collect{
+                playerRepo.setStreamFb.collect{
                         playerList ->
                     if (playerList.isEmpty()){
                         _uiState.value = PlayerListUiState.Loading
@@ -53,7 +54,7 @@ class PlayerListViewModel @Inject constructor(
     }
 
     //Poner jugadores en favoritos
-    fun toggleFavouritePlayers(player: Player, teamId: Int) {
+    /**fun toggleFavouritePlayers(player: Player, teamId: Int) {
         viewModelScope.launch {
             val updatedPlayer = PlayerUpdate(
                 data = PlayerRawAttributesMedia(
@@ -77,13 +78,13 @@ class PlayerListViewModel @Inject constructor(
                 playerRepo.readPlayersByTeam(teamId)
             }
         }
-    }
+    }**/
 
     //FUNCIÓN leer jugadores por id de equipo
-    fun observePlayersByTeam(teamId:Int) {
+    fun observePlayersByTeam(teamId:String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                playerRepo.readPlayersByTeam(teamId)
+                playerRepo.getPlayersByTeamFb(teamId)
             }
         }
     }
@@ -93,6 +94,6 @@ class PlayerListViewModel @Inject constructor(
 //UISTATE
 sealed class PlayerListUiState(){
     data object Loading: PlayerListUiState()
-    class Success(val playerList: List<Player>): PlayerListUiState()
+    class Success(val playerList: List<PlayerFb>): PlayerListUiState()
     class Error(val message: String): PlayerListUiState()
 }

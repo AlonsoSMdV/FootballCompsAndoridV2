@@ -13,10 +13,13 @@ import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import com.example.footballcompsuserv2.data.teams.toExternal
 import com.example.footballcompsuserv2.di.NetworkModule
 import com.example.footballcompsuserv2.di.NetworkUtils
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.tasks.await
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -190,4 +193,92 @@ class CompsRepository @Inject constructor(
     }
 
 
+    //FIREBASE
+    override suspend fun getLeaguesFb(): List<CompetitionFb> {
+        val firestore = FirebaseFirestore.getInstance()
+        val snapshot = firestore.collection("leagues").get().await()
+
+        val compList = snapshot.documents.mapNotNull { doc ->
+            val league = doc.toObject(CompetitionFb::class.java)
+            league?.apply { id = doc.id }
+        }
+        _stateFb.value = compList
+        return _stateFb.value
+    }
+
+
+    override suspend fun addLeagueFb(competition: CompetitionFbCreateUpdate): Boolean {
+        return try {
+            FirebaseFirestore.getInstance().collection("leagues")
+                .add(competition)
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+
+    override suspend fun updateLeagueFb(compId: String, competition: CompetitionFbCreateUpdate): Boolean {
+        return try {
+            FirebaseFirestore.getInstance().collection("leagues")
+                .document(compId)
+                .set(competition)
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun deleteLeagueFb(id: String): Boolean {
+        return try {
+            FirebaseFirestore.getInstance().collection("leagues")
+                .document(id)
+                .delete()
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun uploadImageToFirebaseStorage(uri: Uri): String? {
+        return try {
+            val storage = FirebaseStorage.getInstance()
+            val fileName = "uploads/${System.currentTimeMillis()}.jpg"
+            val imageRef = storage.reference.child(fileName)
+
+            imageRef.putFile(uri).await()
+            imageRef.downloadUrl.await().toString()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override suspend fun createLeagueWithOptionalImage(competition: CompetitionFbCreateUpdate, imageUri: Uri?): Boolean {
+        return try {
+            val finalCompetition = if (imageUri != null) {
+                val imageUrl = uploadImageToFirebaseStorage(imageUri)
+                competition.copy(picture = imageUrl ?: "")
+            } else competition
+
+            addLeagueFb(finalCompetition)
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateLeagueWithOptionalImage(leagueId: String, updatedData: CompetitionFbCreateUpdate, imageUri: Uri?): Boolean {
+        return try {
+            val finalCompetition = if (imageUri != null) {
+                val imageUrl = uploadImageToFirebaseStorage(imageUri)
+                updatedData.copy(picture = imageUrl ?: "")
+            } else updatedData
+
+            updateLeagueFb(leagueId, finalCompetition)
+        } catch (e: Exception) {
+            false
+        }
+    }
 }

@@ -31,6 +31,14 @@
         android:name="com.example.footballcompsuserv2.ui.fragments.CompsFragment"
         tools:layout="@layout/fragment_competition_list" >
         <action
+            android:id="@+id/comps_to_update"
+            app:destination="@id/createCompsFragment">
+            <argument
+                android:name="idComp"
+                app:argType="string"/>
+        </action>
+
+        <action
             android:id="@+id/comps_to_teams"
             app:destination="@id/teamsFragment">
             <argument
@@ -59,45 +67,50 @@
         android:id="@+id/teamsFragment"
         android:name="com.example.footballcompsuserv2.ui.fragments.TeamFragment"
         tools:layout="@layout/fragment_team_list">
-        <action
-            android:id="@+id/teams_to_comps"
-            app:destination="@id/compsFragment"/>
+
         <argument
             android:name="idComp"
             app:argType="string"/>
+
+        <action
+            android:id="@+id/teams_to_comps"
+            app:destination="@id/compsFragment" />
 
         <action
             android:id="@+id/teams_to_players"
             app:destination="@id/playersFragment">
             <argument
                 android:name="idTeam"
+                app:argType="string" />
+            <argument
+                android:name="idComp"
                 app:argType="string"/>
         </action>
 
         <action
             android:id="@+id/teams_to_create"
-            app:destination="@id/createTeamFragment">
-            <argument
-                android:name="idCompSelected"
-                app:argType="integer"/>
-        </action>
+            app:destination="@id/createTeamFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/createTeamFragment"
         android:name="com.example.footballcompsuserv2.ui.fragments.CreateTeamFragment"
         tools:layout="@layout/fragment_create_team">
-        <action
-            android:id="@+id/create_to_teams"
-            app:destination="@id/teamsFragment"/>
+
+        <!-- Argument recibido al abrir este fragmento -->
         <argument
             android:name="idCompSelected"
             app:argType="string"/>
 
         <action
+            android:id="@+id/create_to_teams"
+            app:destination="@id/teamsFragment" />
+
+        <action
             android:id="@+id/create_team_to_camera"
             app:destination="@id/cameraPreviewFragment" />
     </fragment>
+
 
     <fragment
         android:id="@+id/playersFragment"
@@ -110,12 +123,13 @@
             android:name="idTeam"
             app:argType="string"/>
 
+        <argument
+            android:name="idComp"
+            app:argType="string"/>
+
         <action
             android:id="@+id/players_to_create"
             app:destination="@id/createPlayerFragment">
-            <argument
-                android:name="idTeamSelected"
-                app:argType="string"/>
         </action>
 
         <action
@@ -123,6 +137,9 @@
             app:destination="@id/playerDetails">
             <argument
                 android:name="idPlayer"
+                app:argType="string"/>
+            <argument
+                android:name="idTeam"
                 app:argType="string"/>
         </action>
 
@@ -135,8 +152,13 @@
         <action
             android:id="@+id/create_to_players"
             app:destination="@id/playersFragment"/>
+
         <argument
             android:name="idTeamSelected"
+            app:argType="string"/>
+
+        <argument
+            android:name="idCompSelected"
             app:argType="string"/>
 
         <action
@@ -154,7 +176,10 @@
             app:destination="@id/playersFragment"/>
         <argument
             android:name="idPlayer"
-            app:argType="integer"/>
+            app:argType="string"/>
+        <argument
+            android:name="idTeam"
+            app:argType="string"/>
 
     </fragment>
 

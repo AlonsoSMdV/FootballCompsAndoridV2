@@ -2,9 +2,11 @@ package com.example.footballcompsuserv2.ui.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.footballcompsuserv2.data.leagues.CompetitionFb
 
 import com.example.footballcompsuserv2.data.players.IPlayerRepository
 import com.example.footballcompsuserv2.data.players.Player
+import com.example.footballcompsuserv2.data.players.PlayerFb
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -27,5 +29,9 @@ class PlayerDetailsViewModel @Inject constructor(
             val playerDetails = playerRepo.readOne(playerId)
             _player.value = playerDetails
         }
+    }
+
+    fun getPlayerById(id: String): PlayerFb? {
+        return playerRepo.setStreamFb.value.find { it.id == id }
     }
 }

@@ -24,6 +24,8 @@ import androidx.navigation.fragment.findNavController
 import coil3.load
 
 import com.example.footballcompsuserv2.R
+import com.example.footballcompsuserv2.data.leagues.CompetitionFb
+import com.example.footballcompsuserv2.data.leagues.CompetitionFbCreateUpdate
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompRawAtts
 import com.example.footballcompsuserv2.databinding.FragmentCreateCompBinding
@@ -99,6 +101,23 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val leagueId = arguments?.getString("idComp") // O usa safe args si ya tienes el argumento
+
+        if (leagueId != null) {
+            // Si es edición, precargar los datos
+            viewLifecycleOwner.lifecycleScope.launch {
+                val comp = viewModel.getCompetitionById(leagueId)
+                comp?.let {
+                    binding.editTextCompName.setText(it.name)
+                    it.picture?.let { imgUrl ->
+                        binding.compImg.load(imgUrl)
+                    }
+                }
+            }
+        }
+
+
+
 
         //Toolbar
         binding.createCompsToolbar.apply {
@@ -132,22 +151,26 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
 
         //Crear liga
         val btnCreate = view.findViewById<Button>(R.id.create_comp)
-        btnCreate.setOnClickListener{
+        btnCreate.setOnClickListener {
             val name = binding.editTextCompName.text.toString()
 
             if (name.isBlank()) {
                 Toast.makeText(requireContext(),"Rellene todos los campos", Toast.LENGTH_SHORT).show()
-            }else{
-                val createComp = CompCreate(
-                    data = CompRawAtts(
-                        name = name,
-                        isFavourite = false
-                    )
-                )
-                viewModel.createComp(createComp, _logoUri)
+            } else {
+                val createComp = CompetitionFbCreateUpdate(name = name)
+
+                if (leagueId != null) {
+                    viewModel.updateComp(leagueId, createComp, _logoUri)
+                } else {
+                    viewModel.createComp(createComp, _logoUri)
+                }
+
                 findNavController().navigate(R.id.create_to_comps)
             }
         }
+
+
+
     }
 
     //Cargar img

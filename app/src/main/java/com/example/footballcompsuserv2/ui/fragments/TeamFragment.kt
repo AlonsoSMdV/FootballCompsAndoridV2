@@ -1,9 +1,11 @@
 package com.example.footballcompsuserv2.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 
 import com.example.footballcompsuserv2.ui.adapters.TeamListAdapter
 import com.example.footballcompsuserv2.ui.viewModels.TeamListUiState
@@ -28,7 +31,7 @@ import kotlinx.coroutines.launch
 class TeamFragment: Fragment(R.layout.fragment_team_list) {
     private lateinit var binding: FragmentTeamListBinding
     private val viewModel: TeamViewModel by viewModels()
-    private var idComp: Int? = null
+    private var idComp: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,10 +44,10 @@ class TeamFragment: Fragment(R.layout.fragment_team_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idComp = arguments?.getString("idComp")
 
-        idComp = arguments?.getInt("idComp")
-        binding = FragmentTeamListBinding.bind(view)
         val compSelected = idComp!!
+        binding = FragmentTeamListBinding.bind(view)
 
         //Toolbar
         binding.teamsToolbar.apply {

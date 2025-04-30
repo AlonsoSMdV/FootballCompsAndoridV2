@@ -14,9 +14,10 @@ import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.ui.fragments.PlayerListFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.PlayerListViewModel
 import com.example.footballcompsuserv2.data.players.Player
+import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.databinding.PlayerItemBinding
 
-class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: Int): ListAdapter<Player, PlayerListAdapter.PlayerViewHolder>(
+class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
     DiffCallback()
 ) {
     override fun onCreateViewHolder(
@@ -33,46 +34,45 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
     }
 
     //ViewHolder de jugador
-    class PlayerViewHolder(private val binding: PlayerItemBinding, private val viewModel: PlayerListViewModel, private val idTeam: Int): RecyclerView.ViewHolder(binding.root){
-        fun bind(player: Player){
+    class PlayerViewHolder(private val binding: PlayerItemBinding, private val viewModel: PlayerListViewModel, private val idTeam: String): RecyclerView.ViewHolder(binding.root){
+        fun bind(player: PlayerFb){
             //Nombre
             binding.playerName.text = player.name
 
             //Img
-            if (player.photo != null){
-                binding.playerImg.load(player.photo)
+            if (player.picture != null){
+                binding.playerImg.load(player.picture)
             }
 
             //Botón de borrar
             binding.deletePlayerButton.setOnClickListener {
-                viewModel.deletePlayer(player.id.toInt(), idTeam)
+                viewModel.deletePlayer(player.id.toString(), idTeam)
             }
 
             //Botón para hacer al jugador favorito
             binding.buttonPlayersFavs.apply {
                 setImageResource(
-                    if (player.isFavourite) R.drawable.ic_fav_filled
-                    else R.drawable.ic_fav2
+                    R.drawable.ic_fav2
                 )
                 setOnClickListener {
-                    viewModel.toggleFavouritePlayers(player, idTeam)
+                    //viewModel.toggleFavouritePlayers(player, idTeam)
                 }
             }
 
             //Al clickar la card nos lleva a los detalles del jugador
             binding.playerCard.setOnClickListener {
-                val action = PlayerListFragmentDirections.playersToDetails(player.id.toInt())
+                val action = PlayerListFragmentDirections.playersToDetails(player.id.toString(), player.team!!.id)
                 it.findNavController().navigate(action)
             }
         }
     }
 
-    class DiffCallback: DiffUtil.ItemCallback<Player>(){
-        override fun areItemsTheSame(oldItem: Player, newItem: Player): Boolean {
+    class DiffCallback: DiffUtil.ItemCallback<PlayerFb>(){
+        override fun areItemsTheSame(oldItem: PlayerFb, newItem: PlayerFb): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Player, newItem: Player): Boolean {
+        override fun areContentsTheSame(oldItem: PlayerFb, newItem: PlayerFb): Boolean {
             return oldItem == newItem
         }
 

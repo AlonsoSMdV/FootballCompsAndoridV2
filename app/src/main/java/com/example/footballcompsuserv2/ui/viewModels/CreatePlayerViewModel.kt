@@ -1,12 +1,18 @@
 package com.example.footballcompsuserv2.ui.viewModels
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.example.footballcompsuserv2.data.players.IPlayerRepository
 import com.example.footballcompsuserv2.data.players.Player
+import com.example.footballcompsuserv2.data.players.PlayerFb
+import com.example.footballcompsuserv2.data.players.PlayerFbFields
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -14,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 import javax.inject.Inject
 
@@ -29,6 +36,33 @@ class CreatePlayerViewModel @Inject constructor(
     val photo: StateFlow<Uri>
         get() = _photo.asStateFlow()
 
+    private suspend fun getCurrentUserRef(): DocumentReference? {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return null
+        val firestore = FirebaseFirestore.getInstance()
+
+        try {
+            // Query to find the user document directly by userId
+            val querySnapshot = firestore
+                .collection("usuarios")
+                .whereEqualTo("userId", uid)
+                .get()
+                .await()
+
+            // If we found a document, return its reference
+            if (!querySnapshot.isEmpty) {
+                val documentId = querySnapshot.documents.first().id
+                return firestore.collection("usuarios").document(documentId)
+            }
+
+            // If no document found, log and return null
+            Log.d("CreateCompViewModel", "No se encontró documento de usuario con userId = $uid")
+            return null
+        } catch (e: Exception) {
+            Log.e("CreateCompViewModel", "Error getting user reference: ${e.message}")
+            return null
+        }
+    }
+
     /**
      * Función para poner en el flujo la uri de la ultima foto capturada
      * @param uri [Uri] de la foto que apunta al archivo local
@@ -42,9 +76,11 @@ class CreatePlayerViewModel @Inject constructor(
     }
 
     //FUNCIÓN Crear jugadores
-    fun createPlayer(player: PlayerCreate, photo: Uri?){
+    fun createPlayer(player: PlayerFbFields, photo: Uri?, team: String){
         viewModelScope.launch {
-            playerRepo.createPlayer(player, photo)
+            val userRef = getCurrentUserRef()
+            val playerWithUser = player.copy(userId = userRef)
+            playerRepo.createPlayerWithOptionalImage(playerWithUser, photo, team)
         }
     }
 }
@@ -52,7 +88,7 @@ class CreatePlayerViewModel @Inject constructor(
 //UISTATE
 sealed class CreatePlayerUiState(){
     data object Loading: CreatePlayerUiState()
-    class Success(val player: List<Player>): CreatePlayerUiState()
+    class Success(val player: List<PlayerFbFields>): CreatePlayerUiState()
     class Error(val message: String): CreatePlayerUiState()
 
 }

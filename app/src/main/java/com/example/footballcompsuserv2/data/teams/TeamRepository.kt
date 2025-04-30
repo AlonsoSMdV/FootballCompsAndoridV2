@@ -2,6 +2,7 @@ package com.example.footballcompsuserv2.data.teams
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 
 import androidx.core.net.toUri
@@ -14,12 +15,15 @@ import com.example.footballcompsuserv2.data.remote.teams.TeamUpdate
 import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import com.example.footballcompsuserv2.di.NetworkModule
 import com.example.footballcompsuserv2.di.NetworkUtils
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.tasks.await
 
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -43,6 +47,10 @@ class TeamRepository @Inject constructor(
     private val _state = MutableStateFlow<List<Team>>(listOf())
     override val setStream: StateFlow<List<Team>>
         get() = _state.asStateFlow()
+
+    private val _stateFb = MutableStateFlow<List<TeamFb>>(listOf())
+    override val setStreamFb: StateFlow<List<TeamFb>>
+        get() = _stateFb.asStateFlow()
 
     //OBTENER todos los datos
     override suspend fun readAll(): List<Team> {
@@ -200,6 +208,115 @@ class TeamRepository @Inject constructor(
 
         } catch (e: Exception) {
             return Result.failure(e)
+        }
+    }
+
+    //Firebase
+    private val firestore = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
+    override suspend fun getTeamsByleagueFb(compId: String): List<TeamFb> {
+        return try {
+            // Primero creamos una referencia al documento de la liga
+            val leagueRef = firestore.collection("leagues").document(compId)
+
+            // Ahora consultamos los equipos que tengan esta referencia en su campo league
+            val snapshot = firestore.collection("teams")
+                .whereEqualTo("league", leagueRef)
+                .get()
+                .await()
+
+            val teamList = snapshot.documents.mapNotNull { doc ->
+                val team = doc.toObject(TeamFb::class.java)
+                team?.apply { id = doc.id }
+            }
+
+            _stateFb.value = teamList
+            teamList
+        } catch (e: Exception) {
+            Log.e("TeamRepository", "Error al obtener equipos: ${e.message}")
+            emptyList()
+        }
+    }
+
+    override suspend fun addTeamFb(team: TeamFbFields, compId: String): Boolean {
+        return try {
+            val leagueRef = firestore.collection("leagues").document(compId)
+
+            val teamToSave = team.copy(league = leagueRef)
+
+            firestore.collection("teams")
+                .add(teamToSave)
+                .await()
+
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateTeamFb(teamId: String, team: TeamFbFields): Boolean {
+        return try {
+            firestore.collection("teams")
+                .document(teamId)
+                .set(team)
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun deleteTeamFb(id: String): Boolean {
+        return try {
+            firestore.collection("teams")
+                .document(id)
+                .delete()
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun uploadImageToFirebaseStorage(uri: Uri): String? {
+        return try {
+            val fileName = "uploads/teams/${System.currentTimeMillis()}.jpg"
+            val imageRef = storage.reference.child(fileName)
+
+            imageRef.putFile(uri).await()
+            imageRef.downloadUrl.await().toString()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override suspend fun createTeamWithOptionalImage(team: TeamFbFields, imageUri: Uri?, compId: String): Boolean {
+        return try {
+            val finalTeam = if (imageUri != null) {
+                val imageUrl = uploadImageToFirebaseStorage(imageUri)
+                team.copy(picture = imageUrl ?: "")
+            } else team
+
+            addTeamFb(finalTeam, compId)
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateTeamWithOptionalImage(
+        teamId: String,
+        updatedData: TeamFbFields,
+        imageUri: Uri?
+    ): Boolean {
+        return try {
+            val finalTeam = if (imageUri != null) {
+                val imageUrl = uploadImageToFirebaseStorage(imageUri)
+                updatedData.copy(picture = imageUrl ?: "")
+            } else updatedData
+
+            updateTeamFb(teamId, finalTeam)
+        } catch (e: Exception) {
+            false
         }
     }
 }

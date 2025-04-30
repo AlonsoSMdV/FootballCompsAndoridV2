@@ -25,3 +25,13 @@ data class CompetitionFb (
     // Constructor vacío necesario para Firestore
     constructor() : this("", "", "",null)
 }
+
+@IgnoreExtraProperties
+data class CompetitionFbCreateUpdate (
+    val name: String? = null,
+    val picture: String? = null,
+    val userId: DocumentReference? = null,
+):Serializable{
+    // Constructor vacío necesario para Firestore
+    constructor() : this("", "",null)
+}

@@ -21,4 +21,12 @@ interface ICompsRepository {
     suspend fun deleteComp(id: Int)
     suspend fun updateComp(id: Int, comp: CompUpdate)
     suspend fun uploadLeagueLogo(uri: Uri, exerciseId: Int): Result<Uri>
+    // Firebase
+    suspend fun getLeaguesFb(): List<CompetitionFb>
+    suspend fun addLeagueFb(competition: CompetitionFbCreateUpdate): Boolean
+    suspend fun updateLeagueFb(compId: String, competition: CompetitionFbCreateUpdate): Boolean
+    suspend fun deleteLeagueFb(id: String): Boolean
+    suspend fun uploadImageToFirebaseStorage(uri: Uri): String?
+    suspend fun createLeagueWithOptionalImage(competition: CompetitionFbCreateUpdate, imageUri: Uri?): Boolean
+    suspend fun updateLeagueWithOptionalImage(leagueId: String, updatedData: CompetitionFbCreateUpdate, imageUri: Uri?): Boolean
 }
