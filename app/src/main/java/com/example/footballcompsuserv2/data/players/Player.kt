@@ -20,7 +20,7 @@ data class Player (
 
 @IgnoreExtraProperties
 data class PlayerFb(
-    val id: String? = null,
+    var id: String? = null,
     val name: String? = null,
     val firstSurname: String? = null,
     val secondSurname: String? = null,

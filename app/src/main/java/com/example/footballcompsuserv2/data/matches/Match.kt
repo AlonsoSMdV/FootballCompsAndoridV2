@@ -20,7 +20,7 @@ data class Match (
 
 @IgnoreExtraProperties
 data class MatchFb(
-    val id: String? = null,
+    var id: String? = null,
     val day: String? = null,
     val hour: String? = null,
     val place: String? = null,

@@ -35,7 +35,7 @@
             app:destination="@id/teamsFragment">
             <argument
                 android:name="idComp"
-                app:argType="integer"/>
+                app:argType="string"/>
         </action>
 
         <action
@@ -64,14 +64,14 @@
             app:destination="@id/compsFragment"/>
         <argument
             android:name="idComp"
-            app:argType="integer"/>
+            app:argType="string"/>
 
         <action
             android:id="@+id/teams_to_players"
             app:destination="@id/playersFragment">
             <argument
                 android:name="idTeam"
-                app:argType="integer"/>
+                app:argType="string"/>
         </action>
 
         <action
@@ -92,7 +92,7 @@
             app:destination="@id/teamsFragment"/>
         <argument
             android:name="idCompSelected"
-            app:argType="integer"/>
+            app:argType="string"/>
 
         <action
             android:id="@+id/create_team_to_camera"
@@ -108,14 +108,14 @@
             app:destination="@id/teamsFragment"/>
         <argument
             android:name="idTeam"
-            app:argType="integer"/>
+            app:argType="string"/>
 
         <action
             android:id="@+id/players_to_create"
             app:destination="@id/createPlayerFragment">
             <argument
                 android:name="idTeamSelected"
-                app:argType="integer"/>
+                app:argType="string"/>
         </action>
 
         <action
@@ -123,7 +123,7 @@
             app:destination="@id/playerDetails">
             <argument
                 android:name="idPlayer"
-                app:argType="integer"/>
+                app:argType="string"/>
         </action>
 
     </fragment>
@@ -137,7 +137,7 @@
             app:destination="@id/playersFragment"/>
         <argument
             android:name="idTeamSelected"
-            app:argType="integer"/>
+            app:argType="string"/>
 
         <action
             android:id="@+id/create_player_to_camera"

@@ -1,7 +1,5 @@
 package com.example.footballcompsuserv2.data.user
 
-import com.example.footballcompsuserv2.data.firebase.firebaseUsers.UserFirebase
-import com.example.footballcompsuserv2.data.leagues.fbToExternal
 import com.example.footballcompsuserv2.data.local.entities.UserEntity
 import com.example.footballcompsuserv2.data.remote.user.UserRaw
 import com.google.firebase.firestore.DocumentReference
@@ -42,37 +40,3 @@ fun UserEntity.localToExternal(): User{
 
 fun List<UserEntity>.localToExternal():List<User> = map { it.localToExternal() }
 
-fun UserFb.fbToExternal(firestore: FirebaseFirestore): UserFirebase{
-    val playerRef: DocumentReference = firestore.collection("players").document(this.playerFav!!.id)
-    val teamRef: DocumentReference = firestore.collection("teams").document(this.teamFav!!.id)
-    val leagueRef: DocumentReference = firestore.collection("leagues").document(this.leagueFav!!.id)
-    return UserFirebase(
-        id = this.id!!,
-        name = this.name!!,
-        surname = this.surname!!,
-        email = this.email!!,
-        role = this.role!!,
-        picture = this.picture!!,
-        playerFav = playerRef,
-        teamFav = teamRef,
-        leagueFav = leagueRef,
-        userId = this.userId!!
-    )
-}
-fun List<UserFb>.fbToExternal(firestore: FirebaseFirestore): List<UserFirebase> = map { it.fbToExternal(firestore) }
-
-fun UserFirebase.fbToLocal(): UserFb{
-    return UserFb(
-        id = this.id!!,
-        name = this.name!!,
-        surname = this.surname!!,
-        email = this.email!!,
-        role = this.role!!,
-        picture = this.picture!!,
-        playerFav = this.playerFav!!,
-        teamFav = this.teamFav!!,
-        leagueFav = this.leagueFav!!,
-        userId = this.userId!!
-    )
-}
-fun List<UserFirebase>.fbToLocal(): List<UserFb> = map { it.fbToLocal() }

@@ -15,7 +15,7 @@ data class Team (
 
 @IgnoreExtraProperties
 data class TeamFb(
-    val id: String? = null,
+    var id: String? = null,
     val name: String? = null,
     val numberOfPlayers: String? = null,
     val nMatches: Int? = null,

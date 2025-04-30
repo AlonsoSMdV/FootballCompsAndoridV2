@@ -63,6 +63,7 @@ class CompetitionViewModel @Inject constructor(
                 val league = document.toObject(CompetitionFb::class.java)
 
                 league?.let {
+                    it.id = document.id
                     compList.add(it)
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.footballcompsuserv2.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
@@ -62,7 +63,8 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
 
             //Navegar a los equipos de la liga
             binding.compCard.setOnClickListener {
-                val action = CompsFragmentDirections.compsToTeams(competition.id!!.toInt())
+                Log.d("ID", "Id: ${competition.id}")
+                val action = CompsFragmentDirections.compsToTeams(competition.id!!)
                 it.findNavController().navigate(action)
             }
 

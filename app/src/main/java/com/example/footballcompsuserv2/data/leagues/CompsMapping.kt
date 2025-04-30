@@ -1,7 +1,6 @@
 package com.example.footballcompsuserv2.data.leagues
 
 
-import com.example.footballcompsuserv2.data.firebase.firebaseLeagues.League
 import com.example.footballcompsuserv2.data.local.entities.LeagueEntity
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
 import com.google.firebase.firestore.DocumentReference
@@ -41,23 +40,3 @@ fun LeagueEntity.localToExternal(): Competition{
 }
 fun List<LeagueEntity>.localToExternal(): List<Competition> = map { it.localToExternal() }
 
-fun League.fbToLocal(): CompetitionFb{
-    return CompetitionFb(
-        id = this.id!!,
-        name = this.name!!,
-        picture = this.picture!!,
-        userId = this.userId!!
-    )
-}
-fun List<League>.fbToLocal(): List<CompetitionFb> = map { it.fbToLocal() }
-
-fun CompetitionFb.fbToExternal(firestore: FirebaseFirestore): League{
-    val userRef: DocumentReference = firestore.collection("users").document(this.userId!!.id)
-    return League(
-        id = this.id!!,
-        name = this.name!!,
-        picture = this.picture!!,
-        userId = userRef
-    )
-}
-fun List<CompetitionFb>.fbToExternal(firestore: FirebaseFirestore): List<League> = map { it.fbToExternal(firestore) }

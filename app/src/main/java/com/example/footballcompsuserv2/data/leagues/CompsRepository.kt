@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.net.toUri
-import com.example.footballcompsuserv2.data.firebase.firebaseLeagues.LeagueFirebase
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.remote.leagues.CompCreate
 import com.example.footballcompsuserv2.data.remote.leagues.CompRaw
@@ -30,7 +29,6 @@ import javax.inject.Inject
 //Clase que obtiene, crea, actualiza o borra los datos de la liga ya sea por remoto o local(si no hay red)
 class CompsRepository @Inject constructor(
     private val remoteData: ICompRemoteDataSource,
-    private val firebase: LeagueFirebase,
     private val local: ILocalDataSource, // Agregamos la fuente de datos local
     private val networkUtils: NetworkUtils, // Verifica la conexión de red
     @ApplicationContext private val context: Context

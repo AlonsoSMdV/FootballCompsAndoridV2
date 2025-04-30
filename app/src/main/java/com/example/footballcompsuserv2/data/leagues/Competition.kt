@@ -17,7 +17,7 @@ data class Competition (
 
 @IgnoreExtraProperties
 data class CompetitionFb (
-    val id: String? = null,
+    var id: String? = null,
     val name: String? = null,
     val picture: String? = null,
     val userId: DocumentReference? = null,
