@@ -31,7 +31,5 @@ class PlayerDetailsViewModel @Inject constructor(
         }
     }
 
-    fun getPlayerById(id: String): PlayerFb? {
-        return playerRepo.setStreamFb.value.find { it.id == id }
-    }
+    val playerStream = playerRepo.setStreamFb
 }

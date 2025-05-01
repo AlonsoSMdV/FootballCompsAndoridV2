@@ -141,6 +141,9 @@
             <argument
                 android:name="idTeam"
                 app:argType="string"/>
+            <argument
+                android:name="idComp"
+                app:argType="string"/>
         </action>
 
     </fragment>

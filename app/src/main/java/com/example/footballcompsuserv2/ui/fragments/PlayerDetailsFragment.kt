@@ -11,12 +11,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 
 import coil3.load
 
 import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.players.Player
+import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.databinding.FragmentPlayersDetailBinding
 import com.example.footballcompsuserv2.ui.viewModels.PlayerDetailsViewModel
 
@@ -44,33 +46,34 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Toolbar
-        val toolbar = view.findViewById<Toolbar>(R.id.players_details_toolbar)
-        toolbar.setOnClickListener {
-            val action = PlayerDetailsFragmentDirections.detailsToPlayers(teamId!!, compId!!)
-        }
+
 
         //Lectura de datos del jugador seleccionado
         viewModel = ViewModelProvider(this).get(PlayerDetailsViewModel::class.java)
         playerId = arguments?.getString("idPlayer")
         teamId = arguments?.getString("idTeam")
         compId = arguments?.getString("idComp")
+        //Toolbar
+        val toolbar = view.findViewById<Toolbar>(R.id.players_details_toolbar)
+        toolbar.setOnClickListener {
+            val action = PlayerDetailsFragmentDirections.detailsToPlayers(teamId!!, compId!!)
+            it.findNavController().navigate(action)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.player.collect { player ->
+                viewModel.playerStream.collect { players ->
+                    val player = players.find { it.id == playerId }
                     player?.let { getPlayer(it) }
                 }
             }
         }
-
-        viewModel.getPlayerById(playerId!!)
     }
 
     //FUNCIÓN escritura de datos obtenidos en el xml
-    private fun getPlayer(player: Player) {
-        if (player.photo!=null){
-            binding.playerPhoto.load(player.photo)
+    private fun getPlayer(player: PlayerFb) {
+        if (player.picture!=null){
+            binding.playerPhoto.load(player.picture)
         }
         binding.playerName.text = "Nombre: ${player.name ?: "No disponible"}"
         binding.playerFirstSurname.text = "Primer apellido: ${player.firstSurname ?: "No disponible"}"

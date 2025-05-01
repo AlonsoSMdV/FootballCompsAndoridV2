@@ -17,7 +17,8 @@ import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.databinding.PlayerItemBinding
 
-class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
+class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String,
+                        private val idComp: String): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
     DiffCallback()
 ) {
     override fun onCreateViewHolder(
@@ -25,7 +26,7 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
         viewType: Int
     ): PlayerViewHolder {
         val binding = PlayerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PlayerViewHolder(binding, viewModel, idTeam)
+        return PlayerViewHolder(binding, viewModel, idTeam, idTeam)
     }
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
@@ -34,7 +35,8 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
     }
 
     //ViewHolder de jugador
-    class PlayerViewHolder(private val binding: PlayerItemBinding, private val viewModel: PlayerListViewModel, private val idTeam: String): RecyclerView.ViewHolder(binding.root){
+    class PlayerViewHolder(private val binding: PlayerItemBinding, private val viewModel: PlayerListViewModel, private val idTeam: String,
+                           private val idComp: String): RecyclerView.ViewHolder(binding.root){
         fun bind(player: PlayerFb){
             //Nombre
             binding.playerName.text = player.name
@@ -61,7 +63,7 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
 
             //Al clickar la card nos lleva a los detalles del jugador
             binding.playerCard.setOnClickListener {
-                val action = PlayerListFragmentDirections.playersToDetails(player.id.toString(), player.team!!.id)
+                val action = PlayerListFragmentDirections.playersToDetails(player.id.toString(), player.team!!.id, idComp)
                 it.findNavController().navigate(action)
             }
         }

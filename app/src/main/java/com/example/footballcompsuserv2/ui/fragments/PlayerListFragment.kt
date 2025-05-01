@@ -60,7 +60,7 @@ class PlayerListFragment : Fragment(R.layout.fragment_player_list) {
         }
 
         //Adapter para mostrar los jugadores
-        val adapter = PlayerListAdapter(viewModel, teamId)
+        val adapter = PlayerListAdapter(viewModel, teamId, idComp!!)
         binding.playerList.adapter = adapter
 
         binding.playerList.layoutManager = GridLayoutManager(requireContext(), 3)
