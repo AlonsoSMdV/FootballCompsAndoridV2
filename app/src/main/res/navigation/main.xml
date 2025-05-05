@@ -211,6 +211,7 @@
         android:name="com.example.footballcompsuserv2.ui.fragments.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
+
     <fragment
         android:id="@+id/matchesFragment"
         android:name="com.example.footballcompsuserv2.ui.fragments.MatchesFragment"
@@ -224,6 +225,34 @@
                 app:argType="string"/>
         </action>
 
+        <action
+            android:id="@+id/match_to_stats"
+            app:destination="@id/statsFragment">
+            <argument
+                android:name="matchId"
+                app:argType="string"/>
+
+            <argument
+                android:name="matchStatus"
+                app:argType="string"/>
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.StatsFragment"
+        android:label="StatsFragment"
+        tools:layout="@layout/fragment_stats">
+        <argument
+            android:name="matchId"
+            app:argType="string"/>
+
+        <argument
+            android:name="matchStatus"
+            app:argType="string"/>
+        <action
+            android:id="@+id/stats_to_matches"
+            app:destination="@id/matchesFragment"/>
     </fragment>
 
 

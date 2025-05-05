@@ -17,10 +17,12 @@ class StatsRepository @Inject constructor(): IStatsRepository{
 
     override suspend fun getStatsByMatch(idMatch: String): StatsFb {
         val firestore = FirebaseFirestore.getInstance()
-        val collection = firestore.collection("matchStatisticts")
+        val collection = firestore.collection("matchStatistics")
+
+        val matchRef = FirebaseFirestore.getInstance().collection("matches").document(idMatch)
 
         val snapshot = collection
-            .whereEqualTo("matchId", idMatch)
+            .whereEqualTo("matchId", matchRef)
             .get()
             .await()
 
@@ -36,10 +38,10 @@ class StatsRepository @Inject constructor(): IStatsRepository{
         return try {
             val matchRef = FirebaseFirestore.getInstance().collection("matches").document(idMatch)
 
-            val playerToSave = statsFb.copy(matchId = matchRef)
+            val matchToSave = statsFb.copy(matchId = matchRef)
 
             FirebaseFirestore.getInstance().collection("matchStatistics")
-                .add(playerToSave)
+                .add(matchToSave)
                 .await()
 
             true

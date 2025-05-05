@@ -79,6 +79,7 @@ class MatchRepository @Inject constructor(
                     val visitorTeam = getTeamByRef(match.visitorTeamId)
 
                     val matchWithTeams = MatchFbWithTeams(
+                        id = doc.id,
                         day = match.day,
                         hour = match.hour,
                         place = match.place,
@@ -91,6 +92,7 @@ class MatchRepository @Inject constructor(
                         localTeamImg = localTeam?.picture,
                         visitorTeamImg = visitorTeam?.picture
                     )
+
 
                     matchList.add(matchWithTeams)
                 }

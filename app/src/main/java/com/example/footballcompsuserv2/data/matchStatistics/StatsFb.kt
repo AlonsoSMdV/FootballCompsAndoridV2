@@ -5,9 +5,9 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 import java.io.Serializable
 
 data class Stat(
-    val localValue: Int? = null,
+    val localValue: Any? = null,
     val name: String? = null,
-    val visitorValue: Int? = null
+    val visitorValue: Any? = null
 )
 
 

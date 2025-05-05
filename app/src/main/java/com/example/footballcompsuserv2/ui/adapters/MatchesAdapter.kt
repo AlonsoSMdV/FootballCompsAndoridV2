@@ -1,8 +1,10 @@
 package com.example.footballcompsuserv2.ui.adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -91,6 +93,19 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
                 it.context.startActivity(shareIntent)
             }
 
+            binding.btnStatistics.setOnClickListener {
+                val matchId = match.id
+                val matchStatus = match.status
+
+                if (matchId != null && matchStatus != null) {
+                    val action = MatchesFragmentDirections.matchToStats(matchId, matchStatus)
+                    it.findNavController().navigate(action)
+                } else {
+                    // Puedes mostrar un log o un Toast
+                    Log.e("MatchesAdapter", "ID o estado del partido es null ${matchId}, $matchStatus")
+                    Toast.makeText(it.context, "No se pueden cargar estadísticas de este partido", Toast.LENGTH_SHORT).show()
+                }
+            }
 
 
         }
