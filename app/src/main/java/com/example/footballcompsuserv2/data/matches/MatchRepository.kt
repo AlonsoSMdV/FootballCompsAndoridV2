@@ -104,4 +104,35 @@ class MatchRepository @Inject constructor(
             emptyList()
         }
     }
+
+    override suspend fun getMatchesFbById(id: String): MatchFbWithTeams {
+        return try {
+            val doc = firestore.collection("matches").document(id).get().await()
+            val match = doc.toObject(MatchFb::class.java)
+
+            if (match?.localTeamId != null && match.visitorTeamId != null) {
+                val localTeam = getTeamByRef(match.localTeamId)
+                val visitorTeam = getTeamByRef(match.visitorTeamId)
+
+                MatchFbWithTeams(
+                    id = doc.id,
+                    day = match.day,
+                    hour = match.hour,
+                    place = match.place,
+                    result = match.result,
+                    status = match.status,
+                    localTeamId = match.localTeamId,
+                    visitorTeamId = match.visitorTeamId,
+                    localTeamName = localTeam?.name,
+                    visitorTeamName = visitorTeam?.name,
+                    localTeamImg = localTeam?.picture,
+                    visitorTeamImg = visitorTeam?.picture
+                )
+            } else {
+                MatchFbWithTeams("","","","","","",null,null,"","","","") // o lanza una excepción si prefieres controlar el error
+            }
+        } catch (e: Exception) {
+            MatchFbWithTeams("","","","","","",null,null,"","","","") // o maneja el error con logs / fallback
+        }
+    }
 }

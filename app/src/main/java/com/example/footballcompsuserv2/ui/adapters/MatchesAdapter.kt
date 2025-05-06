@@ -107,6 +107,19 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
                 }
             }
 
+            binding.btnLineup.setOnClickListener {
+                val matchId = match.id
+
+                if (matchId != null) {
+                    val action = MatchesFragmentDirections.matchToLineups(matchId)
+                    it.findNavController().navigate(action)
+                } else {
+                    // Puedes mostrar un log o un Toast
+                    Log.e("MatchesAdapter", "ID o estado del partido es null ${matchId}")
+                    Toast.makeText(it.context, "No se pueden cargar estadísticas de este partido", Toast.LENGTH_SHORT).show()
+                }
+            }
+
 
         }
     }

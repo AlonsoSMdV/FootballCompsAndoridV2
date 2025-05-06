@@ -236,6 +236,14 @@
                 android:name="matchStatus"
                 app:argType="string"/>
         </action>
+
+        <action
+            android:id="@+id/match_to_lineups"
+            app:destination="@id/lineupsFragment">
+            <argument
+                android:name="matchId"
+                app:argType="string"/>
+        </action>
     </fragment>
 
     <fragment
@@ -255,5 +263,18 @@
             app:destination="@id/matchesFragment"/>
     </fragment>
 
+    <fragment
+        android:id="@+id/lineupsFragment"
+        android:name="com.example.footballcompsuserv2.ui.fragments.LineupsFragment"
+        android:label="LineupsFragment"
+        tools:layout="@layout/fragment_lineups">
+        <argument
+            android:name="matchId"
+            app:argType="string"/>
+
+        <action
+            android:id="@+id/lineups_to_matches"
+            app:destination="@id/matchesFragment"/>
+    </fragment>
 
 </navigation>

@@ -7,4 +7,5 @@ interface IMatchRepository {
     val setStreamFb: StateFlow<List<MatchFbWithTeams>>
     suspend fun readAll(): List<Match>
     suspend fun getMatchesFb(): List<MatchFbWithTeams>
+    suspend fun getMatchesFbById(id: String): MatchFbWithTeams
 }
