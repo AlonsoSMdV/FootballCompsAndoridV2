@@ -16,11 +16,16 @@ import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.CompetitionViewModel
 import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.leagues.CompetitionFb
+import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.CompetitionItemBinding
 
-class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListAdapter<CompetitionFb, CompetitionListAdapter.CompetitionViewHolder>(
+class CompetitionListAdapter(private val viewModel: CompetitionViewModel, private var user: UserFb? ): ListAdapter<CompetitionFb, CompetitionListAdapter.CompetitionViewHolder>(
     DiffCallback()
 ) {
+    fun updateUser(user: UserFb?) {
+        this.user = user
+        notifyDataSetChanged()  // Redibuja para que se actualicen los botones de favoritos
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitionViewHolder {
         val binding = CompetitionItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CompetitionViewHolder(binding, viewModel)
@@ -28,13 +33,14 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
 
     override fun onBindViewHolder(holder: CompetitionViewHolder, position: Int) {
         val competition = getItem(position)
-        holder.bind(competition)
+        holder.bind(competition, user)
     }
+
 
     //ViewHolder de ligas
     class CompetitionViewHolder(private val binding: CompetitionItemBinding, private val viewModel: CompetitionViewModel) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(competition: CompetitionFb) {
+        fun bind(competition: CompetitionFb, user: UserFb?) {
             //Nombre
             binding.compName.text = competition.name
 
@@ -51,14 +57,14 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel): ListA
                 viewModel.deleteComp(competition.id!!)
             }
 
-            //Botón de favoritos
-            binding.favouriteButton.apply {
-                setImageResource(
-                    R.drawable.ic_fav2
-                )
-                setOnClickListener {
-                    //viewModel.toggleFavourite(competition)
-                }
+            // ¿Es favorito?
+            val isFavourite = user?.leagueFav?.id == competition.id
+            binding.favouriteButton.setImageResource(
+                if (isFavourite) R.drawable.ic_star_filled else R.drawable.ic_star
+            )
+
+            binding.favouriteButton.setOnClickListener {
+                viewModel.setFavouriteLeague(competition)
             }
 
             //Navegar a los equipos de la liga

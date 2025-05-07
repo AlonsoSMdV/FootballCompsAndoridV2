@@ -6,6 +6,7 @@ import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.remote.user.UserRemoteDataSource
 import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -80,4 +81,29 @@ class UserRepository @Inject constructor(
 
     }
 
+    override suspend fun updateUserLeagueFav(leagueRef: DocumentReference) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val firestore = FirebaseFirestore.getInstance()
+
+        val querySnapshot = firestore
+            .collection("usuarios")
+            .whereEqualTo("userId", uid)
+            .get()
+            .await()
+
+        if (!querySnapshot.isEmpty) {
+            val documentSnapshot = querySnapshot.documents.first()
+            val userDocRef = documentSnapshot.reference
+
+            userDocRef.update("leagueFav", leagueRef)
+                .addOnSuccessListener {
+                    Log.d("UserRepository", "Liga favorita actualizada correctamente")
+                }
+                .addOnFailureListener {
+                    Log.e("UserRepository", "Error al actualizar liga favorita", it)
+                }
+        } else {
+            Log.e("UserRepository", "Usuario no encontrado para actualizar liga favorita")
+        }
+    }
 }

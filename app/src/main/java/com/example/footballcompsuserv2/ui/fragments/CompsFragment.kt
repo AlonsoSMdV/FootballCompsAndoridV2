@@ -7,7 +7,9 @@ import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 
@@ -39,9 +41,6 @@ class CompsFragment : Fragment(R.layout.fragment_competition_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Adapter para cargar los datos de las ligas en la lista
-        val adapter = CompetitionListAdapter(viewModel)
-        binding.compList.adapter = adapter
 
         //Ponerlo en dos columnas
         binding.compList.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -52,16 +51,26 @@ class CompsFragment : Fragment(R.layout.fragment_competition_list) {
             findNavController().navigate(R.id.comps_to_create)
         }
 
-        lifecycleScope.launch {
-            viewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    CompListUiState.Loading -> {
+        val adapter = CompetitionListAdapter(viewModel, null)
+        binding.compList.adapter = adapter
+
+        // Observamos cambios de ligas
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        is CompListUiState.Success -> adapter.submitList(uiState.compList)
+                        else -> { /* Ignorar por ahora */ }
                     }
-                    is CompListUiState.Success -> {
-                        adapter.submitList(uiState.compList)
-                    }
-                    is CompListUiState.Error -> {
-                    }
+                }
+            }
+        }
+
+        // Observar usuario (solo actualiza el botón de favoritos)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.user.collect { user ->
+                    adapter.updateUser(user)
                 }
             }
         }

@@ -8,7 +8,10 @@ import com.example.footballcompsuserv2.data.leagues.CompetitionFb
 import com.example.footballcompsuserv2.data.leagues.ICompsRepository
 import com.example.footballcompsuserv2.data.remote.leagues.CompRawAttributesMedia
 import com.example.footballcompsuserv2.data.remote.leagues.CompUpdate
+import com.example.footballcompsuserv2.data.user.IUserRepository
+import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.di.Firestore
+import com.google.firebase.firestore.FirebaseFirestore
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -23,17 +26,37 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CompetitionViewModel @Inject constructor(
-    private val compRepo: ICompsRepository
+    private val compRepo: ICompsRepository,
+    private val userRepo: IUserRepository
 ): ViewModel(){
     private val _uiState = MutableStateFlow<CompListUiState>(CompListUiState.Loading)
     val  uiState: StateFlow<CompListUiState>
         get() = _uiState.asStateFlow()
+
+    private val _user = MutableStateFlow<UserFb?>(null)
+    val user: StateFlow<UserFb?> = _user.asStateFlow()
 
     fun deleteComp(comId: String){
         viewModelScope.launch {
             compRepo.deleteLeagueFb(comId)
             withContext(Dispatchers.IO){
                 compRepo.getLeaguesFb()
+            }
+        }
+    }
+
+    fun setFavouriteLeague(competition: CompetitionFb) {
+        viewModelScope.launch {
+            val firestore = FirebaseFirestore.getInstance()
+            val leagueRef = firestore.collection("leagues").document(competition.id ?: return@launch)
+            userRepo.updateUserLeagueFav(leagueRef)
+
+            val updatedUser = userRepo.getActualUserFb()
+            _user.emit(updatedUser)
+
+            // Opcional: vuelve a emitir la misma lista para que se redibuje
+            (_uiState.value as? CompListUiState.Success)?.let {
+                _uiState.emit(CompListUiState.Success(it.compList.toList()))
             }
         }
     }
@@ -57,6 +80,11 @@ class CompetitionViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             compRepo.getLeaguesFb()
+        }
+
+        viewModelScope.launch {
+            val actualUser = userRepo.getActualUserFb()
+            _user.value = actualUser
         }
 
         viewModelScope.launch {
