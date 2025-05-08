@@ -23,17 +23,33 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Imagen del usuario -->
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/user_photo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+            <!-- Imagen del usuario con botón para abrir la cámara -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
-                android:src="@drawable/ic_person_v2"
-                android:contentDescription="user_photo"
-                app:shapeAppearanceOverlay="@style/CircularImageView"
-                android:padding="8dp" />
+                android:layout_marginTop="32dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/user_photo"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_person_v2"
+                    android:contentDescription="user_photo"
+                    app:shapeAppearanceOverlay="@style/CircularImageView"
+                    android:padding="8dp" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btn_open_camera"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="4dp"
+                    android:contentDescription="Abrir cámara"
+                    app:backgroundTint="@color/md_theme_primary"
+                    app:srcCompat="@drawable/ic_camera"
+                    app:maxImageSize="24dp" />
+            </FrameLayout>
 
             <!-- Título -->
             <TextView
@@ -163,6 +179,20 @@
                 android:textAllCaps="false"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/ic_logout"
+                app:iconGravity="textStart" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Guardar Cambios"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/md_theme_primary"
+                android:padding="12dp"
+                android:textAllCaps="false"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_save"
                 app:iconGravity="textStart" />
 
             <!-- Tema -->

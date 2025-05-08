@@ -101,7 +101,7 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
      * Función que navega al fragmento de Preview de camara
      */
     private fun navigateToCamera() {
-        val action = CreatePlayerFragmentDirections.createPlayerToCamera()
+        val action = CreatePlayerFragmentDirections.createPlayerToCamera("create_player")
         findNavController().navigate(action)
     }
 

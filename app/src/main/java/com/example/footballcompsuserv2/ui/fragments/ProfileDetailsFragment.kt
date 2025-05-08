@@ -1,7 +1,11 @@
 package com.example.footballcompsuserv2.ui.fragments
 
+import android.Manifest
+import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +13,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Switch
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -19,6 +25,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import coil3.load
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,13 +39,52 @@ import com.example.footballcompsuserv2.ui.viewModels.ProfileViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+// Permisos
+private var PERMISSIONS_REQUIRED =
+    arrayOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.RECORD_AUDIO)
+
+
 @AndroidEntryPoint
 class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
+    private var _photoUri: Uri? = null
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var binding: FragmentProfileDetailsBinding
     private val viewModel: ProfileViewModel by viewModels()
     private lateinit var themePreferences: ThemePreferences
     private lateinit var profThemeToggleButton: Switch
+
+    //IMAGES
+    private val contract = ActivityResultContracts.RequestMultiplePermissions()
+
+    private val launcher = registerForActivityResult(contract)
+    {
+            permissions ->
+        var granted = true
+        permissions.entries.forEach {
+                permission ->
+            if (permission.key in PERMISSIONS_REQUIRED && !permission.value){
+                granted = false
+            }
+        }
+        if (granted){
+            //Navigate to camera
+            navigateToCamera()
+
+        }else{
+            Toast.makeText(requireContext(), "No tiene permisos de camara", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    //Elegir imagen de la galeria
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
+        if (uri != null){
+            viewLifecycleOwner.lifecycleScope.launch {
+                loadLogo(uri)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +92,14 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
         savedInstanceState: Bundle?
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    /**
+     * Función que navega al fragmento de Preview de camara
+     */
+    private fun navigateToCamera() {
+        val action = ProfileDetailsFragmentDirections.profileToCamera("profile")
+        findNavController().navigate(action)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,12 +110,32 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
 
         binding = FragmentProfileDetailsBinding.bind(view)
 
+        binding.btnOpenCamera.setOnClickListener{
+            if(hasCameraPermissions(requireContext())){
+                navigateToCamera()
+
+            }else {
+                launcher.launch(PERMISSIONS_REQUIRED)
+            }
+        }
         //Leer usuario actual
         viewModel.getActualUserFb()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.userFb.collect { user ->
                     user?.let { getUser(it) }
+                }
+
+            }
+        }
+        // Observar foto capturada desde la cámara
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.photo.collect { uri ->
+                    if (uri != Uri.EMPTY) {
+                        _photoUri = uri
+                        binding.userPhoto.load(uri)
+                    }
                 }
             }
         }
@@ -97,6 +171,28 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
             lifecycleScope.launch {
                 themePreferences.saveTheme(isChecked)
                 updateIcons(isChecked, iconDay, iconNight)
+            }
+        }
+
+        binding.btnSaveProfile.setOnClickListener {
+            val name = binding.userName.text.toString()
+            val surname = binding.userSurname.text.toString()
+            val currentUser = viewModel.userFb.value
+
+            if (currentUser != null) {
+                val updatedUser = currentUser.copy(
+                    name = name,
+                    surname = surname
+                )
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val result = viewModel.updateUserWithImage(updatedUser, _photoUri)
+                    if (result) {
+                        Toast.makeText(requireContext(), "Datos actualizados", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Error al actualizar", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
@@ -137,6 +233,22 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
         } else {
             iconLeft.setColorFilter(blck) // Modo claro: ícono izquierdo negro
             iconRight.setColorFilter(blck) // Modo claro: ícono derecho blanco
+        }
+    }
+
+    //Cargar img
+    private fun loadLogo(uri:Uri?) {
+        binding.userPhoto.load(uri)
+        _photoUri = uri
+    }
+
+    //Permisos de camara
+    private fun hasCameraPermissions(context: Context):Boolean {
+        return PERMISSIONS_REQUIRED.all { permission ->
+            ContextCompat.checkSelfPermission(
+                context,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED
         }
     }
 }

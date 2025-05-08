@@ -1,5 +1,6 @@
 package com.example.footballcompsuserv2.data.user
 
+import android.net.Uri
 import android.util.Log
 
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
@@ -8,6 +9,7 @@ import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -104,6 +106,51 @@ class UserRepository @Inject constructor(
                 }
         } else {
             Log.e("UserRepository", "Usuario no encontrado para actualizar liga favorita")
+        }
+    }
+
+    //Firebase
+    private val firestore = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
+    override suspend fun updateUser(userId: String, userFb: UserFb): Boolean {
+        return try {
+            firestore.collection("usuarios")
+                .document(userId)
+                .set(userFb)
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun uploadImageToFirebaseStorage(uri: Uri): String? {
+        return try {
+            val storage = FirebaseStorage.getInstance()
+            val fileName = "uploads/${System.currentTimeMillis()}.jpg"
+            val imageRef = storage.reference.child(fileName)
+
+            imageRef.putFile(uri).await()
+            imageRef.downloadUrl.await().toString()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override suspend fun updateUserWithOptionalImage(
+        userId: String,
+        updatedData: UserFb,
+        imageUri: Uri?
+    ): Boolean {
+        return try {
+            val finalTeam = if (imageUri != null) {
+                val imageUrl = uploadImageToFirebaseStorage(imageUri)
+                updatedData.copy(picture = imageUrl ?: "")
+            } else updatedData
+
+            updateUser(userId, finalTeam)
+        } catch (e: Exception) {
+            false
         }
     }
 }

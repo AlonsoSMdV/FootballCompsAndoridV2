@@ -3,6 +3,7 @@ package com.example.footballcompsuserv2.ui.fragments
 import android.content.ContentValues
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +18,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 
 import com.example.footballcompsuserv2.databinding.FragmentCameraPreviewBinding
 import com.example.footballcompsuserv2.ui.MainActivity
 import com.example.footballcompsuserv2.ui.viewModels.CreatePlayerViewModel
+import com.example.footballcompsuserv2.ui.viewModels.ProfileViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +37,8 @@ import java.util.concurrent.Executors
 class CameraPreviewFragment: Fragment() {
     private lateinit var binding: FragmentCameraPreviewBinding
     private  val viewModel: CreatePlayerViewModel by activityViewModels()
+    private val userViewwModel: ProfileViewModel by activityViewModels()
+    private val args: CameraPreviewFragmentArgs by navArgs()
 
     private lateinit var cameraController: LifecycleCameraController
 
@@ -95,14 +100,15 @@ class CameraPreviewFragment: Fragment() {
             cameraExecutor,
             object: ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-
+                    val uri = outputFileResults.savedUri
+                    Log.d("CameraFragment", "URI guardada: $uri") // <-- Agrega esto
                     viewLifecycleOwner.lifecycleScope.launch {
-
-                        viewModel.onImageCaptured(outputFileResults.savedUri)
-
+                        when (args.source) {
+                            "create_player" -> viewModel.onImageCaptured(uri)
+                            "profile" -> userViewwModel.onImageCaptured(uri)
+                        }
                         findNavController().popBackStack()
                     }
-
                 }
 
                 override fun onError(exception: ImageCaptureException) {

@@ -280,7 +280,8 @@ class TeamRepository @Inject constructor(
 
     override suspend fun uploadImageToFirebaseStorage(uri: Uri): String? {
         return try {
-            val fileName = "uploads/teams/${System.currentTimeMillis()}.jpg"
+            val storage = FirebaseStorage.getInstance()
+            val fileName = "uploads/${System.currentTimeMillis()}.jpg"
             val imageRef = storage.reference.child(fileName)
 
             imageRef.putFile(uri).await()
