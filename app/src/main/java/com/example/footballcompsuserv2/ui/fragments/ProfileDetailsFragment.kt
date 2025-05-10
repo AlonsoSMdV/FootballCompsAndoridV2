@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -51,7 +52,7 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
     private var _photoUri: Uri? = null
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var binding: FragmentProfileDetailsBinding
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var themePreferences: ThemePreferences
     private lateinit var profThemeToggleButton: Switch
 
@@ -130,11 +131,18 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
         }
         // Observar foto capturada desde la cámara
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.photo.collect { uri ->
-                    if (uri != Uri.EMPTY) {
-                        _photoUri = uri
-                        binding.userPhoto.load(uri)
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.photo.collect{
+                        photoUri ->
+                    when(photoUri){
+                        Uri.EMPTY -> {
+                            //No hay foto, podemos poner un placeholder
+                        }
+                        else -> {
+                            //tenemos la foto, la ponemos en la UI aprovechando coil
+                            loadLogo(photoUri)
+
+                        }
                     }
                 }
             }
@@ -209,6 +217,7 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
     }
     //FUNCIÓN escribir los datos del usuario actual en el xml
     private fun getUser(user: UserFb){
+        binding.userPhoto.load(user.picture)
         binding.userName.setText(user.name)
         binding.userEmail.setText(user.email)
         binding.userSurname.setText(user.surname ?: "")

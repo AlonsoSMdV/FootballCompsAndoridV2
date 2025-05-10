@@ -37,7 +37,8 @@
                     android:src="@drawable/ic_person_v2"
                     android:contentDescription="user_photo"
                     app:shapeAppearanceOverlay="@style/CircularImageView"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:scaleType="centerCrop" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btn_open_camera"
