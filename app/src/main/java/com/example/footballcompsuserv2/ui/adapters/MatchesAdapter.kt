@@ -1,6 +1,7 @@
 package com.example.footballcompsuserv2.ui.adapters
 
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -64,6 +65,32 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
             binding.localTeamImg.load(match.localTeamImg)
             //Equipo visitante - img
             binding.visitingTeamImg.load(match.visitorTeamImg)
+            binding.statusText.text = match.status ?: "Desconocido"
+
+            val statusBar = binding.statusBar
+            val status = match.status?.lowercase()
+
+            when (status) {
+                "por jugar" -> {
+                    statusBar.setBackgroundColor(Color.parseColor("#FFA726")) // naranja
+                }
+                "jugando" -> {
+                    statusBar.setBackgroundColor(Color.parseColor("#66BB6A")) // verde
+                }
+                "finalizado" -> {
+                    statusBar.setBackgroundColor(Color.parseColor("#EF5350")) // rojo
+                }
+                else -> {
+                    statusBar.setBackgroundColor(Color.GRAY)
+                }
+            }
+
+            // Animación para la barra
+            statusBar.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .setDuration(600)
+                .start()
 
             //Lugar de partido
             binding.place.setOnClickListener {
