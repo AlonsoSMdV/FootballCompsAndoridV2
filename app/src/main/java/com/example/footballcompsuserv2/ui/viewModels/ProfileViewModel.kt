@@ -4,6 +4,9 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.footballcompsuserv2.data.leagues.CompetitionFb
+import com.example.footballcompsuserv2.data.players.PlayerFb
+import com.example.footballcompsuserv2.data.teams.TeamFb
 
 import com.example.footballcompsuserv2.data.user.IUserRepository
 import com.example.footballcompsuserv2.data.user.User
@@ -24,6 +27,16 @@ class ProfileViewModel @Inject constructor(
 ): ViewModel(){
     private val _userFb = MutableStateFlow<UserFb?>(null)
     val userFb = _userFb.asStateFlow()
+
+
+    private val _favTeam = MutableStateFlow<TeamFb?>(null)
+    val favTeam = _favTeam.asStateFlow()
+
+    private val _favPlayer = MutableStateFlow<PlayerFb?>(null)
+    val favPlayer = _favPlayer.asStateFlow()
+
+    private val _favLeague = MutableStateFlow<CompetitionFb?>(null)
+    val favLeague = _favLeague.asStateFlow()
 
     private val _photo = MutableStateFlow<Uri>(Uri.EMPTY)
     val photo: StateFlow<Uri>
@@ -48,6 +61,16 @@ class ProfileViewModel @Inject constructor(
             val userData = userRepo.getActualUserFb()
             Log.d("ProfileViewModel", "Usuario recuperado: $userData")
             _userFb.value = userData
+            fetchFavorites(userData)
+        }
+    }
+
+
+    fun fetchFavorites(userFb: UserFb) {
+        viewModelScope.launch {
+            _favTeam.value = userRepo.getFavoriteTeam(userFb.teamFav)
+            _favPlayer.value = userRepo.getFavoritePlayer(userFb.playerFav)
+            _favLeague.value = userRepo.getFavoriteLeague(userFb.leagueFav)
         }
     }
 

@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -111,12 +113,25 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
 
         binding = FragmentProfileDetailsBinding.bind(view)
 
-        binding.btnOpenCamera.setOnClickListener{
-            if(hasCameraPermissions(requireContext())){
-                navigateToCamera()
+        binding.userName.isEnabled = false
+        binding.userSurname.isEnabled = false
+        binding.btnOpenCamera.isEnabled = false
+        binding.btnSaveProfile.isEnabled = false
 
-            }else {
-                launcher.launch(PERMISSIONS_REQUIRED)
+        binding.btnOpenCamera.setOnClickListener{
+            if (binding.btnOpenCamera.isEnabled) {
+                if (hasCameraPermissions(requireContext())) {
+                    navigateToCamera()
+
+                } else {
+                    launcher.launch(PERMISSIONS_REQUIRED)
+                }
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "Boton no habilitado",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         //Leer usuario actual
@@ -148,10 +163,27 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
             }
         }
 
+        setupTextWatchers()
+
         //Botón de cierre de sesión
         val btnLogout = view.findViewById<Button>(R.id.btn_logout)
         btnLogout.setOnClickListener {
             logout()
+        }
+
+        binding.btnEdit.setOnClickListener {
+            if (binding.userName.isEnabled && binding.userSurname.isEnabled && binding.btnOpenCamera.isEnabled && binding.btnSaveProfile.isEnabled) {
+                binding.userName.isEnabled = false
+                binding.userSurname.isEnabled = false
+                binding.btnOpenCamera.isEnabled = false
+                binding.btnSaveProfile.isEnabled = false
+            }else{
+
+                binding.userName.isEnabled = true
+                binding.userSurname.isEnabled = true
+                binding.btnOpenCamera.isEnabled = true
+                binding.btnSaveProfile.isEnabled = true
+            }
         }
 
         //CAMBIO DE TEMA
@@ -186,22 +218,42 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
             val name = binding.userName.text.toString()
             val surname = binding.userSurname.text.toString()
             val currentUser = viewModel.userFb.value
+            if (binding.btnSaveProfile.isEnabled) {
+                if (currentUser != null) {
+                    val updatedUser = currentUser.copy(
+                        name = name,
+                        surname = surname
+                    )
 
-            if (currentUser != null) {
-                val updatedUser = currentUser.copy(
-                    name = name,
-                    surname = surname
-                )
-
-                viewLifecycleOwner.lifecycleScope.launch {
-                    val result = viewModel.updateUserWithImage(updatedUser, _photoUri)
-                    if (result) {
-                        Toast.makeText(requireContext(), "Datos actualizados", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(requireContext(), "Error al actualizar", Toast.LENGTH_SHORT).show()
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val result = viewModel.updateUserWithImage(updatedUser, _photoUri)
+                        if (result) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Datos actualizados",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Error al actualizar",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "No hay cambios por hacer",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
+            binding.userName.isEnabled = false
+            binding.userSurname.isEnabled = false
+            binding.btnOpenCamera.isEnabled = false
+            binding.btnSaveProfile.isEnabled = false
         }
     }
 
@@ -215,16 +267,58 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
                 .build())
         }
     }
+
+    fun setupTextWatchers() {
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                binding.btnSaveProfile.isEnabled = true
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        binding.userName.addTextChangedListener(watcher)
+        binding.userSurname.addTextChangedListener(watcher)
+    }
+
+
     //FUNCIÓN escribir los datos del usuario actual en el xml
     private fun getUser(user: UserFb){
         binding.userPhoto.load(user.picture)
+        binding.userSurname.setText(user.surname)
         binding.userName.setText(user.name)
-        binding.userEmail.setText(user.email)
-        binding.userSurname.setText(user.surname ?: "")
+        binding.userEmail.text = user.email
 
-        binding.userTeam.setText(user.teamFav?.id ?: "No definido")
-        binding.userPlayer.setText(user.playerFav?.id ?: "No definido")
-        binding.userLeague.setText(user.leagueFav?.id ?: "No definido")
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.favTeam.collect { team ->
+                        team?.let {
+                            binding.nameTeam.text = it.name
+                            binding.imgTeam.load(it.picture)
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.favPlayer.collect { player ->
+                        player?.let {
+                            binding.namePlayer.text = it.name
+                            binding.imgPlayer.load(it.picture)
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.favLeague.collect { league ->
+                        league?.let {
+                            binding.nameLeague.text = it.name
+                            binding.imgLeague.load(it.picture)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

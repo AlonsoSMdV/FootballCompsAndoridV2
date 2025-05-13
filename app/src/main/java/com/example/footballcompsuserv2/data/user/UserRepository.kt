@@ -2,9 +2,12 @@ package com.example.footballcompsuserv2.data.user
 
 import android.net.Uri
 import android.util.Log
+import com.example.footballcompsuserv2.data.leagues.CompetitionFb
 
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
+import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.data.remote.user.UserRemoteDataSource
+import com.example.footballcompsuserv2.data.teams.TeamFb
 import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -153,4 +156,32 @@ class UserRepository @Inject constructor(
             false
         }
     }
+
+    override suspend fun getFavoriteTeam(reference: DocumentReference?): TeamFb? {
+        return try {
+            reference?.get()?.await()?.toObject(TeamFb::class.java)
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Error al obtener equipo favorito", e)
+            null
+        }
+    }
+
+    override suspend fun getFavoritePlayer(reference: DocumentReference?): PlayerFb? {
+        return try {
+            reference?.get()?.await()?.toObject(PlayerFb::class.java)
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Error al obtener jugador favorito", e)
+            null
+        }
+    }
+
+    override suspend fun getFavoriteLeague(reference: DocumentReference?): CompetitionFb? {
+        return try {
+            reference?.get()?.await()?.toObject(CompetitionFb::class.java)
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Error al obtener liga favorita", e)
+            null
+        }
+    }
+
 }
