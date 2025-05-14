@@ -2,6 +2,7 @@ package com.example.footballcompsuserv2.data.teams
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.IgnoreExtraProperties
+import com.google.firebase.firestore.PropertyName
 import java.io.Serializable
 
 data class Team (
@@ -18,7 +19,8 @@ data class TeamFb(
     var id: String? = null,
     val name: String? = null,
     val numberOfPlayers: String? = null,
-    val nMatches: Int? = null,
+    @get:PropertyName("nMatches") @set:PropertyName("nMatches")
+    var nMatches: Int? = null,
     val pts: Int? = null,
     val picture: String? = null,
     val league: DocumentReference? = null,
@@ -29,7 +31,8 @@ data class TeamFb(
 data class TeamFbFields(
     val name: String? = null,
     val numberOfPlayers: String? = null,
-    val nMatches: Int? = null,
+    @get:PropertyName("nMatches") @set:PropertyName("nMatches")
+    var nMatches: Int? = null,
     val pts: Int? = null,
     val picture: String? = null,
     val league: DocumentReference? = null,

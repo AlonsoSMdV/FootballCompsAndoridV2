@@ -15,6 +15,7 @@
     import com.example.footballcompsuserv2.data.teams.Team
     import com.example.footballcompsuserv2.data.teams.TeamFb
     import com.example.footballcompsuserv2.databinding.TeamItemBinding
+    import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
     import com.example.footballcompsuserv2.ui.viewModels.TeamViewModel
 
     class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: String): ListAdapter<TeamFb, TeamListAdapter.TeamViewHolder>(
@@ -47,6 +48,11 @@
                 //Botón de borrar
                 binding.deleteTeamButton.setOnClickListener {
                     viewModel.deleteTeam(team.id!!, compId)
+                }
+
+                binding.updateTeamButton.setOnClickListener {
+                    val action = TeamFragmentDirections.teamsToUpdate(team.id.toString(), team.league!!.id)
+                    it.findNavController().navigate(action)
                 }
 
                 //Botón de favoritos

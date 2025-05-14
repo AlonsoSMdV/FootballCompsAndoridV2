@@ -108,6 +108,27 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val playerId = arguments?.getString("idPlayer")
+
+        if (playerId != null) {
+            // Si es edición, precargar los datos
+            viewLifecycleOwner.lifecycleScope.launch {
+                val player = viewModel.getPlayerById(playerId)
+                player?.let {
+                    binding.editTextPlayerName.setText(it.name)
+                    binding.editTextPlayerFirstSurname.setText(it.firstSurname)
+                    binding.editTextPlayerSecondSurname.setText(it.secondSurname)
+                    binding.editTextPlayerNationality.setText(it.nationality)
+                    binding.editTextPlayerDorsal.setText(it.dorsal)
+                    binding.editTextPlayerBirthdate.setText(it.birthdate)
+                    binding.editTextPlayerPosition.setText(it.position)
+                    it.picture?.let { imgUrl ->
+                        binding.playerImageView.load(imgUrl)
+                    }
+                }
+            }
+        }
+
         idComp = arguments?.getString("idCompSelected")
         val compId = idComp!!
         //Botón de navegar a la cámara
@@ -187,7 +208,12 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
                     position = position,
 
                 )
-                viewModel.createPlayer(createPlayer, _photoUri, idTeam!!)
+
+                if (playerId != null) {
+                    viewModel.updatePlayer(playerId, createPlayer, _photoUri)
+                } else {
+                    viewModel.createPlayer(createPlayer, _photoUri, idTeam!!)
+                }
                 val action = CreatePlayerFragmentDirections.createToPlayers(idTeam!!, compId)
                 it.findNavController().navigate(action)
             }

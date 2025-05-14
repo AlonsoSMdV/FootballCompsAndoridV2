@@ -271,14 +271,28 @@ class CompsRepository @Inject constructor(
 
     override suspend fun updateLeagueWithOptionalImage(leagueId: String, updatedData: CompetitionFbCreateUpdate, imageUri: Uri?): Boolean {
         return try {
-            val finalCompetition = if (imageUri != null) {
-                val imageUrl = uploadImageToFirebaseStorage(imageUri)
-                updatedData.copy(picture = imageUrl ?: "")
-            } else updatedData
+            // Obtener los datos actuales para conservar los campos no modificados
+            val firestore = FirebaseFirestore.getInstance()
+            val docRef = firestore.collection("leagues").document(leagueId)
+            val existingData = docRef.get().await().toObject(CompetitionFbCreateUpdate::class.java)
 
-            updateLeagueFb(leagueId, finalCompetition)
+            // Si ya existe el documento, preservar campos importantes
+            val existingUserId = existingData?.userId
+            val existingPicture = existingData?.picture
+
+            val finalCompetition = updatedData.copy(
+                userId = existingUserId, // conservar userId
+                picture = when {
+                    imageUri != null -> uploadImageToFirebaseStorage(imageUri) ?: existingPicture.orEmpty()
+                    else -> existingPicture.orEmpty() // conservar imagen existente
+                }
+            )
+
+            docRef.set(finalCompetition).await()
+            true
         } catch (e: Exception) {
             false
         }
     }
+
 }

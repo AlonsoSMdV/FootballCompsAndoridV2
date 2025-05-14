@@ -88,6 +88,14 @@
         </action>
 
         <action
+            android:id="@+id/teams_to_update"
+            app:destination="@id/createTeamFragment" >
+            <argument
+                android:name="idTeam"
+                app:argType="string" />
+        </action>
+
+        <action
             android:id="@+id/teams_to_create"
             app:destination="@id/createTeamFragment" />
     </fragment>
@@ -130,6 +138,16 @@
         <action
             android:id="@+id/players_to_create"
             app:destination="@id/createPlayerFragment">
+
+        </action>
+
+
+        <action
+            android:id="@+id/players_to_update"
+            app:destination="@id/createPlayerFragment">
+            <argument
+                android:name="idPlayer"
+                app:argType="string"/>
         </action>
 
         <action

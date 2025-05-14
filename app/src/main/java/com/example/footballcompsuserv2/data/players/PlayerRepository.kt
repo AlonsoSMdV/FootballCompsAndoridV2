@@ -17,6 +17,7 @@ import com.example.footballcompsuserv2.data.teams.TeamFb
 import com.example.footballcompsuserv2.di.NetworkModule
 import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -259,8 +260,22 @@ class PlayerRepository @Inject constructor(
     override suspend fun updatePlayerFb(playerId: String, player: PlayerFbFields): Boolean {
         return try {
             firestore.collection("players")
+            val currentDoc = firestore.collection("players")
                 .document(playerId)
-                .set(player)
+                .get()
+                .await()
+
+            val currentPlayer = currentDoc.toObject(PlayerFbFields::class.java)
+
+            val finalPlayer = player.copy(
+                userId = player.userId ?: currentPlayer?.userId,
+                team = player.team ?: currentPlayer?.team,
+                picture = if (!player.picture.isNullOrEmpty()) player.picture else currentPlayer?.picture
+            )
+
+            firestore.collection("players")
+                .document(playerId)
+                .set(finalPlayer, SetOptions.merge()) // 👈 Aquí aplicamos la fusión
                 .await()
             true
         } catch (e: Exception) {

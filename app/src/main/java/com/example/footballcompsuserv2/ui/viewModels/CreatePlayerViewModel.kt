@@ -4,6 +4,8 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.footballcompsuserv2.data.leagues.CompetitionFb
+import com.example.footballcompsuserv2.data.leagues.CompetitionFbCreateUpdate
 
 import com.example.footballcompsuserv2.data.players.IPlayerRepository
 import com.example.footballcompsuserv2.data.players.Player
@@ -75,12 +77,23 @@ class CreatePlayerViewModel @Inject constructor(
         }
     }
 
+    fun getPlayerById(id: String): PlayerFb? {
+        return playerRepo.setStreamFb.value.find { it.id == id }
+    }
+
     //FUNCIÓN Crear jugadores
     fun createPlayer(player: PlayerFbFields, photo: Uri?, team: String){
         viewModelScope.launch {
             val userRef = getCurrentUserRef()
             val playerWithUser = player.copy(userId = userRef)
             playerRepo.createPlayerWithOptionalImage(playerWithUser, photo, team)
+        }
+    }
+
+    //Actualizar ligas
+    fun updatePlayer(playerId: String, playerField: PlayerFbFields, logo: Uri?){
+        viewModelScope.launch {
+            playerRepo.updatePlayersWithOptionalImage(playerId, playerField, logo)
         }
     }
 }

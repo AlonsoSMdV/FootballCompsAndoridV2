@@ -4,10 +4,13 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.footballcompsuserv2.data.players.PlayerFb
+import com.example.footballcompsuserv2.data.players.PlayerFbFields
 
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.teams.ITeamRepository
 import com.example.footballcompsuserv2.data.teams.Team
+import com.example.footballcompsuserv2.data.teams.TeamFb
 import com.example.footballcompsuserv2.data.teams.TeamFbFields
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -76,12 +79,23 @@ class CreateTeamViewModel @Inject constructor(
 
     }
 
+    fun getTeamById(id: String): TeamFb? {
+        return teamRepo.setStreamFb.value.find { it.id == id }
+    }
+
     //FUNCIÓN Crear equipos
     fun createTeam(team: TeamFbFields, logo: Uri?, compId: String){
         viewModelScope.launch {
             val userRef = getCurrentUserRef()
             val teamWithUser = team.copy(userId = userRef)
             teamRepo.createTeamWithOptionalImage(teamWithUser, logo, compId)
+        }
+    }
+
+    //Actualizar ligas
+    fun updateTeam(teamId: String, teamField: TeamFbFields, logo: Uri?){
+        viewModelScope.launch {
+            teamRepo.updateTeamWithOptionalImage(teamId, teamField, logo)
         }
     }
 }

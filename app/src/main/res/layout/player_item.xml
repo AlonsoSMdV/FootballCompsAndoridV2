@@ -63,15 +63,28 @@
                     android:layout_marginEnd="4dp"
                     tools:ignore="ImageContrastCheck" />
 
-                <com.google.android.material.button.MaterialButton
+                <!-- FAB Borrar -->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/delete_player_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:text="Borrar"
-                    android:textSize="11sp"
-                    app:cornerRadius="18dp"
-                    style="@style/Widget.MaterialComponents.Button"
-                    android:backgroundTint="@color/md_theme_error"/>
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Borrar"
+                    android:src="@drawable/ic_delete"
+                    app:backgroundTint="@color/md_theme_error"
+                    app:maxImageSize="20dp"
+                    app:fabSize="mini" />
+
+                <!-- FAB Editar -->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/update_player_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:contentDescription="Editar"
+                    android:src="@drawable/ic_edit"
+                    app:backgroundTint="@color/md_theme_primary"
+                    app:maxImageSize="20dp"
+                    app:fabSize="mini" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

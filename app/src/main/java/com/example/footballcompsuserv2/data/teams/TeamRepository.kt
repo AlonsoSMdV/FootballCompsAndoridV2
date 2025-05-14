@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.net.toUri
 
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
+import com.example.footballcompsuserv2.data.players.PlayerFbFields
 import com.example.footballcompsuserv2.data.remote.teams.ITeamRemoteDataSource
 import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamRaw
@@ -16,6 +17,7 @@ import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import com.example.footballcompsuserv2.di.NetworkModule
 import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -257,8 +259,22 @@ class TeamRepository @Inject constructor(
     override suspend fun updateTeamFb(teamId: String, team: TeamFbFields): Boolean {
         return try {
             firestore.collection("teams")
+            val currentDoc = firestore.collection("teams")
                 .document(teamId)
-                .set(team)
+                .get()
+                .await()
+
+            val currentTeam = currentDoc.toObject(TeamFbFields::class.java)
+
+            val finalPlayer = team.copy(
+                userId = team.userId ?: currentTeam?.userId,
+                league = team.league ?: currentTeam?.league,
+                picture = if (!team.picture.isNullOrEmpty()) team.picture else currentTeam?.picture
+            )
+
+            firestore.collection("teams")
+                .document(teamId)
+                .set(finalPlayer, SetOptions.merge()) // 👈 Aquí aplicamos la fusión
                 .await()
             true
         } catch (e: Exception) {

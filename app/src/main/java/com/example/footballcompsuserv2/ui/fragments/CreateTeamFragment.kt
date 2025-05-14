@@ -29,6 +29,7 @@
     import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
     import com.example.footballcompsuserv2.data.remote.teams.TeamCreateRawAttributes
     import com.example.footballcompsuserv2.data.remote.teams.TeamRawAttributes
+    import com.example.footballcompsuserv2.data.teams.Team
     import com.example.footballcompsuserv2.data.teams.TeamFbFields
     import com.example.footballcompsuserv2.databinding.FragmentCreateTeamBinding
     import com.example.footballcompsuserv2.ui.viewModels.CreateTeamViewModel
@@ -107,6 +108,30 @@
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
+
+            val teamId = arguments?.getString("idTeam")
+            var pts = 0;
+            var nMatches = 0;
+
+            if (teamId != null) {
+                // Si es edición, precargar los datos
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val team = viewModel.getTeamById(teamId)
+                    team?.let {
+                        binding.editTextTeamName.setText(it.name)
+                        binding.editTextTeamNPlayers.setText(it.numberOfPlayers)
+                        pts = it.pts!!
+                        nMatches = it.nMatches!!
+                        it.picture?.let { imgUrl ->
+                            binding.teamImageView.load(imgUrl)
+                        }
+                    }
+                }
+            }
+
+
+            idComp = arguments?.getString("idCompSelected")!!
+
             //Toolbar
             binding.createTeamToolbar.apply {
                 setNavigationOnClickListener {
@@ -142,7 +167,6 @@
             btnCreate.setOnClickListener{
                 val name = binding.editTextTeamName.text.toString()
                 val nPlayers = binding.editTextTeamNPlayers.text.toString()
-                idComp = arguments?.getString("idCompSelected")!!
 
                 if (name.isBlank() || nPlayers.isBlank()) {
                     Toast.makeText(requireContext(),"Rellene todos los campos", Toast.LENGTH_SHORT).show()
@@ -153,7 +177,18 @@
                         pts = 0,
                         nMatches = 0
                     )
-                    viewModel.createTeam(createTeam, _logoUri, idComp!!)
+
+                    val updateTeam = TeamFbFields(
+                        name = name,
+                        numberOfPlayers = nPlayers,
+                        pts = pts,
+                        nMatches = nMatches
+                    )
+                    if (teamId != null) {
+                        viewModel.updateTeam(teamId, updateTeam, _logoUri)
+                    } else {
+                        viewModel.createTeam(createTeam, _logoUri, idComp!!)
+                    }
                     val action = CreateTeamFragmentDirections.createToTeams(idComp!!)
                     findNavController().navigate(action)
                 }

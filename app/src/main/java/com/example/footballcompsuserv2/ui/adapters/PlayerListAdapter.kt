@@ -16,6 +16,7 @@ import com.example.footballcompsuserv2.ui.viewModels.PlayerListViewModel
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.databinding.PlayerItemBinding
+import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
 
 class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String,
                         private val idComp: String): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
@@ -49,6 +50,11 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
             //Botón de borrar
             binding.deletePlayerButton.setOnClickListener {
                 viewModel.deletePlayer(player.id.toString(), idTeam)
+            }
+
+            binding.updatePlayerButton.setOnClickListener {
+                val action = PlayerListFragmentDirections.playersToUpdate(player.id!!, player.team!!.id, idComp)
+                it.findNavController().navigate(action)
             }
 
             //Botón para hacer al jugador favorito
