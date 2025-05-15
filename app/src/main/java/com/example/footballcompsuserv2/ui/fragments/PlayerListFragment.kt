@@ -60,7 +60,7 @@ class PlayerListFragment : Fragment(R.layout.fragment_player_list) {
         }
 
         //Adapter para mostrar los jugadores
-        val adapter = PlayerListAdapter(viewModel, teamId, idComp!!)
+        val adapter = PlayerListAdapter(viewModel, teamId, idComp!!, null)
         binding.playerList.adapter = adapter
 
         binding.playerList.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -95,6 +95,15 @@ class PlayerListFragment : Fragment(R.layout.fragment_player_list) {
                         }
 
                     }
+                }
+            }
+        }
+
+        // Observar usuario (solo actualiza el botón de favoritos)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.user.collect { user ->
+                    adapter.updateUser(user)
                 }
             }
         }

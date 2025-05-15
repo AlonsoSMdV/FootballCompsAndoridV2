@@ -55,12 +55,12 @@
                 android:gravity="center">
 
                 <ImageButton
-                    android:id="@+id/button_players_favs"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:id="@+id/button_player_favs"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_fav2"
-                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_star"
+                    android:layout_marginEnd="8dp"
                     tools:ignore="ImageContrastCheck" />
 
                 <!-- FAB Borrar -->

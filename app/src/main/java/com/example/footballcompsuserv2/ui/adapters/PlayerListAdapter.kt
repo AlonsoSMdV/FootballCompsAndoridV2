@@ -15,13 +15,18 @@ import com.example.footballcompsuserv2.ui.fragments.PlayerListFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.PlayerListViewModel
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.players.PlayerFb
+import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.PlayerItemBinding
 import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
 
-class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String,
-                        private val idComp: String): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
+class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String, private val idComp: String, private var user: UserFb?): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
     DiffCallback()
 ) {
+    fun updateUser(user: UserFb?) {
+        this.user = user
+        notifyDataSetChanged()  // Redibuja para que se actualicen los botones de favoritos
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -32,13 +37,13 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
         val player = getItem(position)
-        holder.bind(player)
+        holder.bind(player, user)
     }
 
     //ViewHolder de jugador
     class PlayerViewHolder(private val binding: PlayerItemBinding, private val viewModel: PlayerListViewModel, private val idTeam: String,
                            private val idComp: String): RecyclerView.ViewHolder(binding.root){
-        fun bind(player: PlayerFb){
+        fun bind(player: PlayerFb, user: UserFb?){
             //Nombre
             binding.playerName.text = player.name
 
@@ -57,14 +62,14 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
                 it.findNavController().navigate(action)
             }
 
-            //Botón para hacer al jugador favorito
-            binding.buttonPlayersFavs.apply {
-                setImageResource(
-                    R.drawable.ic_fav2
-                )
-                setOnClickListener {
-                    //viewModel.toggleFavouritePlayers(player, idTeam)
-                }
+            // ¿Es favorito?
+            val isFavourite = user?.playerFav?.id == player.id
+            binding.buttonPlayerFavs.setImageResource(
+                if (isFavourite) R.drawable.ic_star_filled else R.drawable.ic_star
+            )
+
+            binding.buttonPlayerFavs.setOnClickListener {
+                viewModel.setFavouritePlayer(player)
             }
 
             //Al clickar la card nos lleva a los detalles del jugador

@@ -12,11 +12,13 @@ interface IUserRepository {
     val setStreamFb: StateFlow<List<UserFb>>
     suspend fun getActualUser(): User
     suspend fun getActualUserFb(): UserFb
-    suspend fun updateUserLeagueFav(leagueRef: DocumentReference)
     suspend fun updateUser(userId: String, userFb: UserFb): Boolean
     suspend fun uploadImageToFirebaseStorage(uri: Uri): String?
     suspend fun updateUserWithOptionalImage(userId: String, updatedData: UserFb, imageUri: Uri?): Boolean
     suspend fun getFavoriteTeam(reference: DocumentReference?): TeamFb?
     suspend fun getFavoritePlayer(reference: DocumentReference?): PlayerFb?
     suspend fun getFavoriteLeague(reference: DocumentReference?): CompetitionFb?
+    suspend fun updateUserLeagueFav(leagueRef: DocumentReference)
+    suspend fun updateUserTeamFav(teamRef: DocumentReference)
+    suspend fun updateUserPlayerFav(playerRef: DocumentReference)
 }

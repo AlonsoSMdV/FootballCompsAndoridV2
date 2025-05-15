@@ -86,31 +86,7 @@ class UserRepository @Inject constructor(
 
     }
 
-    override suspend fun updateUserLeagueFav(leagueRef: DocumentReference) {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        val firestore = FirebaseFirestore.getInstance()
 
-        val querySnapshot = firestore
-            .collection("usuarios")
-            .whereEqualTo("userId", uid)
-            .get()
-            .await()
-
-        if (!querySnapshot.isEmpty) {
-            val documentSnapshot = querySnapshot.documents.first()
-            val userDocRef = documentSnapshot.reference
-
-            userDocRef.update("leagueFav", leagueRef)
-                .addOnSuccessListener {
-                    Log.d("UserRepository", "Liga favorita actualizada correctamente")
-                }
-                .addOnFailureListener {
-                    Log.e("UserRepository", "Error al actualizar liga favorita", it)
-                }
-        } else {
-            Log.e("UserRepository", "Usuario no encontrado para actualizar liga favorita")
-        }
-    }
 
     //Firebase
     private val firestore = FirebaseFirestore.getInstance()
@@ -181,6 +157,83 @@ class UserRepository @Inject constructor(
         } catch (e: Exception) {
             Log.e("UserRepository", "Error al obtener liga favorita", e)
             null
+        }
+    }
+    override suspend fun updateUserLeagueFav(leagueRef: DocumentReference) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val firestore = FirebaseFirestore.getInstance()
+
+        val querySnapshot = firestore
+            .collection("usuarios")
+            .whereEqualTo("userId", uid)
+            .get()
+            .await()
+
+        if (!querySnapshot.isEmpty) {
+            val documentSnapshot = querySnapshot.documents.first()
+            val userDocRef = documentSnapshot.reference
+
+            userDocRef.update("leagueFav", leagueRef)
+                .addOnSuccessListener {
+                    Log.d("UserRepository", "Liga favorita actualizada correctamente")
+                }
+                .addOnFailureListener {
+                    Log.e("UserRepository", "Error al actualizar liga favorita", it)
+                }
+        } else {
+            Log.e("UserRepository", "Usuario no encontrado para actualizar liga favorita")
+        }
+    }
+
+    override suspend fun updateUserTeamFav(teamRef: DocumentReference) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val firestore = FirebaseFirestore.getInstance()
+
+        val querySnapshot = firestore
+            .collection("usuarios")
+            .whereEqualTo("userId", uid)
+            .get()
+            .await()
+
+        if (!querySnapshot.isEmpty) {
+            val documentSnapshot = querySnapshot.documents.first()
+            val userDocRef = documentSnapshot.reference
+
+            userDocRef.update("teamFav", teamRef)
+                .addOnSuccessListener {
+                    Log.d("UserRepository", "Equipo favorito actualizada correctamente")
+                }
+                .addOnFailureListener {
+                    Log.e("UserRepository", "Error al actualizar equipo favorito", it)
+                }
+        } else {
+            Log.e("UserRepository", "Usuario no encontrado para actualizar equipo favorito")
+        }
+    }
+
+    override suspend fun updateUserPlayerFav(playerRef: DocumentReference) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val firestore = FirebaseFirestore.getInstance()
+
+        val querySnapshot = firestore
+            .collection("usuarios")
+            .whereEqualTo("userId", uid)
+            .get()
+            .await()
+
+        if (!querySnapshot.isEmpty) {
+            val documentSnapshot = querySnapshot.documents.first()
+            val userDocRef = documentSnapshot.reference
+
+            userDocRef.update("playerFav", playerRef)
+                .addOnSuccessListener {
+                    Log.d("UserRepository", "Jugador favorito actualizada correctamente")
+                }
+                .addOnFailureListener {
+                    Log.e("UserRepository", "Error al actualizar jugador favorito", it)
+                }
+        } else {
+            Log.e("UserRepository", "Usuario no encontrado para actualizar jugador favorito")
         }
     }
 

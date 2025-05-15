@@ -8,6 +8,10 @@ import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.data.remote.players.PlayerRawAttributesMedia
 import com.example.footballcompsuserv2.data.remote.players.PlayerUpdate
+import com.example.footballcompsuserv2.data.teams.TeamFb
+import com.example.footballcompsuserv2.data.user.IUserRepository
+import com.example.footballcompsuserv2.data.user.UserFb
+import com.google.firebase.firestore.FirebaseFirestore
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -22,11 +26,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayerListViewModel @Inject constructor(
-    private val playerRepo: IPlayerRepository
+    private val playerRepo: IPlayerRepository,
+    private val userRepo: IUserRepository
 ): ViewModel(){
     private val _uiState = MutableStateFlow<PlayerListUiState>(PlayerListUiState.Loading)
     val  uiState: StateFlow<PlayerListUiState>
         get() = _uiState.asStateFlow()
+
+    private val _user = MutableStateFlow<UserFb?>(null)
+    val user: StateFlow<UserFb?> = _user.asStateFlow()
 
     //Borrar jugadores
     fun deletePlayer(playerId: String, teamId: String){
@@ -38,7 +46,29 @@ class PlayerListViewModel @Inject constructor(
         }
     }
 
+    fun setFavouritePlayer(player: PlayerFb) {
+        viewModelScope.launch {
+            val firestore = FirebaseFirestore.getInstance()
+            val playerFb = firestore.collection("players").document(player.id ?: return@launch)
+            userRepo.updateUserPlayerFav(playerFb)
+
+            val updatedUser = userRepo.getActualUserFb()
+            _user.emit(updatedUser)
+
+            // Opcional: vuelve a emitir la misma lista para que se redibuje
+            (_uiState.value as? PlayerListUiState.Success)?.let {
+                _uiState.emit(PlayerListUiState.Success(it.playerList.toList()))
+            }
+        }
+    }
+
     init {
+
+        viewModelScope.launch {
+            val actualUser = userRepo.getActualUserFb()
+            _user.value = actualUser
+        }
+
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 playerRepo.setStreamFb.collect{

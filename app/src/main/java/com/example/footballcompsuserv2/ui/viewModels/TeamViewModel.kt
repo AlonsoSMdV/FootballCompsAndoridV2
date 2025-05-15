@@ -2,12 +2,16 @@ package com.example.footballcompsuserv2.ui.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.footballcompsuserv2.data.leagues.CompetitionFb
 
 import com.example.footballcompsuserv2.data.remote.teams.TeamRawAttributesMedia
 import com.example.footballcompsuserv2.data.remote.teams.TeamUpdate
 import com.example.footballcompsuserv2.data.teams.ITeamRepository
 import com.example.footballcompsuserv2.data.teams.Team
 import com.example.footballcompsuserv2.data.teams.TeamFb
+import com.example.footballcompsuserv2.data.user.IUserRepository
+import com.example.footballcompsuserv2.data.user.UserFb
+import com.google.firebase.firestore.FirebaseFirestore
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -23,11 +27,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TeamViewModel @Inject constructor(
-    private val teamRepo: ITeamRepository
+    private val teamRepo: ITeamRepository,
+    private val userRepo: IUserRepository
 ): ViewModel(){
     private val _uiState = MutableStateFlow<TeamListUiState>(TeamListUiState.Loading)
     val  uiState: StateFlow<TeamListUiState>
         get() = _uiState.asStateFlow()
+
+    private val _user = MutableStateFlow<UserFb?>(null)
+    val user: StateFlow<UserFb?> = _user.asStateFlow()
 
     //Borrar equipos
     fun deleteTeam(teamId: String, leagueId: String){
@@ -35,6 +43,22 @@ class TeamViewModel @Inject constructor(
             teamRepo.deleteTeamFb(teamId)
             withContext(Dispatchers.IO){
                 teamRepo.getTeamsByleagueFb(leagueId)
+            }
+        }
+    }
+
+    fun setFavouriteTeam(team: TeamFb) {
+        viewModelScope.launch {
+            val firestore = FirebaseFirestore.getInstance()
+            val teamRef = firestore.collection("teams").document(team.id ?: return@launch)
+            userRepo.updateUserTeamFav(teamRef)
+
+            val updatedUser = userRepo.getActualUserFb()
+            _user.emit(updatedUser)
+
+            // Opcional: vuelve a emitir la misma lista para que se redibuje
+            (_uiState.value as? TeamListUiState.Success)?.let {
+                _uiState.emit(TeamListUiState.Success(it.teamList.toList()))
             }
         }
     }
@@ -61,6 +85,12 @@ class TeamViewModel @Inject constructor(
     }**/
 
     init {
+
+        viewModelScope.launch {
+            val actualUser = userRepo.getActualUserFb()
+            _user.value = actualUser
+        }
+
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 teamRepo.setStreamFb.collect{

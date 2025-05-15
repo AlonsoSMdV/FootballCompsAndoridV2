@@ -14,13 +14,19 @@
     import com.example.footballcompsuserv2.ui.fragments.TeamFragmentDirections
     import com.example.footballcompsuserv2.data.teams.Team
     import com.example.footballcompsuserv2.data.teams.TeamFb
+    import com.example.footballcompsuserv2.data.user.UserFb
     import com.example.footballcompsuserv2.databinding.TeamItemBinding
     import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
     import com.example.footballcompsuserv2.ui.viewModels.TeamViewModel
 
-    class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: String): ListAdapter<TeamFb, TeamListAdapter.TeamViewHolder>(
+    class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: String, private var user: UserFb? ): ListAdapter<TeamFb, TeamListAdapter.TeamViewHolder>(
         DiffCallback()
     ) {
+        fun updateUser(user: UserFb?) {
+            this.user = user
+            notifyDataSetChanged()  // Redibuja para que se actualicen los botones de favoritos
+        }
+
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
@@ -31,12 +37,12 @@
 
         override fun onBindViewHolder(holder: TeamViewHolder, position: Int) {
             val team = getItem(position)
-            holder.bind(team)
+            holder.bind(team, user)
         }
 
         //ViewHolder de equipo
         class TeamViewHolder(private val binding: TeamItemBinding, private val viewModel: TeamViewModel, private val compId: String): RecyclerView.ViewHolder(binding.root){
-            fun bind(team: TeamFb){
+            fun bind(team: TeamFb, user: UserFb?){
                 //Nombre
                 binding.teamName.text = team.name
 
@@ -55,14 +61,14 @@
                     it.findNavController().navigate(action)
                 }
 
-                //Botón de favoritos
-                binding.favouriteButtonTeams.apply {
-                    setImageResource(
-                        R.drawable.ic_fav2
-                    )
-                    setOnClickListener {
-                        //viewModel.toggleFavouriteTeams(team, compId)
-                    }
+                // ¿Es favorito?
+                val isFavourite = user?.teamFav?.id == team.id
+                binding.favouriteButtonTeams.setImageResource(
+                    if (isFavourite) R.drawable.ic_star_filled else R.drawable.ic_star
+                )
+
+                binding.favouriteButtonTeams.setOnClickListener {
+                    viewModel.setFavouriteTeam(team)
                 }
 
                 //Hacer que al clickar en la card navegue a los jugadores del equipo
