@@ -38,6 +38,7 @@ import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.FragmentProfileDetailsBinding
 import com.example.footballcompsuserv2.ui.datastores.ThemePreferences
 import com.example.footballcompsuserv2.ui.viewModels.ProfileViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -259,13 +260,16 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
 
     //FUNCIÓN logout/cierre de sesión
     private fun logout(){
+        FirebaseAuth.getInstance().signOut()
         sharedPreferences.edit().clear().apply()
 
-        findNavController().apply {
-            navigate(R.id.logout, null, NavOptions.Builder()
-                .setPopUpTo(R.id.logout, true)
-                .build())
-        }
+        findNavController().navigate(
+            R.id.fragmentLogin,
+            null,
+            NavOptions.Builder()
+                .setPopUpTo(R.id.nav_graph, true)
+                .build()
+        )
     }
 
     fun setupTextWatchers() {

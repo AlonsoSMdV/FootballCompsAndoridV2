@@ -28,6 +28,7 @@ import com.example.footballcompsuserv2.databinding.ActivityMainBinding
 import com.example.footballcompsuserv2.ui.notifications.NotificationWorker
 import com.example.footballcompsuserv2.ui.datastores.ThemePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -87,6 +88,18 @@ class MainActivity : AppCompatActivity() {
         //NAVEGACIÓN
         val navHostFragment =  supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navCtrl = navHostFragment.navController
+        val navInflater = navCtrl.navInflater
+
+        val navGraph = navInflater.inflate(R.navigation.main).apply {
+            setStartDestination(
+                if (FirebaseAuth.getInstance().currentUser != null){
+                    R.id.compsFragment
+                }else{
+                    R.id.fragmentLogin
+                }
+            )
+        }
+        navCtrl.graph = navGraph
 
         //NavCtrl
         bottomNav = findViewById(R.id.bottom_navigation)
