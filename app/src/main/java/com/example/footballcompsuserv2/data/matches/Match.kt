@@ -32,6 +32,18 @@ data class MatchFb(
 ): Serializable
 
 @IgnoreExtraProperties
+data class MatchFbFields(
+    val day: String? = null,
+    val hour: String? = null,
+    val place: String? = null,
+    val result: String? = null,
+    val status: String? = null,
+    val picture: String? = null,
+    val localTeamId: DocumentReference? = null,
+    val visitorTeamId: DocumentReference? = null
+): Serializable
+
+@IgnoreExtraProperties
 data class MatchFbWithTeams(
     var id: String? = null,
     val day: String? = null,

@@ -8,4 +8,5 @@ interface IMatchRepository {
     suspend fun readAll(): List<Match>
     suspend fun getMatchesFb(): List<MatchFbWithTeams>
     suspend fun getMatchesFbById(id: String): MatchFbWithTeams
+    suspend fun updateMatchStatuses()
 }

@@ -1,6 +1,11 @@
 package com.example.footballcompsuserv2.data.matches
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import com.example.footballcompsuserv2.data.local.ILocalDataSource
+import com.example.footballcompsuserv2.data.matchStatistics.Stat
+import com.example.footballcompsuserv2.data.matchStatistics.StatsFbFields
 import com.example.footballcompsuserv2.data.remote.matches.IMatchesRemoteDataSource
 import com.example.footballcompsuserv2.data.teams.TeamFb
 import com.example.footballcompsuserv2.di.NetworkUtils
@@ -11,6 +16,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 import javax.inject.Inject
 
@@ -135,4 +145,105 @@ class MatchRepository @Inject constructor(
             MatchFbWithTeams("","","","","","",null,null,"","","","") // o maneja el error con logs / fallback
         }
     }
+
+    private val statNames = listOf(
+        "Tiros", "Tiros a puerta", "Posesión", "Pases", "Precisión de pases",
+        "Faltas", "Tarjetas amarillas", "Tarjetas rojas", "Fueras de juego", "Saques de esquina"
+    )
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override suspend fun updateMatchStatuses() {
+        val matches = getMatchesFb()
+
+        val formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault())
+        val formatterTime = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
+        val now = LocalDateTime.now()
+
+        val firestore = FirebaseFirestore.getInstance()
+        val statsCollection = firestore.collection("matchStatistics")
+        val matchesCollection = firestore.collection("matches")
+
+        for (match in matches) {
+            try {
+                val matchDate = match.day?.let { LocalDate.parse(it, formatterDate) }
+                val matchTime = match.hour?.let { LocalTime.parse(it, formatterTime) }
+
+                if (matchDate != null && matchTime != null) {
+                    val matchDateTime = LocalDateTime.of(matchDate, matchTime)
+
+                    val newStatus = when {
+                        now.isBefore(matchDateTime) -> "Por jugar"
+                        now.isAfter(matchDateTime.plusHours(2)) -> "Finalizado"
+                        now.isAfter(matchDateTime) -> "Jugando"
+                        else -> match.status
+                    }
+
+                    // Actualizar estado si cambió
+                    if (newStatus != match.status) {
+                        match.id?.let { matchesCollection.document(it).update("status", newStatus).await() }
+                        Log.d("MatchStatusUpdate", "Estado actualizado: ${match.id} -> $newStatus")
+                    }
+
+                    // Crear documento de estadísticas si el partido finalizó
+                    if (newStatus == "Finalizado") {
+                        val matchRef = match.id?.let { matchesCollection.document(it) }
+
+                        // Verificar si ya existe
+                        val statsSnapshot = statsCollection
+                            .whereEqualTo("matchId", matchRef)
+                            .get()
+                            .await()
+
+                        if (statsSnapshot.isEmpty) {
+                            val possessionLocal = (30..70).random()
+                            val possessionVisitor = 100 - possessionLocal
+
+                            val generatedStats = statNames.map { statName ->
+                                when (statName) {
+                                    "Posesión" -> Stat(
+                                        name = statName,
+                                        localValue = "$possessionLocal%",
+                                        visitorValue = "$possessionVisitor%"
+                                    )
+                                    else -> Stat(
+                                        name = statName,
+                                        localValue = generateRandomValueForStat(statName),
+                                        visitorValue = generateRandomValueForStat(statName)
+                                    )
+                                }
+                            }
+
+
+                            val matchStats = StatsFbFields(
+                                matchId = matchRef,
+                                stats = generatedStats
+                            )
+
+                            statsCollection.add(matchStats).await()
+                            Log.d("MatchStats", "Estadísticas generadas para partido: ${match.id}")
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("MatchStatusUpdate", "Error con partido ${match.id}", e)
+            }
+        }
+    }
+
+    fun generateRandomValueForStat(statName: String): Any {
+        return when (statName) {
+            "Tiros" -> (5..20).random()
+            "Tiros a puerta" -> (2..15).random()
+            "Pases" -> (200..800).random()
+            "Precisión de pases" -> "${(70..95).random()}%"
+            "Faltas" -> (5..20).random()
+            "Tarjetas amarillas" -> (0..5).random()
+            "Tarjetas rojas" -> (0..2).random()
+            "Fueras de juego" -> (0..5).random()
+            "Saques de esquina" -> (0..10).random()
+            else -> "-"
+        }
+    }
+
+
 }

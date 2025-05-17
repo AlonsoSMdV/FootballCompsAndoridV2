@@ -45,8 +45,8 @@ class MatchesViewModel @Inject constructor(
         }
         //Leer los equipos
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                matchRepo.getMatchesFb()
+            withContext(Dispatchers.IO) {
+                matchRepo.updateMatchStatuses()
             }
         }
     }
