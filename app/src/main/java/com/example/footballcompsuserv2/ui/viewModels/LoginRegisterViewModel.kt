@@ -44,8 +44,25 @@ class LoginRegisterViewModel @Inject constructor(
             val auth = Firebase.auth
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    _loginUIState.value = LoginUIState.Success("Login completado con éxito")
-                    Log.d("Success", "Login completo")
+                    val user = auth.currentUser
+
+                    user?.getIdToken(true)?.addOnCompleteListener{taskedToken ->
+                        if (taskedToken.isSuccessful){
+                            val tokenId = taskedToken.result.token
+                            if (tokenId != null){
+                                authSvc.clearCredentials()
+                                authSvc.saveId(user.uid)
+                                authSvc.saveToken(tokenId)
+                                _loginUIState.value = LoginUIState.Success("Login completado con éxito")
+                                Log.d("Success", "Login completo," + user.uid + ", " + tokenId)
+                            }else{
+                                _loginUIState.value = LoginUIState.Error("No se pudo obtener el token")
+                            }
+                        }else{
+                            _loginUIState.value = LoginUIState.Error("Error al obtener el token" + taskedToken.exception?.message)
+                        }
+                    }
+
                 } else {
                     _loginUIState.value = LoginUIState.Error("Ha habido algún error en el login")
                     Log.d("Error", "Login mal completado")
