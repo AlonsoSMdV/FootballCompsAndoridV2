@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 import javax.inject.Inject
+import kotlin.random.Random
 
 //Clase que obtiene del partido ya sea por remoto o local(si no hay red)
 class MatchRepository @Inject constructor(
@@ -178,9 +179,17 @@ class MatchRepository @Inject constructor(
                         else -> match.status
                     }
 
+                    var newResult = ""
+
+                    if (newStatus == "Finalizado"){
+                        val localGoals = (0..5).random()
+                        val  visitorGoals = (0..5).random()
+                        newResult = "$localGoals - $visitorGoals"
+                    }
+
                     // Actualizar estado si cambió
                     if (newStatus != match.status) {
-                        match.id?.let { matchesCollection.document(it).update("status", newStatus).await() }
+                        match.id?.let { matchesCollection.document(it).update("status", newStatus, "result", newResult).await() }
                         Log.d("MatchStatusUpdate", "Estado actualizado: ${match.id} -> $newStatus")
                     }
 
