@@ -136,10 +136,6 @@ class MainActivity : AppCompatActivity() {
                     navCtrl.navigate(R.id.compsFragment)
                     true
                 }
-                R.id.navigation_favs -> {
-                    navCtrl.navigate(R.id.favouritesFragment)
-                    true
-                }
                 R.id.navigation_matches -> {
                     navCtrl.navigate(R.id.matchesFragment)
                     true

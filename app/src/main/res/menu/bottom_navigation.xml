@@ -8,12 +8,6 @@
         android:visible="true"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/navigation_favs"
-        android:icon="@drawable/ic_fav"
-        android:title="Favourites"
-        android:visible="true"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/navigation_matches"
         android:enabled="true"
         android:icon="@drawable/ic_matches"

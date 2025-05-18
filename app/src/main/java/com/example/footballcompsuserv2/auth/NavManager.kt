@@ -19,7 +19,6 @@ class NavManager @Inject constructor(
         R.id.createCompsFragment,
         R.id.createTeamFragment,
         R.id.createPlayerFragment,
-        R.id.favouritesFragment,
         R.id.statsFragment,
         R.id.lineupsFragment,
         R.id.matchesFragment,
