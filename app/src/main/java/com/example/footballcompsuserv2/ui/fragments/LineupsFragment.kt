@@ -8,11 +8,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import coil3.load
 import com.example.footballcompsuserv2.R
@@ -38,6 +40,14 @@ class LineupsFragment : Fragment(R.layout.fragment_lineups) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        //Toolbar
+        val toolbar = view.findViewById<Toolbar>(R.id.lineups_toolbar)
+        toolbar.setOnClickListener {
+            val action = LineupsFragmentDirections.lineupsToMatches()
+            it.findNavController().navigate(action)
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
