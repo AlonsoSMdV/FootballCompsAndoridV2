@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -11,75 +10,109 @@
         android:id="@+id/team_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="12dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
-        android:layout_marginBottom="4dp">
+        app:strokeColor="@color/md_theme_outline"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:orientation="horizontal"
+            android:padding="12dp"
             android:gravity="center_vertical">
 
+            <!-- Imagen del equipo -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/team_image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="12dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_no_image"
-                app:shapeAppearanceOverlay="@style/RoundedImageView"/>
+                app:shapeAppearanceOverlay="@style/RoundedImageView"
+                android:contentDescription="team_logo" />
 
-            <TextView
-                android:id="@+id/team_name"
+            <!-- Contenedor de nombre y stats -->
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="16sp"
-                android:maxLines="2"
-                android:ellipsize="end"/>
+                android:orientation="vertical">
 
+                <!-- Nombre del equipo -->
+                <TextView
+                    android:id="@+id/team_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre del equipo"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <!-- Stats -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:id="@+id/team_points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Puntos: 0"
+                        android:textSize="14sp"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:id="@+id/team_matches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Partidos: 0"
+                        android:textSize="14sp"
+                        android:textColor="?android:attr/textColorSecondary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Botones -->
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="end">
+                android:gravity="center">
 
                 <ImageButton
                     android:id="@+id/favourite_button_teams"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_star"
-                    android:layout_marginEnd="8dp"
-                    tools:ignore="ImageContrastCheck" />
+                    android:contentDescription="favorite" />
 
-                <!-- FAB Borrar -->
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/delete_team_button"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:contentDescription="Borrar"
-                    android:src="@drawable/ic_delete"
-                    app:backgroundTint="@color/md_theme_error"
-                    app:maxImageSize="20dp"
-                    app:fabSize="mini" />
-
-                <!-- FAB Editar -->
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <ImageButton
                     android:id="@+id/update_team_button"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:contentDescription="Editar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_edit"
-                    app:backgroundTint="@color/md_theme_primary"
-                    app:maxImageSize="20dp"
-                    app:fabSize="mini" />
+                    android:contentDescription="edit"
+                    app:tint="?attr/colorPrimary" />
+
+                <ImageButton
+                    android:id="@+id/delete_team_button"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_del"
+                    android:contentDescription="delete"
+                    app:tint="@color/md_theme_error" />
             </LinearLayout>
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

@@ -44,8 +44,7 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
             //Nombre
             binding.compName.text = competition.name
 
-            //id
-            binding.compId.text = competition.id
+
 
             //Img
             if (competition.picture!=null) {
