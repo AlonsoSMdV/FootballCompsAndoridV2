@@ -3,6 +3,7 @@ package com.example.footballcompsuserv2.ui.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -73,7 +74,17 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
             }
 
             binding.deleteCompButton.setOnClickListener {
-                viewModel.deleteComp(competition.id!!)
+                AlertDialog.Builder(binding.root.context)
+                    .setTitle("Eliminar liga")
+                    .setMessage("¿Estás seguro de que quieres eliminar la liga \"${competition.name}\"?")
+                    .setPositiveButton("Sí") { dialog, _ ->
+                        viewModel.deleteComp(competition.id!!)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancelar") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
             }
 
             binding.updateCompButton.setOnClickListener {

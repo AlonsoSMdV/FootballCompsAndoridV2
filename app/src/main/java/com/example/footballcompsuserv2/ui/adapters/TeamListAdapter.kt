@@ -3,6 +3,7 @@
     import android.view.LayoutInflater
     import android.view.ViewGroup
 
+    import androidx.appcompat.app.AlertDialog
     import androidx.navigation.findNavController
     import androidx.recyclerview.widget.DiffUtil
     import androidx.recyclerview.widget.ListAdapter
@@ -46,6 +47,9 @@
                 //Nombre
                 binding.teamName.text = team.name
 
+                binding.teamPoints.text = "Pts: ${team.pts}"
+                binding.teamMatches.text = "Partidos: ${team.nMatches}"
+
                 //Img
                 if (team.picture != null){
                     binding.teamImage.load(team.picture)
@@ -53,7 +57,17 @@
 
                 //Botón de borrar
                 binding.deleteTeamButton.setOnClickListener {
-                    viewModel.deleteTeam(team.id!!, compId)
+                    AlertDialog.Builder(binding.root.context)
+                        .setTitle("Eliminar equipo")
+                        .setMessage("¿Estás seguro de que quieres eliminar el equipo \"${team.name}\"?")
+                        .setPositiveButton("Sí") { dialog, _ ->
+                            viewModel.deleteTeam(team.id!!, compId)
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("Cancelar") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
                 }
 
                 binding.updateTeamButton.setOnClickListener {

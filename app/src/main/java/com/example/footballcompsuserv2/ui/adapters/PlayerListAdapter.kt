@@ -2,6 +2,7 @@ package com.example.footballcompsuserv2.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -54,7 +55,17 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
 
             //Botón de borrar
             binding.deletePlayerButton.setOnClickListener {
-                viewModel.deletePlayer(player.id.toString(), idTeam)
+                AlertDialog.Builder(binding.root.context)
+                    .setTitle("Eliminar jugador")
+                    .setMessage("¿Estás seguro de que quieres eliminar el jugador \"${player.name}\"?")
+                    .setPositiveButton("Sí") { dialog, _ ->
+                        viewModel.deletePlayer(player.id!!, idTeam)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancelar") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
             }
 
             binding.updatePlayerButton.setOnClickListener {
