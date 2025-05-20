@@ -253,6 +253,9 @@
             <argument
                 android:name="place"
                 app:argType="string"/>
+            <argument
+                android:name="zoomLevel"
+                app:argType="float"/>
         </action>
 
         <action

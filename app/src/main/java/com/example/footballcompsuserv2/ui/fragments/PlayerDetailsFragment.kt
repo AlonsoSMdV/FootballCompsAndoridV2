@@ -68,6 +68,7 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
                 }
             }
         }
+
     }
 
     //FUNCIÓN escritura de datos obtenidos en el xml
@@ -82,5 +83,44 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
         binding.playerDorsal.text = "Dorsal: ${player.dorsal?.toString() ?: "No disponible"}"
         binding.playerBirthdate.text = "Fecha de nacimiento: ${player.birthdate ?: "No disponible"}"
         binding.playerPosition.text = "Posición: ${player.position ?: "No disponible"}"
+
+        player.nationality?.let {
+            showPlayerNationalityOnMap(it)
+        }
+
+        player.team?.let { loadTeamInfo(it.id) }
     }
+
+    private fun showPlayerNationalityOnMap(nationality: String) {
+        val mapFragment = MapsFragment()
+        val bundle = Bundle().apply {
+            putString("place", nationality)
+            putFloat("zoomLevel", 4f)
+        }
+        mapFragment.arguments = bundle
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.map_fragment_container, mapFragment)
+            .commit()
+    }
+
+    private fun loadTeamInfo(teamId: String) {
+        // Primero lanzamos la función del ViewModel para buscar el equipo
+        viewModel.getTeamById(teamId)
+
+        // Luego observamos el resultado
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.team.collect { team ->
+                    team?.let {
+                        binding.playerTeamName.text = it.name ?: "Nombre no disponible"
+                        it.picture?.let { pictureUrl ->
+                            binding.playerTeamLogo.load(pictureUrl)
+                        } ?: binding.playerTeamLogo.setImageResource(R.drawable.ic_no_image)
+                    }
+                }
+            }
+        }
+    }
+
 }

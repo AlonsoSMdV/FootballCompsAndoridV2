@@ -94,7 +94,7 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
 
             //Lugar de partido
             binding.place.setOnClickListener {
-                val action = MatchesFragmentDirections.matchToPlace(match.place.toString())
+                val action = MatchesFragmentDirections.matchToPlace(match.place.toString(), 10f)
                 it.findNavController().navigate(action)
             }
 

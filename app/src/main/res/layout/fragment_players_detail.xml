@@ -1,116 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground">
 
-    <androidx.appcompat.widget.Toolbar
+    <!-- Toolbar moderna -->
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/players_details_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintTop_toTopOf="parent"
+        app:title="Detalles del jugador"
+        android:titleTextColor="?android:attr/textColorPrimaryInverse"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Detalles"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/ThemeOverlay.Material3.Toolbar.Surface" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/profile_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/players_details_toolbar">
+    <!-- Scroll para contenido -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/players_details_toolbar"
+        app:layout_constraintBottom_toTopOf="@id/player_details_bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <ImageView
-                android:id="@+id/player_photo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
-                android:padding="2dp"
-                android:src="@drawable/ic_person_v2"
-                android:scaleType="centerCrop"/>
-
-            <LinearLayout
+            <!-- Tarjeta principal -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/player_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
-                <TextView
-                    android:id="@+id/player_name"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@android:color/transparent"
-                    android:text="Nombre del jugador: "
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/player_first_surname"
+                    <!-- Foto del jugador -->
+                    <ImageView
+                        android:id="@+id/player_photo"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_person_v2"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Foto del jugador" />
+
+                    <!-- Datos del jugador -->
+                    <TextView
+                        android:id="@+id/player_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Nombre del jugador: "
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/player_first_surname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Primer apellido: "
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                    <TextView
+                        android:id="@+id/player_second_surname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Segundo apellido: "
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                    <TextView
+                        android:id="@+id/player_nationality"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nacionalidad: "
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                    <TextView
+                        android:id="@+id/player_dorsal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dorsal: "
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                    <TextView
+                        android:id="@+id/player_birthdate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha de nacimiento: "
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                    <TextView
+                        android:id="@+id/player_position"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Posición: "
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <!-- Imagen del equipo -->
+                <LinearLayout
+                    android:id="@+id/team_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@android:color/transparent"
-                    android:text="Primer apellido: "
-                    android:textSize="16sp" />
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/players_details_toolbar">
 
-                <TextView
-                    android:id="@+id/player_second_surname"
+                    <ImageView
+                        android:id="@+id/player_team_logo"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_no_image" />
+
+                    <TextView
+                        android:id="@+id/player_team_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Nombre del equipo"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+
+            <!-- Mapa de nacionalidad -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <!-- Usa MapView o una imagen estática si no usas Google Maps -->
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/map_fragment_container"
+                    android:name="com.example.footballcompsuserv2.ui.fragments.MapsFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@android:color/transparent"
-                    android:text="Segundo apellido: "
-                    android:textSize="16sp" />
+                    android:layout_height="200dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp" />
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:id="@+id/player_nationality"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@android:color/transparent"
-                    android:text="Nacionalidad: "
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/player_dorsal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@android:color/transparent"
-                    android:text="Dorsal: "
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/player_birthdate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@android:color/transparent"
-                    android:text="Fecha de nacimiento: "
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/player_position"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:text="Posición: "
-                    android:textSize="16sp" />
-
-            </LinearLayout>
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </ScrollView>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/player_details_bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_navigation"
+        android:layout_gravity="bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

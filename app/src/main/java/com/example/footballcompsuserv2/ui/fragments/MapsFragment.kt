@@ -41,6 +41,7 @@ class MapsFragment : Fragment() {
          * user has installed Google Play services and returned to the app.
          */
         val place = arguments?.getString("place")//Lugar del partido seleccionado
+        val zoomLevel = arguments?.getFloat("zoomLevel") ?: 10f
         place?.let {
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
             val addresses = geocoder.getFromLocationName(it, 1)
@@ -48,7 +49,7 @@ class MapsFragment : Fragment() {
                 val location = addresses[0]
                 val latLng = LatLng(location.latitude, location.longitude)
                 googleMap.addMarker(MarkerOptions().position(latLng).title(it))
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel))
             }
         }
     }
