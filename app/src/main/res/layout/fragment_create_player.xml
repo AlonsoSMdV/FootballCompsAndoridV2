@@ -1,228 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_create_player"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_create_player">
+    android:background="?android:attr/windowBackground">
 
-    <!-- Toolbar fijo en la parte superior -->
-    <androidx.appcompat.widget.Toolbar
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/create_player_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/ThemeOverlay.Material3.Toolbar.Surface"
+        app:title="Crear jugador"
         app:navigationIcon="@drawable/ic_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Crear jugador"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- ScrollView para el contenido -->
+    <!-- ScrollView with card and input fields -->
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/create_player_toolbar"
-        app:layout_constraintBottom_toTopOf="@id/create_player_bottom_navigation">
+        app:layout_constraintBottom_toTopOf="@id/create_player_bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/textCreatePlayer"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Crea un equipo"
-                android:textSize="28dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:cardElevation="4dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPlayerName"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="15dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintTop_toBottomOf="@id/textCreatePlayer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="15dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPlayerName"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre del jugador"
-                    android:inputType="text"
-                    android:textColorHint="@color/cardview_dark_background" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:divider="?android:attr/listDivider"
+                    android:showDividers="middle">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPlayerFirstSurname"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="15dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayoutPlayerName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="5dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPlayerFirstSurname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Primer apellido"
-                    android:inputType="text"
-                    android:textColorHint="@color/cardview_dark_background" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:id="@+id/textCreatePlayer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Crea un jugador"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingBottom="12dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPlayerSecondSurname"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="15dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayoutPlayerFirstSurname"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="5dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPlayerSecondSurname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Segundo apellido"
-                    android:inputType="text"
-                    android:textColorHint="@color/cardview_dark_background" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    <!-- Input fields -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nombre del jugador">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPlayerNationality"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="15dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayoutPlayerSecondSurname"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="5dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPlayerNationality"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nacionalidad"
-                    android:inputType="text"
-                    android:textColorHint="@color/cardview_dark_background" />
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPlayerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPlayerDorsal"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="15dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayoutPlayerNationality"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="5dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPlayerDorsal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Dorsal"
-                    android:inputType="text"
-                    android:textColorHint="@color/cardview_dark_background" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Primer apellido">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPlayerBirthdate"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="15dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayoutPlayerDorsal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="5dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPlayerBirthdate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Fecha de nacimiento(AA-MM-DD)"
-                    android:inputType="text"
-                    android:textColorHint="@color/cardview_dark_background" />
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPlayerFirstSurname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPlayerPosition"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="15dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayoutPlayerBirthdate"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="5dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPlayerPosition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Posicion"
-                    android:inputType="text"
-                    android:textColorHint="@color/cardview_dark_background" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Segundo apellido">
 
-            <Button
-                android:id="@+id/create_player"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="15dp"
-                android:text="Crear"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayoutPlayerPosition"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPlayerSecondSurname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/player_to_camera"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="15dp"
-                android:text="Mostrar camara"
-                app:layout_constraintTop_toBottomOf="@id/create_player"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nacionalidad">
 
-            <Button
-                android:id="@+id/player_select_photo_btn"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="15dp"
-                android:text="Select from local storage"
-                app:layout_constraintTop_toBottomOf="@id/player_to_camera"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPlayerNationality"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Dorsal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPlayerDorsal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Fecha de nacimiento (DD/MM/YYYY)">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPlayerBirthdate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Posición">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPlayerPosition"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <!-- Buttons -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/create_player"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Crear"
+                            android:layout_marginTop="16dp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/player_to_camera"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mostrar cámara"
+                            style="@style/Widget.Material3.Button.OutlinedButton"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/player_select_photo_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Seleccionar de almacenamiento"
+                            style="@style/Widget.Material3.Button.OutlinedButton"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Player image preview -->
             <ImageView
                 android:id="@+id/player_image_view"
                 android:layout_width="match_parent"
-                android:layout_height="360dp"
-                app:layout_constraintTop_toBottomOf="@id/player_select_photo_btn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="16dp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Imagen del jugador" />
+        </LinearLayout>
     </ScrollView>
 
-    <!-- BottomNavigationView fijo en la parte inferior -->
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/create_player_bottom_navigation"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom_navigation"
-        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+        app:menu="@menu/bottom_navigation"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

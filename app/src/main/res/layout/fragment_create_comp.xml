@@ -1,91 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_create_comps"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_create_comps">
+    tools:context=".ui.fragments.CreateCompFragment">
 
-    <androidx.appcompat.widget.Toolbar
+    <!-- Toolbar moderna -->
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/create_comps_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/ThemeOverlay.Material3.Toolbar.Surface"
+        app:title="Crear liga"
         app:navigationIcon="@drawable/ic_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Crear liga"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/textInputLayoutCompName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_comps_toolbar"
-        android:text="Crea una liga"
-        android:textSize="28dp"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutCompName"
+    <!-- ScrollView para que todo se vea bien -->
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="75dp"
-        android:layout_marginHorizontal="15dp"
-        app:endIconMode="clear_text"
-        app:layout_constraintBottom_toTopOf="@id/create_comp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/create_comps_toolbar"
-        android:layout_marginTop="15dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextCompName"
+        app:layout_constraintBottom_toTopOf="@id/create_comp_bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre de la liga"
-            android:inputType="text"
-            android:textColorHint="@color/cardview_dark_background" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <Button
-        android:id="@+id/create_comp"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="15dp"
-        android:text="Crear"
-        app:layout_constraintBottom_toTopOf="@+id/select_photo_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutCompName" />
+            <!-- Card para el contenido -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:divider="?android:attr/listDivider"
+                    android:showDividers="middle">
 
-    <Button
-        android:id="@+id/select_photo_btn"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="15dp"
-        android:text="Select from local storage"
-        app:layout_constraintBottom_toTopOf="@+id/comp_img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_comp" />
-    <ImageView
-        android:id="@+id/comp_img"
-        android:layout_width="match_parent"
-        android:layout_height="360dp"
-        app:layout_constraintBottom_toTopOf="@+id/create_comp_bottom_navigation"
-        app:layout_constraintTop_toBottomOf="@id/select_photo_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Crea una liga"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingBottom="12dp"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
 
+                    <!-- Nombre de la liga -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:id="@+id/textInputLayoutCompName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nombre de la liga"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextCompName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <!-- Botón crear/actualizar -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/create_comp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Crear"
+                            android:layout_marginTop="16dp"/>
+
+                        <!-- Botón seleccionar imagen -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/select_photo_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Seleccionar imagen"
+                            style="@style/Widget.Material3.Button.OutlinedButton" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Vista previa de imagen -->
+            <ImageView
+                android:id="@+id/comp_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Imagen de la liga" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/create_comp_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_navigation"
-        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

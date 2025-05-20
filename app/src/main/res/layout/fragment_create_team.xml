@@ -1,112 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_create_team"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_create_team">
+    tools:context=".ui.fragments.CreateTeamFragment">
 
-    <androidx.appcompat.widget.Toolbar
+    <!-- Toolbar modernizada -->
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/create_team_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/ThemeOverlay.Material3.Toolbar.Surface"
+        app:title="Crear equipo"
         app:navigationIcon="@drawable/ic_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Crear equipo"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textCreateTeam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Crea un equipo"
-        android:textSize="28dp"
-        app:layout_constraintBottom_toTopOf="@id/textInputLayoutTeamName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_team_toolbar" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutTeamName"
+    <!-- Scroll para que todo sea visible en pantallas pequeñas -->
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="75dp"
-        android:layout_marginHorizontal="15dp"
-        app:endIconMode="clear_text"
-        app:layout_constraintBottom_toTopOf="@id/textInputLayoutTeamNPlayers"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/create_team_toolbar"
+        app:layout_constraintBottom_toTopOf="@id/create_team_bottom_navigation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textCreateTeam"
-        android:layout_marginTop="15dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextTeamName"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre del equipo"
-            android:inputType="text"
-            android:textColorHint="@color/cardview_dark_background" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutTeamNPlayers"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        android:layout_marginHorizontal="15dp"
-        app:endIconMode="clear_text"
-        app:layout_constraintBottom_toTopOf="@id/create_team"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutTeamName"
-        android:layout_marginTop="5dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextTeamNPlayers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Número de jugadores"
-            android:inputType="text"
-            android:textColorHint="@color/cardview_dark_background" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <!-- Card para el formulario -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:divider="?android:attr/listDivider"
+                    android:showDividers="middle">
 
-    <Button
-        android:id="@+id/create_team"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="15dp"
-        android:text="Crear"
-        app:layout_constraintBottom_toTopOf="@+id/create_team_bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutTeamNPlayers"/>
+                    <TextView
+                        android:id="@+id/textCreateTeam"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Crea un equipo"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingBottom="12dp" />
 
-    <Button
-        android:id="@+id/team_select_photo_btn"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="15dp"
-        android:text="Select from local storage"
-        app:layout_constraintBottom_toTopOf="@+id/team_image_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_team" />
-    <ImageView
-        android:id="@+id/team_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="360dp"
-        app:layout_constraintBottom_toTopOf="@+id/create_team_bottom_navigation"
-        app:layout_constraintTop_toBottomOf="@id/team_select_photo_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+                    <!-- Nombre del equipo -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:id="@+id/textInputLayoutTeamName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nombre del equipo"
+                        app:endIconMode="clear_text">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextTeamName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Número de jugadores -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:id="@+id/textInputLayoutTeamNPlayers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Número de jugadores"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextTeamNPlayers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <!-- Botón crear -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/create_team"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Crear"
+                            style="@style/Widget.Material3.Button.IconButton.Filled"
+                            android:layout_marginTop="16dp" />
+
+                        <!-- Botón seleccionar foto -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/team_select_photo_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Seleccionar de almacenamiento"
+                            style="@style/Widget.Material3.Button.OutlinedButton" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Imagen preview -->
+            <ImageView
+                android:id="@+id/team_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Imagen del equipo" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/create_team_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom_navigation"
-        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-
+        app:menu="@menu/bottom_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>
