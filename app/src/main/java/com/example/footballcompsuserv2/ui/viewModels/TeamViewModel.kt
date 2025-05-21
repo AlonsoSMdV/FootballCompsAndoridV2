@@ -37,6 +37,10 @@ class TeamViewModel @Inject constructor(
     private val _user = MutableStateFlow<UserFb?>(null)
     val user: StateFlow<UserFb?> = _user.asStateFlow()
 
+
+    private val _userId = MutableStateFlow<String?>(null)
+    val userId: StateFlow<String?> = _userId.asStateFlow()
+
     //Borrar equipos
     fun deleteTeam(teamId: String, leagueId: String){
         viewModelScope.launch {
@@ -85,6 +89,11 @@ class TeamViewModel @Inject constructor(
     }**/
 
     init {
+
+        viewModelScope.launch {
+            val id = userRepo.getActualUserFbId()
+            _userId.value = id
+        }
 
         viewModelScope.launch {
             val actualUser = userRepo.getActualUserFb()

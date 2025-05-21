@@ -1,7 +1,9 @@
 package com.example.footballcompsuserv2.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 
 import androidx.navigation.findNavController
@@ -20,12 +22,17 @@ import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.PlayerItemBinding
 import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
 
-class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String, private val idComp: String, private var user: UserFb?): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
+class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String, private val idComp: String, private var user: UserFb?,  private var userId: String? ): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
     DiffCallback()
 ) {
     fun updateUser(user: UserFb?) {
         this.user = user
         notifyDataSetChanged()  // Redibuja para que se actualicen los botones de favoritos
+    }
+
+    fun updateUserId(userId: String?) {
+        this.userId = userId
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
@@ -38,13 +45,13 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
         val player = getItem(position)
-        holder.bind(player, user)
+        holder.bind(player, user, userId)
     }
 
     //ViewHolder de jugador
     class PlayerViewHolder(private val binding: PlayerItemBinding, private val viewModel: PlayerListViewModel, private val idTeam: String,
                            private val idComp: String): RecyclerView.ViewHolder(binding.root){
-        fun bind(player: PlayerFb, user: UserFb?){
+        fun bind(player: PlayerFb, user: UserFb?, userId: String?){
             //Nombre
             binding.playerName.text = player.name
 
@@ -53,24 +60,47 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
                 binding.playerImg.load(player.picture)
             }
 
+            // ✅ Usar userId del ViewModel para comprobar propiedad
+            val isOwner = player.userId?.id == userId
+
+            binding.deletePlayerButton.alpha = if (isOwner) 1.0f else 0.5f
+            binding.updatePlayerButton.alpha = if (isOwner) 1.0f else 0.5f
+
+
             //Botón de borrar
             binding.deletePlayerButton.setOnClickListener {
-                AlertDialog.Builder(binding.root.context)
-                    .setTitle("Eliminar jugador")
-                    .setMessage("¿Estás seguro de que quieres eliminar el jugador \"${player.name}\"?")
-                    .setPositiveButton("Sí") { dialog, _ ->
-                        viewModel.deletePlayer(player.id!!, idTeam)
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("Cancelar") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .show()
+                if (isOwner) {
+                    AlertDialog.Builder(binding.root.context)
+                        .setTitle("Eliminar jugador")
+                        .setMessage("¿Estás seguro de que quieres eliminar el jugador \"${player.name}\"?")
+                        .setPositiveButton("Sí") { dialog, _ ->
+                            viewModel.deletePlayer(player.id!!, idTeam)
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("Cancelar") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                } else {
+                    Toast.makeText(
+                        binding.root.context,
+                        "No tienes permisos para eliminar este jugador.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
 
             binding.updatePlayerButton.setOnClickListener {
-                val action = PlayerListFragmentDirections.playersToUpdate(player.id!!, player.team!!.id, idComp)
-                it.findNavController().navigate(action)
+                if (isOwner) {
+                    val action = PlayerListFragmentDirections.playersToUpdate(player.id!!, idTeam, idComp)
+                    it.findNavController().navigate(action)
+                } else {
+                    Toast.makeText(
+                        binding.root.context,
+                        "No tienes permisos para editar este jugador.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
 
             // ¿Es favorito?

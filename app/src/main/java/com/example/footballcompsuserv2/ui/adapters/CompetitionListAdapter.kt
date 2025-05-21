@@ -3,6 +3,7 @@ package com.example.footballcompsuserv2.ui.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 
 import androidx.navigation.findNavController
@@ -20,13 +21,19 @@ import com.example.footballcompsuserv2.data.leagues.CompetitionFb
 import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.CompetitionItemBinding
 
-class CompetitionListAdapter(private val viewModel: CompetitionViewModel, private var user: UserFb? ): ListAdapter<CompetitionFb, CompetitionListAdapter.CompetitionViewHolder>(
+class CompetitionListAdapter(private val viewModel: CompetitionViewModel, private var user: UserFb?, private var userId: String? ): ListAdapter<CompetitionFb, CompetitionListAdapter.CompetitionViewHolder>(
     DiffCallback()
 ) {
     fun updateUser(user: UserFb?) {
         this.user = user
         notifyDataSetChanged()  // Redibuja para que se actualicen los botones de favoritos
     }
+
+    fun updateUserId(userId: String?) {
+        this.userId = userId
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitionViewHolder {
         val binding = CompetitionItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CompetitionViewHolder(binding, viewModel)
@@ -34,14 +41,14 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
 
     override fun onBindViewHolder(holder: CompetitionViewHolder, position: Int) {
         val competition = getItem(position)
-        holder.bind(competition, user)
+        holder.bind(competition, user, userId)
     }
 
 
     //ViewHolder de ligas
     class CompetitionViewHolder(private val binding: CompetitionItemBinding, private val viewModel: CompetitionViewModel) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(competition: CompetitionFb, user: UserFb?) {
+        fun bind(competition: CompetitionFb, user: UserFb?, userId: String?) {
             //Nombre
             binding.compName.text = competition.name
 
@@ -52,10 +59,6 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
                 binding.compImage.load(competition.picture)
             }
 
-            //Botón de borrar
-            binding.deleteCompButton.setOnClickListener{
-                viewModel.deleteComp(competition.id!!)
-            }
 
             // ¿Es favorito?
             val isFavourite = user?.leagueFav?.id == competition.id
@@ -73,24 +76,51 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
                 it.findNavController().navigate(action)
             }
 
+            // ✅ Usar userId del ViewModel para comprobar propiedad
+            val isOwner = competition.userId?.id == userId
+
+            binding.deleteCompButton.alpha = if (isOwner) 1.0f else 0.5f
+            binding.updateCompButton.alpha = if (isOwner) 1.0f else 0.5f
+
             binding.deleteCompButton.setOnClickListener {
-                AlertDialog.Builder(binding.root.context)
-                    .setTitle("Eliminar liga")
-                    .setMessage("¿Estás seguro de que quieres eliminar la liga \"${competition.name}\"?")
-                    .setPositiveButton("Sí") { dialog, _ ->
-                        viewModel.deleteComp(competition.id!!)
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("Cancelar") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .show()
+                if (isOwner) {
+                    AlertDialog.Builder(binding.root.context)
+                        .setTitle("Eliminar liga")
+                        .setMessage("¿Estás seguro de que quieres eliminar la liga \"${competition.name}\"?")
+                        .setPositiveButton("Sí") { dialog, _ ->
+                            viewModel.deleteComp(competition.id!!)
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("Cancelar") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+
+                    Log.d("DEBUG", "Competition.userId = ${competition.userId?.id}")
+                    Log.d("DEBUG", "Current userId = $userId")
+                } else {
+                    Toast.makeText(
+                        binding.root.context,
+                        "No tienes permisos para eliminar esta liga.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.d("Toast", "SAle el toast")
+                }
             }
 
             binding.updateCompButton.setOnClickListener {
-                val action = CompsFragmentDirections.compsToUpdate(competition.id!!)
-                it.findNavController().navigate(action)
+                if (isOwner) {
+                    val action = CompsFragmentDirections.compsToUpdate(competition.id!!)
+                    it.findNavController().navigate(action)
+                } else {
+                    Toast.makeText(
+                        binding.root.context,
+                        "No tienes permisos para editar esta liga.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
+
 
         }
     }

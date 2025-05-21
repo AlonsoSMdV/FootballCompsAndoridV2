@@ -1,5 +1,6 @@
 package com.example.footballcompsuserv2.ui.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
@@ -35,6 +36,10 @@ class CompetitionViewModel @Inject constructor(
 
     private val _user = MutableStateFlow<UserFb?>(null)
     val user: StateFlow<UserFb?> = _user.asStateFlow()
+
+    private val _userId = MutableStateFlow<String?>(null)
+    val userId: StateFlow<String?> = _userId.asStateFlow()
+
 
     fun deleteComp(comId: String){
         viewModelScope.launch {
@@ -80,6 +85,12 @@ class CompetitionViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             compRepo.getLeaguesFb()
+            userRepo.getActualUserFbId()
+        }
+
+        viewModelScope.launch {
+            val id = userRepo.getActualUserFbId()
+            _userId.value = id
         }
 
         viewModelScope.launch {

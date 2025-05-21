@@ -12,6 +12,7 @@ interface IUserRepository {
     val setStreamFb: StateFlow<List<UserFb>>
     suspend fun getActualUser(): User
     suspend fun getActualUserFb(): UserFb
+    suspend fun getActualUserFbId(): String
     suspend fun updateUser(userId: String, userFb: UserFb): Boolean
     suspend fun uploadImageToFirebaseStorage(uri: Uri): String?
     suspend fun updateUserWithOptionalImage(userId: String, updatedData: UserFb, imageUri: Uri?): Boolean

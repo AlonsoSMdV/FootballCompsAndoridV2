@@ -64,7 +64,7 @@ class TeamFragment: Fragment(R.layout.fragment_team_list) {
         }
 
         //Adapter para mostrar los equipos
-        val adapter = TeamListAdapter(viewModel, compSelected, null)
+        val adapter = TeamListAdapter(viewModel, compSelected, null, null)
         binding.teamList.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -96,6 +96,14 @@ class TeamFragment: Fragment(R.layout.fragment_team_list) {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.user.collect { user ->
                     adapter.updateUser(user)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userId.collect { userId ->
+                    adapter.updateUserId(userId)
                 }
             }
         }

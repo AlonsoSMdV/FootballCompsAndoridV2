@@ -51,7 +51,7 @@ class CompsFragment : Fragment(R.layout.fragment_competition_list) {
             findNavController().navigate(R.id.comps_to_create)
         }
 
-        val adapter = CompetitionListAdapter(viewModel, null)
+        val adapter = CompetitionListAdapter(viewModel, null, null)
         binding.compList.adapter = adapter
 
         // Observamos cambios de ligas
@@ -71,6 +71,14 @@ class CompsFragment : Fragment(R.layout.fragment_competition_list) {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.user.collect { user ->
                     adapter.updateUser(user)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userId.collect { userId ->
+                    adapter.updateUserId(userId)
                 }
             }
         }

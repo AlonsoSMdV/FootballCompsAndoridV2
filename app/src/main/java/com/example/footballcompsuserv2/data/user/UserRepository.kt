@@ -86,6 +86,30 @@ class UserRepository @Inject constructor(
 
     }
 
+    override suspend fun getActualUserFbId(): String {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val firestore = FirebaseFirestore.getInstance()
+
+        val querySnapshot = firestore
+            .collection("usuarios")
+            .whereEqualTo("userId", uid)
+            .get()
+            .await()
+
+        if (!querySnapshot.isEmpty) {
+            val documentSnapshot = querySnapshot.documents.first()
+            val userId = documentSnapshot.id
+            Log.d("UserRepository", "Id de Usuario obtenido correctamente: $userId")
+            return userId ?: ""
+        } else {
+            Log.e("UserRepository", "No se encontró ningún documento con userId = $uid")
+            return ""
+        }
+
+    }
+
+
+
 
 
     //Firebase
