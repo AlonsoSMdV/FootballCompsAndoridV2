@@ -5,41 +5,121 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/stats_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="?attr/actionBarTheme"
-        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back"
         app:title="Estadísticas"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- ScrollView -->
     <ScrollView
         android:id="@+id/stats_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/stats_toolbar"
         app:layout_constraintBottom_toTopOf="@id/stats_bottom_navigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Aquí va el único hijo del ScrollView -->
         <LinearLayout
-            android:id="@+id/stats_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"/>
+            android:padding="16dp">
+
+            <!-- Card de equipos -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardElevation="2dp"
+                app:cardCornerRadius="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/local_team_logo"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_no_image" />
+
+                        <TextView
+                            android:id="@+id/local_team_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Local"
+                            android:textStyle="bold"
+                            android:textAppearance="?attr/textAppearanceBodyMedium" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/vs_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="vs"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:paddingHorizontal="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/visitor_team_logo"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_no_image" />
+
+                        <TextView
+                            android:id="@+id/visitor_team_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Visitante"
+                            android:textStyle="bold"
+                            android:textAppearance="?attr/textAppearanceBodyMedium" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Aquí se cargarán dinámicamente las estadísticas -->
+            <LinearLayout
+                android:id="@+id/stats_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp" />
+        </LinearLayout>
     </ScrollView>
 
-
+    <!-- Bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/stats_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_navigation"
         android:layout_gravity="bottom"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

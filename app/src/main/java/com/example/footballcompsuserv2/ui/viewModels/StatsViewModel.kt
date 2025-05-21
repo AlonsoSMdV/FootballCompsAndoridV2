@@ -5,6 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.footballcompsuserv2.data.matchStatistics.IStatsRepository
 import com.example.footballcompsuserv2.data.matchStatistics.Stat
 import com.example.footballcompsuserv2.data.matchStatistics.StatsFb
+import com.example.footballcompsuserv2.data.matches.IMatchRepository
+import com.example.footballcompsuserv2.data.matches.MatchFb
+import com.example.footballcompsuserv2.data.matches.MatchFbWithTeams
+import com.example.footballcompsuserv2.data.teams.ITeamRepository
+import com.example.footballcompsuserv2.data.teams.TeamFb
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,11 +19,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatsViewModel @Inject constructor(
-    private val statsRepo: IStatsRepository
+    private val statsRepo: IStatsRepository,
+    private val matchRepo: IMatchRepository
 ) : ViewModel() {
 
     private val _stats = MutableStateFlow(StatsFb())
     val stats: StateFlow<StatsFb> = _stats.asStateFlow()
+
+    private val _match = MutableStateFlow<MatchFbWithTeams?>(null)
+    val match: StateFlow<MatchFbWithTeams?> = _match.asStateFlow()
 
     private val statNames = listOf(
         "Tiros", "Tiros a puerta", "Posesión", "Pases", "Precisión de pases",
@@ -51,5 +60,11 @@ class StatsViewModel @Inject constructor(
             )
         }
         return StatsFb(stats = stats)
+    }
+
+    fun getMatchById(id: String) {
+        viewModelScope.launch {
+            _match.value = matchRepo.setStreamFb.value.find { it.id == id }
+        }
     }
 }
