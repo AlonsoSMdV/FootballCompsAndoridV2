@@ -11,6 +11,7 @@ import com.example.footballcompsuserv2.data.remote.leagues.CompUpdate
 import com.example.footballcompsuserv2.data.remote.leagues.ICompRemoteDataSource
 import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
 import com.example.footballcompsuserv2.data.teams.toExternal
+import com.example.footballcompsuserv2.di.Firestore
 import com.example.footballcompsuserv2.di.NetworkModule
 import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.firestore.FirebaseFirestore
@@ -195,7 +196,7 @@ class CompsRepository @Inject constructor(
 
     //FIREBASE
     override suspend fun getLeaguesFb(): List<CompetitionFb> {
-        val firestore = FirebaseFirestore.getInstance()
+        val firestore = Firestore.getInstance()
         val snapshot = firestore.collection("leagues").get().await()
 
         val compList = snapshot.documents.mapNotNull { doc ->
@@ -209,7 +210,7 @@ class CompsRepository @Inject constructor(
 
     override suspend fun addLeagueFb(competition: CompetitionFbCreateUpdate): Boolean {
         return try {
-            FirebaseFirestore.getInstance().collection("leagues")
+            Firestore.getInstance().collection("leagues")
                 .add(competition)
                 .await()
             true
@@ -221,7 +222,7 @@ class CompsRepository @Inject constructor(
 
     override suspend fun updateLeagueFb(compId: String, competition: CompetitionFbCreateUpdate): Boolean {
         return try {
-            FirebaseFirestore.getInstance().collection("leagues")
+            Firestore.getInstance().collection("leagues")
                 .document(compId)
                 .set(competition)
                 .await()
@@ -233,7 +234,7 @@ class CompsRepository @Inject constructor(
 
     override suspend fun deleteLeagueFb(id: String): Boolean {
         return try {
-            FirebaseFirestore.getInstance().collection("leagues")
+            Firestore.getInstance().collection("leagues")
                 .document(id)
                 .delete()
                 .await()
@@ -272,7 +273,7 @@ class CompsRepository @Inject constructor(
     override suspend fun updateLeagueWithOptionalImage(leagueId: String, updatedData: CompetitionFbCreateUpdate, imageUri: Uri?): Boolean {
         return try {
             // Obtener los datos actuales para conservar los campos no modificados
-            val firestore = FirebaseFirestore.getInstance()
+            val firestore = Firestore.getInstance()
             val docRef = firestore.collection("leagues").document(leagueId)
             val existingData = docRef.get().await().toObject(CompetitionFbCreateUpdate::class.java)
 

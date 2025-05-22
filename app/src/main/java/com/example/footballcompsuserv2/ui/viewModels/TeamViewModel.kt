@@ -11,6 +11,7 @@ import com.example.footballcompsuserv2.data.teams.Team
 import com.example.footballcompsuserv2.data.teams.TeamFb
 import com.example.footballcompsuserv2.data.user.IUserRepository
 import com.example.footballcompsuserv2.data.user.UserFb
+import com.example.footballcompsuserv2.di.Firestore
 import com.google.firebase.firestore.FirebaseFirestore
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,7 +54,7 @@ class TeamViewModel @Inject constructor(
 
     fun setFavouriteTeam(team: TeamFb) {
         viewModelScope.launch {
-            val firestore = FirebaseFirestore.getInstance()
+            val firestore = Firestore.getInstance()
             val teamRef = firestore.collection("teams").document(team.id ?: return@launch)
             userRepo.updateUserTeamFav(teamRef)
 

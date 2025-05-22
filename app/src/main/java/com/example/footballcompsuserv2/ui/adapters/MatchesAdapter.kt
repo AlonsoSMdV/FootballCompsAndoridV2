@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 
@@ -17,6 +18,7 @@ import coil3.load
 import com.example.footballcompsuserv2.data.matches.Match
 import com.example.footballcompsuserv2.data.matches.MatchFbWithTeams
 import com.example.footballcompsuserv2.databinding.MatchesItemBinding
+import com.example.footballcompsuserv2.di.NetworkUtils
 import com.example.footballcompsuserv2.ui.fragments.MatchesFragmentDirections
 import com.example.footballcompsuserv2.ui.viewModels.MatchesViewModel
 
@@ -24,14 +26,17 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import javax.inject.Inject
 
-class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<MatchFbWithTeams, MatchesAdapter.MatchViewHolder>(
+class MatchesAdapter (private val viewModel: MatchesViewModel,
+                      private val networkUtils: NetworkUtils): ListAdapter<MatchFbWithTeams, MatchesAdapter.MatchViewHolder>(
     DiffCallback()
 ) {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         val binding = MatchesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MatchViewHolder(binding, viewModel)
+        return MatchViewHolder(binding, viewModel,  networkUtils)
     }
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
@@ -40,7 +45,9 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
     }
 
     //ViewHolder de partidos
-    class MatchViewHolder(private val binding: MatchesItemBinding, private val viewModel: MatchesViewModel) : RecyclerView.ViewHolder(binding.root) {
+    class MatchViewHolder(private val binding: MatchesItemBinding, private val viewModel: MatchesViewModel,
+                          private val networkUtils: NetworkUtils) : RecyclerView.ViewHolder(binding.root) {
+
 
         fun bind(match: MatchFbWithTeams) {
             //Formatear la fecha para que quede mas estética
@@ -94,8 +101,12 @@ class MatchesAdapter (private val viewModel: MatchesViewModel): ListAdapter<Matc
 
             //Lugar de partido
             binding.place.setOnClickListener {
-                val action = MatchesFragmentDirections.matchToPlace(match.place.toString(), 10f)
-                it.findNavController().navigate(action)
+                if (networkUtils.isNetworkAvailable() && !match.place.isNullOrBlank()) {
+                    val action = MatchesFragmentDirections.matchToPlace(match.place.toString(), 10f)
+                    it.findNavController().navigate(action)
+                } else {
+                    Toast.makeText(it.context, "Sin conexión. El mapa no se puede mostrar.", Toast.LENGTH_SHORT).show()
+                }
             }
 
             //Botón de compartir

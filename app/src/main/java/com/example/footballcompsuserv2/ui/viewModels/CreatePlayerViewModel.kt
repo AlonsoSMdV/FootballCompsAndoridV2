@@ -12,6 +12,7 @@ import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.data.players.PlayerFbFields
 import com.example.footballcompsuserv2.data.remote.players.PlayerCreate
+import com.example.footballcompsuserv2.di.Firestore
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,7 +41,7 @@ class CreatePlayerViewModel @Inject constructor(
 
     private suspend fun getCurrentUserRef(): DocumentReference? {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return null
-        val firestore = FirebaseFirestore.getInstance()
+        val firestore = Firestore.getInstance()
 
         try {
             // Query to find the user document directly by userId

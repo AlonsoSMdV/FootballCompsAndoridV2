@@ -14,6 +14,8 @@ class NetworkUtils @Inject constructor(
     /**
      * Retorna `true` si hay conexión y `false` en caso contrario.
      */
+
+    fun requireContext(){}
     fun isNetworkAvailable(): Boolean {
         // Servicio de conectividad del sistema
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

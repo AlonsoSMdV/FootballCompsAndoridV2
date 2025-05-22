@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -20,16 +21,20 @@ import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.players.Player
 import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.databinding.FragmentPlayersDetailBinding
+import com.example.footballcompsuserv2.di.NetworkUtils
 import com.example.footballcompsuserv2.ui.viewModels.PlayerDetailsViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
 
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
     private lateinit var binding: FragmentPlayersDetailBinding
     private lateinit var viewModel: PlayerDetailsViewModel
+    @Inject
+    lateinit var networkUtils: NetworkUtils
 
     private var playerId: String? = null
     private var teamId: String? = null
@@ -85,7 +90,13 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
         binding.playerPosition.text = "Posición: ${player.position ?: "No disponible"}"
 
         player.nationality?.let {
-            showPlayerNationalityOnMap(it)
+            if (networkUtils.isNetworkAvailable() && !player.nationality.isNullOrBlank()) {
+                showPlayerNationalityOnMap(player.nationality)
+            } else {
+                binding.mapFragmentContainer.visibility = View.GONE // oculta el contenedor del mapa
+                binding.mapOfflineMessage.visibility = View.VISIBLE
+                Toast.makeText(requireContext(), "Sin conexión. El mapa no se puede mostrar.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         player.team?.let { loadTeamInfo(it.id) }

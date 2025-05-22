@@ -31,6 +31,13 @@ class MatchesViewModel @Inject constructor(
         get() = _uiState.asStateFlow()
 
     init {
+        //Leer los equipos
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                matchRepo.updateMatchStatuses()
+            }
+        }
+
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 matchRepo.setStreamFb.collect{
@@ -43,12 +50,7 @@ class MatchesViewModel @Inject constructor(
                 }
             }
         }
-        //Leer los equipos
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                matchRepo.updateMatchStatuses()
-            }
-        }
+
     }
 
 }

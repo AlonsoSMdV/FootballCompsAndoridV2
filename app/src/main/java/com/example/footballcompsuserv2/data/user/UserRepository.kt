@@ -8,6 +8,7 @@ import com.example.footballcompsuserv2.data.local.ILocalDataSource
 import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.data.remote.user.UserRemoteDataSource
 import com.example.footballcompsuserv2.data.teams.TeamFb
+import com.example.footballcompsuserv2.di.Firestore
 import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -113,7 +114,7 @@ class UserRepository @Inject constructor(
 
 
     //Firebase
-    private val firestore = FirebaseFirestore.getInstance()
+    private val firestore = Firestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     override suspend fun updateUser(userId: String, userFb: UserFb): Boolean {
         return try {

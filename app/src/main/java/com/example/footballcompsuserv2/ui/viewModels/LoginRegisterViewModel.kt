@@ -9,6 +9,7 @@ import com.example.footballcompsuserv2.auth.AuthService
 import com.example.footballcompsuserv2.data.loginRegister.ILoginRegisterRepo
 import com.example.footballcompsuserv2.data.remote.loginRegister.LoginRaw
 import com.example.footballcompsuserv2.data.remote.loginRegister.RegisterRaw
+import com.example.footballcompsuserv2.di.Firestore
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -81,7 +82,7 @@ class LoginRegisterViewModel @Inject constructor(
     fun registerFb(email:String, password:String, name: String, surname: String){
         if (email.isNotEmpty() && password.isNotEmpty()){
             val auth = Firebase.auth
-            val firestore = FirebaseFirestore.getInstance()
+            val firestore = Firestore.getInstance()
 
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {

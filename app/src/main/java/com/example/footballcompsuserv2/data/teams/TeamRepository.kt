@@ -14,6 +14,7 @@ import com.example.footballcompsuserv2.data.remote.teams.TeamCreate
 import com.example.footballcompsuserv2.data.remote.teams.TeamRaw
 import com.example.footballcompsuserv2.data.remote.teams.TeamUpdate
 import com.example.footballcompsuserv2.data.remote.uploadImg.StrapiResponse
+import com.example.footballcompsuserv2.di.Firestore
 import com.example.footballcompsuserv2.di.NetworkModule
 import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.firestore.FirebaseFirestore
@@ -214,7 +215,7 @@ class TeamRepository @Inject constructor(
     }
 
     //Firebase
-    private val firestore = FirebaseFirestore.getInstance()
+    private val firestore = Firestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     override suspend fun getTeamsByleagueFb(compId: String): List<TeamFb> {
         return try {

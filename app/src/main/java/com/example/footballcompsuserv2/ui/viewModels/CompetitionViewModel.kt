@@ -52,7 +52,7 @@ class CompetitionViewModel @Inject constructor(
 
     fun setFavouriteLeague(competition: CompetitionFb) {
         viewModelScope.launch {
-            val firestore = FirebaseFirestore.getInstance()
+            val firestore = Firestore.getInstance()
             val leagueRef = firestore.collection("leagues").document(competition.id ?: return@launch)
             userRepo.updateUserLeagueFav(leagueRef)
 

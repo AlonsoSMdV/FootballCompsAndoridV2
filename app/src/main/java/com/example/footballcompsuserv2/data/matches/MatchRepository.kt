@@ -8,6 +8,7 @@ import com.example.footballcompsuserv2.data.matchStatistics.Stat
 import com.example.footballcompsuserv2.data.matchStatistics.StatsFbFields
 import com.example.footballcompsuserv2.data.remote.matches.IMatchesRemoteDataSource
 import com.example.footballcompsuserv2.data.teams.TeamFb
+import com.example.footballcompsuserv2.di.Firestore
 import com.example.footballcompsuserv2.di.NetworkUtils
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -76,7 +77,7 @@ class MatchRepository @Inject constructor(
     }
 
 
-    private val firestore = FirebaseFirestore.getInstance()
+    private val firestore = Firestore.getInstance()
     override suspend fun getMatchesFb(): List<MatchFbWithTeams> {
         return try {
             val snapshot = firestore.collection("matches").get().await()
@@ -160,7 +161,7 @@ class MatchRepository @Inject constructor(
         val formatterTime = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
         val now = LocalDateTime.now()
 
-        val firestore = FirebaseFirestore.getInstance()
+        val firestore = Firestore.getInstance()
         val statsCollection = firestore.collection("matchStatistics")
         val matchesCollection = firestore.collection("matches")
 
