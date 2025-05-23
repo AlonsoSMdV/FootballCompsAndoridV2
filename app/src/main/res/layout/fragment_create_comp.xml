@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.Material3.Toolbar.Surface"
-        app:title="Crear liga"
+        app:title="@string/league_create"
         app:navigationIcon="@drawable/ic_back"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +54,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Crea una liga"
+                        android:text="@string/create_a_league"
                         android:layout_gravity="center_horizontal"
                         android:paddingBottom="12dp"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
@@ -65,7 +65,7 @@
                         android:id="@+id/textInputLayoutCompName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nombre de la liga"
+                        android:hint="@string/name_of_the_league"
                         app:endIconMode="clear_text">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -83,7 +83,7 @@
                             android:id="@+id/create_comp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Crear"
+                            android:text="@string/create"
                             android:layout_marginTop="16dp"/>
 
                         <!-- Botón seleccionar imagen -->
@@ -91,7 +91,7 @@
                             android:id="@+id/select_photo_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Seleccionar imagen"
+                            android:text="@string/take_from_gallery"
                             style="@style/Widget.Material3.Button.OutlinedButton" />
                     </LinearLayout>
 

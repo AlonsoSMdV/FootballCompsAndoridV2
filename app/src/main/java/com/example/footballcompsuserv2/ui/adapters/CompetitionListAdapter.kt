@@ -76,6 +76,14 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
                 it.findNavController().navigate(action)
             }
 
+            val context = binding.root.context
+            val deleteTitle = context.getString(R.string.league_delete)
+            val deleteMessage = context.getString(R.string.league_delete_message, competition.name)
+            val cancel = context.getString(R.string.yes)
+            val yes = context.getString(R.string.cancel)
+            val notDelete = context.getString(R.string.league_delete_not)
+            val notUpdate = context.getString(R.string.league_update_not)
+
             // ✅ Usar userId del ViewModel para comprobar propiedad
             val isOwner = competition.userId?.id == userId
 
@@ -85,26 +93,23 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
             binding.deleteCompButton.setOnClickListener {
                 if (isOwner) {
                     AlertDialog.Builder(binding.root.context)
-                        .setTitle("Eliminar liga")
-                        .setMessage("¿Estás seguro de que quieres eliminar la liga \"${competition.name}\"?")
-                        .setPositiveButton("Sí") { dialog, _ ->
+                        .setTitle(deleteTitle)
+                        .setMessage(deleteMessage)
+                        .setPositiveButton(yes) { dialog, _ ->
                             viewModel.deleteComp(competition.id!!)
                             dialog.dismiss()
                         }
-                        .setNegativeButton("Cancelar") { dialog, _ ->
+                        .setNegativeButton(cancel) { dialog, _ ->
                             dialog.dismiss()
                         }
                         .show()
 
-                    Log.d("DEBUG", "Competition.userId = ${competition.userId?.id}")
-                    Log.d("DEBUG", "Current userId = $userId")
                 } else {
                     Toast.makeText(
                         binding.root.context,
-                        "No tienes permisos para eliminar esta liga.",
+                        notDelete,
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.d("Toast", "SAle el toast")
                 }
             }
 
@@ -115,7 +120,7 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
                 } else {
                     Toast.makeText(
                         binding.root.context,
-                        "No tienes permisos para editar esta liga.",
+                        notUpdate,
                         Toast.LENGTH_SHORT
                     ).show()
                 }

@@ -15,7 +15,7 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Equipos"
+        app:title="@string/team_name"
         tools:layout_editor_absoluteX="0dp" />
 
     <androidx.recyclerview.widget.RecyclerView

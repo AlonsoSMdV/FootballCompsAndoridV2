@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.Material3.Toolbar.Surface"
-        app:title="Crear jugador"
+        app:title="@string/players_create"
         app:navigationIcon="@drawable/ic_back"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +54,7 @@
                         android:id="@+id/textCreatePlayer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Crea un jugador"
+                        android:text="@string/create_a_players"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         android:layout_gravity="center_horizontal"
                         android:paddingBottom="12dp"/>
@@ -64,7 +64,7 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nombre del jugador">
+                        android:hint="@string/name_of_the_player">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextPlayerName"
@@ -77,7 +77,7 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Primer apellido">
+                        android:hint="@string/first_surname">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextPlayerFirstSurname"
@@ -89,7 +89,7 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Segundo apellido">
+                        android:hint="@string/second_surname">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextPlayerSecondSurname"
@@ -101,7 +101,7 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nacionalidad">
+                        android:hint="@string/nationality">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextPlayerNationality"
@@ -113,7 +113,7 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Dorsal">
+                        android:hint="@string/dorsal">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextPlayerDorsal"
@@ -126,7 +126,7 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Fecha de nacimiento (DD/MM/YYYY)">
+                        android:hint="@string/birthdate_create">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextPlayerBirthdate"
@@ -139,7 +139,7 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Posición">
+                        android:hint="@string/position">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextPlayerPosition"
@@ -155,21 +155,21 @@
                             android:id="@+id/create_player"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Crear"
+                            android:text="@string/create"
                             android:layout_marginTop="16dp"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/player_to_camera"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Mostrar cámara"
+                            android:text="@string/take_photo"
                             style="@style/Widget.Material3.Button.OutlinedButton"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/player_select_photo_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Seleccionar de almacenamiento"
+                            android:text="@string/take_from_gallery"
                             style="@style/Widget.Material3.Button.OutlinedButton"/>
                     </LinearLayout>
 

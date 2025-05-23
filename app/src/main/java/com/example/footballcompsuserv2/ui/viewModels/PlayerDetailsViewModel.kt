@@ -28,6 +28,10 @@ class PlayerDetailsViewModel @Inject constructor(
     private val _player = MutableStateFlow<Player?>(null)
     val player = _player.asStateFlow()
 
+    private val _playerFb = MutableStateFlow<PlayerFb?>(null)
+    val playerFb = _playerFb.asStateFlow()
+
+
     private val _team = MutableStateFlow<TeamFb?>(null)
     val team: StateFlow<TeamFb?> = _team.asStateFlow()
 
@@ -39,11 +43,22 @@ class PlayerDetailsViewModel @Inject constructor(
         }
     }
 
+    val playerStream = playerRepo.setStreamFb
+
+    // Nueva función para cargar el jugador seleccionado
+    fun loadPlayerById(playerId: String) {
+        viewModelScope.launch {
+            playerStream.collect { players ->
+                val selectedPlayer = players.find { it.id == playerId }
+                _playerFb.value = selectedPlayer
+            }
+        }
+    }
+
     fun getTeamById(id: String) {
         viewModelScope.launch {
             _team.value = teamRepo.setStreamFb.value.find { it.id == id }
         }
     }
 
-    val playerStream = playerRepo.setStreamFb
 }

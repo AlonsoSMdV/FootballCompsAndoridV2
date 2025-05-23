@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Partidos"
+        app:title="@string/matches"
         tools:layout_editor_absoluteX="0dp" />
 
     <androidx.recyclerview.widget.RecyclerView

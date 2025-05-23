@@ -67,24 +67,32 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
             binding.updatePlayerButton.alpha = if (isOwner) 1.0f else 0.5f
 
 
+            val context = binding.root.context
+            val deleteTitle = context.getString(R.string.players_delete)
+            val deleteMessage = context.getString(R.string.players_delete_message, player.name)
+            val cancel = context.getString(R.string.yes)
+            val yes = context.getString(R.string.cancel)
+            val notDelete = context.getString(R.string.players_delete_not)
+            val notUpdate = context.getString(R.string.players_update_not)
+
             //Botón de borrar
             binding.deletePlayerButton.setOnClickListener {
                 if (isOwner) {
                     AlertDialog.Builder(binding.root.context)
-                        .setTitle("Eliminar jugador")
-                        .setMessage("¿Estás seguro de que quieres eliminar el jugador \"${player.name}\"?")
-                        .setPositiveButton("Sí") { dialog, _ ->
+                        .setTitle(deleteTitle)
+                        .setMessage(deleteMessage)
+                        .setPositiveButton(yes) { dialog, _ ->
                             viewModel.deletePlayer(player.id!!, idTeam)
                             dialog.dismiss()
                         }
-                        .setNegativeButton("Cancelar") { dialog, _ ->
+                        .setNegativeButton(cancel) { dialog, _ ->
                             dialog.dismiss()
                         }
                         .show()
                 } else {
                     Toast.makeText(
                         binding.root.context,
-                        "No tienes permisos para eliminar este jugador.",
+                        notDelete,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -97,7 +105,7 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
                 } else {
                     Toast.makeText(
                         binding.root.context,
-                        "No tienes permisos para editar este jugador.",
+                        notUpdate,
                         Toast.LENGTH_SHORT
                     ).show()
                 }

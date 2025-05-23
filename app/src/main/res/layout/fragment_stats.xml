@@ -13,7 +13,7 @@
         android:background="?attr/colorPrimary"
         android:theme="?attr/actionBarTheme"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Estadísticas"
+        app:title="@string/stats"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- ScrollView -->

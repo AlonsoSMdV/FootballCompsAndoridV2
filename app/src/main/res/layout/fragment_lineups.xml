@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="?attr/actionBarTheme"
-        app:title="Alineaciones"
+        app:title="@string/lineups"
         app:navigationIcon="@drawable/ic_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
                         android:id="@+id/local_team_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Local"
+                        android:text="@string/local"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:textSize="16sp" />
@@ -65,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Alineaciones"
+                    android:text="@string/lineups"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="18sp" />
@@ -86,7 +86,7 @@
                         android:id="@+id/visitor_team_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Visitante"
+                        android:text="@string/visitor"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:textSize="16sp" />

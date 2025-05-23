@@ -62,6 +62,14 @@
                     binding.teamImage.load(team.picture)
                 }
 
+                val context = binding.root.context
+                val deleteTitle = context.getString(R.string.team_delete)
+                val deleteMessage = context.getString(R.string.team_delete_message, team.name)
+                val cancel = context.getString(R.string.yes)
+                val yes = context.getString(R.string.cancel)
+                val notDelete = context.getString(R.string.team_delete_not)
+                val notUpdate = context.getString(R.string.team_update_not)
+
                 // ✅ Usar userId del ViewModel para comprobar propiedad
                 val isOwner = team.userId?.id == userId
 
@@ -71,13 +79,13 @@
                 binding.deleteTeamButton.setOnClickListener {
                     if (isOwner) {
                         AlertDialog.Builder(binding.root.context)
-                            .setTitle("Eliminar equipo")
-                            .setMessage("¿Estás seguro de que quieres eliminar el equipo \"${team.name}\"?")
-                            .setPositiveButton("Sí") { dialog, _ ->
+                            .setTitle(deleteTitle)
+                            .setMessage(deleteMessage)
+                            .setPositiveButton(yes) { dialog, _ ->
                                 viewModel.deleteTeam(team.id!!, compId)
                                 dialog.dismiss()
                             }
-                            .setNegativeButton("Cancelar") { dialog, _ ->
+                            .setNegativeButton(cancel) { dialog, _ ->
                                 dialog.dismiss()
                             }
                             .show()
@@ -85,7 +93,7 @@
                     } else {
                         Toast.makeText(
                             binding.root.context,
-                            "No tienes permisos para eliminar este equipo.",
+                            notDelete,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -98,7 +106,7 @@
                     } else {
                         Toast.makeText(
                             binding.root.context,
-                            "No tienes permisos para editar este equipo.",
+                            notUpdate,
                             Toast.LENGTH_SHORT
                         ).show()
                     }

@@ -4,19 +4,19 @@
     <item
         android:id="@+id/navigation_comps"
         android:icon="@drawable/ic_home"
-        android:title="Home"
+        android:title="@string/home"
         android:visible="true"
         app:showAsAction="always"/>
     <item
         android:id="@+id/navigation_matches"
         android:enabled="true"
         android:icon="@drawable/ic_matches"
-        android:title="Matches"
+        android:title="@string/matches_bottom"
         android:visible="true" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_profile"
-        android:title="Profile"
+        android:title="@string/profile"
         android:visible="true"
         app:showAsAction="always"/>
 </menu>

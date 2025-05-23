@@ -186,7 +186,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Estadísticas"
+                android:text="@string/stats"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 app:cornerRadius="16dp"
                 android:layout_marginEnd="8dp" />
@@ -196,7 +196,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Alineaciones"
+                android:text="@string/lineups"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 app:cornerRadius="16dp"
                 android:layout_marginStart="8dp" />

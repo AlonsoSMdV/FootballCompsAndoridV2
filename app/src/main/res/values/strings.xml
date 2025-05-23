@@ -1,3 +1,69 @@
 <resources>
     <string name="app_name">FootballCompsUserV2</string>
+    <!--Bottom Nav-->
+    <string name="home">Inicio</string>
+    <string name="matches_bottom">Partidos</string>
+    <string name="profile">Perfil</string>
+    <!--Ligas-->
+    <string name="league_name">Ligas</string>
+    <string name="league_delete">Eliminar liga</string>
+    <string name="league_delete_message">¿Estás seguro de que quieres eliminar la liga "%s"?</string>
+    <string name="league_delete_not">No tienes permisos para eliminar esta liga.</string>
+    <string name="league_update_not">No tienes permisos para editar esta liga.</string>
+    <string name="league_create">Crear liga</string>
+    <string name="create_a_league">Crea una liga</string>
+    <string name="name_of_the_league">Nombre de la liga</string>
+    <!--Equipos-->
+    <string name="team_name">Equipos</string>
+    <string name="team_delete">Eliminar equipo</string>
+    <string name="team_delete_message">¿Estás seguro de que quieres eliminar el equipo "%s"?</string>
+    <string name="team_delete_not">No tienes permisos para eliminar este equipo.</string>
+    <string name="team_update_not">No tienes permisos para editar este equipo.</string>
+    <string name="team_create">Crear equipo</string>
+    <string name="create_a_team">Crea un equipo</string>
+    <string name="name_of_the_team">Nombre del equipo</string>
+    <string name="number_of_players">Número de jugadores</string>
+    <!--Jugadores-->
+    <string name="players_name">Jugadores</string>
+    <string name="players_details">Detalles del jugador</string>
+    <string name="players_delete">Eliminar jugador</string>
+    <string name="players_delete_message">¿Estás seguro de que quieres eliminar el jugador "%s"?</string>
+    <string name="players_delete_not">No tienes permisos para eliminar este jugador.</string>
+    <string name="players_update_not">No tienes permisos para editar este jugador.</string>
+    <string name="players_create">Crear jugador</string>
+    <string name="create_a_players">Crea un jugador</string>
+    <string name="name_of_the_player">Nombre del jugador</string>
+    <string name="first_surname">Primer apellido</string>
+    <string name="second_surname">Segundo apellido</string>
+    <string name="nationality">Nacionalidad</string>
+    <string name="dorsal">Dorsal</string>
+    <string name="birthdate_create">Fecha de nacimiento (DD/MM//YYYY)</string>
+    <string name="birthdate">Fecha de nacimiento</string>
+    <string name="position">Posición</string>
+    <!--Partidos-->
+    <string name="matches">Partidos</string>
+    <string name="lineups">Alineaciones</string>
+    <string name="local">Local</string>
+    <string name="visitor">Visitante</string>
+    <string name="stats">Estadísticas</string>
+    <!--Perfil-->
+    <string name="user_data">Datos del Usuario</string>
+    <string name="edit">Editar</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="welcome">Bienvenido a Fan Football</string>
+    <string name="name">Nombre</string>
+    <string name="surname">Apellidos</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="register">Registrarse</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="to_register">¿Aún no tiene cuenta? Regístrese aquí</string>
+    <string name="to_login">¿Ya tiene una cuenta creada? Inicie sesión aquí</string>
+    <!--Comun-->
+    <string name="cancel">Cancelar</string>
+    <string name="yes">Sí</string>
+    <string name="create">Crear</string>
+    <string name="update">Actualizar</string>
+    <string name="take_from_gallery">Seleccionar del almacenamiento</string>
+    <string name="take_photo">Mostrar cámara</string>
 </resources>

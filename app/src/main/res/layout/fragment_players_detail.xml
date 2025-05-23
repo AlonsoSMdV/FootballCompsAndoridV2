@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        app:title="Detalles del jugador"
+        app:title="@string/players_details"
         android:titleTextColor="?android:attr/textColorPrimaryInverse"
         app:navigationIcon="@drawable/ic_back"
         app:layout_constraintTop_toTopOf="parent"

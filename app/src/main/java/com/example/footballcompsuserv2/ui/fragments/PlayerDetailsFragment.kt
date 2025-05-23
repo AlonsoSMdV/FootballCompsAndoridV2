@@ -65,29 +65,37 @@ class PlayerDetailsFragment: Fragment(R.layout.fragment_players_detail) {
             it.findNavController().navigate(action)
         }
 
+
+        playerId?.let { viewModel.loadPlayerById(it) }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.playerStream.collect { players ->
-                    val player = players.find { it.id == playerId }
+                viewModel.playerFb.collect { player ->
                     player?.let { getPlayer(it) }
                 }
             }
         }
-
     }
 
     //FUNCIÓN escritura de datos obtenidos en el xml
     private fun getPlayer(player: PlayerFb) {
+        val pName = context?.getString(R.string.name)
+        val pFSurname = context?.getString(R.string.first_surname)
+        val pSSurname = context?.getString(R.string.second_surname)
+        val pNationality = context?.getString(R.string.nationality)
+        val pDorsal = context?.getString(R.string.dorsal)
+        val pBirthdate = context?.getString(R.string.birthdate)
+        val pPosition = context?.getString(R.string.position)
         if (player.picture!=null){
             binding.playerPhoto.load(player.picture)
         }
-        binding.playerName.text = "Nombre: ${player.name ?: "No disponible"}"
-        binding.playerFirstSurname.text = "Primer apellido: ${player.firstSurname ?: "No disponible"}"
-        binding.playerSecondSurname.text = "Segundo apellido: ${player.secondSurname ?: "No disponible"}"
-        binding.playerNationality.text = "Nacionalidad: ${player.nationality ?: "No disponible"}"
-        binding.playerDorsal.text = "Dorsal: ${player.dorsal?.toString() ?: "No disponible"}"
-        binding.playerBirthdate.text = "Fecha de nacimiento: ${player.birthdate ?: "No disponible"}"
-        binding.playerPosition.text = "Posición: ${player.position ?: "No disponible"}"
+        binding.playerName.text = pName+": ${player.name ?: "No disponible"}"
+        binding.playerFirstSurname.text = pFSurname+": ${player.firstSurname ?: "No disponible"}"
+        binding.playerSecondSurname.text = pSSurname+": ${player.secondSurname ?: "No disponible"}"
+        binding.playerNationality.text = pNationality+": ${player.nationality ?: "No disponible"}"
+        binding.playerDorsal.text = pDorsal+": ${player.dorsal?.toString() ?: "No disponible"}"
+        binding.playerBirthdate.text = pBirthdate+": ${player.birthdate ?: "No disponible"}"
+        binding.playerPosition.text = pPosition+": ${player.position ?: "No disponible"}"
 
         player.nationality?.let {
             if (networkUtils.isNetworkAvailable() && !player.nationality.isNullOrBlank()) {

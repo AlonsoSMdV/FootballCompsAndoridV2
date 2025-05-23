@@ -40,14 +40,14 @@
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <ImageView
                     android:id="@+id/btn_open_camera"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="bottom|end"
                     android:layout_margin="4dp"
                     android:contentDescription="Cambiar foto"
-                    app:backgroundTint="?attr/colorPrimary"
+                    app:tint="@color/md_theme_secondaryFixedDim"
                     app:srcCompat="@drawable/ic_camera" />
             </FrameLayout>
 
