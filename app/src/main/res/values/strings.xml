@@ -50,6 +50,7 @@
     <string name="user_data">Datos del Usuario</string>
     <string name="edit">Editar</string>
     <string name="logout">Cerrar sesión</string>
+    <string name="save">Guardar cambios</string>
     <string name="welcome">Bienvenido a Fan Football</string>
     <string name="name">Nombre</string>
     <string name="surname">Apellidos</string>
@@ -59,6 +60,8 @@
     <string name="login">Iniciar sesión</string>
     <string name="to_register">¿Aún no tiene cuenta? Regístrese aquí</string>
     <string name="to_login">¿Ya tiene una cuenta creada? Inicie sesión aquí</string>
+    <string name="change_to_english">Cambiar a Inglés</string>
+    <string name="change_to_spanish">Cambiar a Español</string>
     <!--Comun-->
     <string name="cancel">Cancelar</string>
     <string name="yes">Sí</string>

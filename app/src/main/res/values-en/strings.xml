@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FootballCompsUserV2</string>
+    <!--Bottom Nav-->
+    <string name="home">Home</string>
+    <string name="matches_bottom">Matches</string>
+    <string name="profile">Profile</string>
+    <!--Ligas-->
+    <string name="league_name">Leagues</string>
+    <string name="league_delete">Delete league</string>
+    <string name="league_delete_message">Are you sure you want to delete the league "%s"?</string>
+    <string name="league_delete_not">You do not have permission to delete this league.</string>
+    <string name="league_update_not">You do not have permission to edit this league.</string>
+    <string name="league_create">Create league</string>
+    <string name="create_a_league">Create a league</string>
+    <string name="name_of_the_league">League name</string>
+    <!--Equipos-->
+    <string name="team_name">Teams</string>
+    <string name="team_delete">Delete team</string>
+    <string name="team_delete_message">Are you sure you want to delete the team "%s"?</string>
+    <string name="team_delete_not">You do not have permission to delete this team.</string>
+    <string name="team_update_not">You do not have permission to edit this team.</string>
+    <string name="team_create">Create team</string>
+    <string name="create_a_team">Create a team</string>
+    <string name="name_of_the_team">Team name</string>
+    <string name="number_of_players">Number of players</string>
+    <!--Jugadores-->
+    <string name="players_name">Players</string>
+    <string name="players_details">Player details</string>
+    <string name="players_delete">Delete player</string>
+    <string name="players_delete_message">Are you sure you want to delete the player "%s"?</string>
+    <string name="players_delete_not">You do not have permission to delete this player.</string>
+    <string name="players_update_not">You do not have permission to edit this player.</string>
+    <string name="players_create">Create player</string>
+    <string name="create_a_players">Create a player</string>
+    <string name="name_of_the_player">Player name</string>
+    <string name="first_surname">First surname</string>
+    <string name="second_surname">Second surname</string>
+    <string name="nationality">Nationality</string>
+    <string name="dorsal">Jersey number</string>
+    <string name="birthdate_create">Birthdate (DD/MM/YYYY)</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="position">Position</string>
+    <!--Partidos-->
+    <string name="matches">Matches</string>
+    <string name="lineups">Lineups</string>
+    <string name="local">Home</string>
+    <string name="visitor">Away</string>
+    <string name="stats">Statistics</string>
+    <!--Perfil-->
+    <string name="user_data">User Data</string>
+    <string name="edit">Edit</string>
+    <string name="logout">Log out</string>
+    <string name="save">Save changes</string>
+    <string name="welcome">Welcome to Fan Football</string>
+    <string name="name">Name</string>
+    <string name="surname">Surnames</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="login">Log in</string>
+    <string name="to_register">Don\'t have an account? Register here</string>
+    <string name="to_login">Already have an account? Log in here</string>
+    <string name="change_to_english">Switch to English</string>
+    <string name="change_to_spanish">Switch to Spanish</string>
+
+    <!--Comun-->
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="create">Create</string>
+    <string name="update">Update</string>
+    <string name="take_from_gallery">Select from storage</string>
+    <string name="take_photo">Open camera</string>
+</resources>

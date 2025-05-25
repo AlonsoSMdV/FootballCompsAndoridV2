@@ -4,11 +4,13 @@ import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,12 +38,15 @@ import com.example.footballcompsuserv2.R
 import com.example.footballcompsuserv2.data.user.User
 import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.FragmentProfileDetailsBinding
+import com.example.footballcompsuserv2.ui.datastores.LangPrefs
+import com.example.footballcompsuserv2.ui.datastores.LanguagePrefs
 import com.example.footballcompsuserv2.ui.datastores.ThemePreferences
 import com.example.footballcompsuserv2.ui.viewModels.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 // Permisos
 private var PERMISSIONS_REQUIRED =
@@ -212,8 +217,26 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
             lifecycleScope.launch {
                 themePreferences.saveTheme(isChecked)
                 updateIcons(isChecked, iconDay, iconNight)
+
+                // Re-aplica el idioma guardado para evitar el fallback a inglés
+                val langCode = LanguagePrefs.getSavedLanguage(requireContext())
+                LanguagePrefs.setLocale(langCode, requireContext())
+
             }
         }
+
+        // CAMBIO DE IDIOMA
+        val btnChangeLanguage = view.findViewById<Button>(R.id.btnChangeLanguage)
+
+        val currentLang = LanguagePrefs.getSavedLanguage(requireContext())
+        btnChangeLanguage.text = if (currentLang == "es") "Cambiar a Inglés" else "Switch to Spanish"
+
+        btnChangeLanguage.setOnClickListener {
+            val newLang = if (LanguagePrefs.getSavedLanguage(requireContext()) == "es") "en" else "es"
+            changeLanguage(newLang)
+        }
+
+
 
         binding.btnSaveProfile.setOnClickListener {
             val name = binding.userName.text.toString()
@@ -323,6 +346,17 @@ class ProfileDetailsFragment: Fragment(R.layout.fragment_profile_details) {
                 }
             }
         }
+    }
+
+    private fun changeLanguage(langCode: String) {
+        // Guardar preferencia
+        LanguagePrefs.saveLanguagePreference(requireContext(), langCode)
+
+        // Cambiar idioma
+        LanguagePrefs.setLocale(langCode, requireContext())
+
+        // Reiniciar actividad para aplicar cambios
+        requireActivity().recreate()
     }
 
     override fun onDestroyView() {
