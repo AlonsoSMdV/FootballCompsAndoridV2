@@ -112,6 +112,9 @@ class CreatePlayerFragment :Fragment(R.layout.fragment_create_player){
 
         if (playerId != null) {
             // Si es edición, precargar los datos
+            binding.createPlayerToolbar.title = requireContext().getString(R.string.player_update)
+            binding.textCreatePlayer.text = requireContext().getString(R.string.update_a_player)
+            binding.createPlayer.text = requireContext().getString(R.string.update)
             viewLifecycleOwner.lifecycleScope.launch {
                 val player = viewModel.getPlayerById(playerId)
                 player?.let {

@@ -70,8 +70,8 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
             val context = binding.root.context
             val deleteTitle = context.getString(R.string.players_delete)
             val deleteMessage = context.getString(R.string.players_delete_message, player.name)
-            val cancel = context.getString(R.string.yes)
-            val yes = context.getString(R.string.cancel)
+            val cancel = context.getString(R.string.cancel)
+            val yes = context.getString(R.string.yes)
             val notDelete = context.getString(R.string.players_delete_not)
             val notUpdate = context.getString(R.string.players_update_not)
 

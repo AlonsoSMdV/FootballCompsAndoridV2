@@ -105,6 +105,9 @@ class CreateCompFragment : Fragment(R.layout.fragment_create_comp){
 
         if (leagueId != null) {
             // Si es edición, precargar los datos
+            binding.createCompsToolbar.title = requireContext().getString(R.string.league_update)
+            binding.textCreateComp.text = requireContext().getString(R.string.update_a_league)
+            binding.createComp.text = requireContext().getString(R.string.update)
             viewLifecycleOwner.lifecycleScope.launch {
                 val comp = viewModel.getCompetitionById(leagueId)
                 comp?.let {

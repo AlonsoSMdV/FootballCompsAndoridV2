@@ -65,8 +65,8 @@
                 val context = binding.root.context
                 val deleteTitle = context.getString(R.string.team_delete)
                 val deleteMessage = context.getString(R.string.team_delete_message, team.name)
-                val cancel = context.getString(R.string.yes)
-                val yes = context.getString(R.string.cancel)
+                val cancel = context.getString(R.string.cancel)
+                val yes = context.getString(R.string.yes)
                 val notDelete = context.getString(R.string.team_delete_not)
                 val notUpdate = context.getString(R.string.team_update_not)
 

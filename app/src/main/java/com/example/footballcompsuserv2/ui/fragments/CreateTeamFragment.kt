@@ -115,6 +115,9 @@
 
             if (teamId != null) {
                 // Si es edición, precargar los datos
+                binding.createTeamToolbar.title = requireContext().getString(R.string.team_update)
+                binding.textCreateTeam.text = requireContext().getString(R.string.update_a_team)
+                binding.createTeam.text = requireContext().getString(R.string.update)
                 viewLifecycleOwner.lifecycleScope.launch {
                     val team = viewModel.getTeamById(teamId)
                     team?.let {
