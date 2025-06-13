@@ -14,6 +14,7 @@
     <string name="league_update">Actualizar liga</string>
     <string name="update_a_league">Actualiza la liga</string>
     <string name="create_a_league">Crea una liga</string>
+    <string name="league_deleted">Liga eliminada</string>
     <string name="name_of_the_league">Nombre de la liga</string>
     <!--Equipos-->
     <string name="team_name">Equipos</string>
@@ -25,6 +26,7 @@
     <string name="create_a_team">Crea un equipo</string>
     <string name="team_update">Actualizar equipo</string>
     <string name="update_a_team">Actualiza el equipo</string>
+    <string name="team_deleted">Equipo eliminado</string>
     <string name="name_of_the_team">Nombre del equipo</string>
     <string name="number_of_players">Número de jugadores</string>
     <!--Jugadores-->
@@ -38,6 +40,7 @@
     <string name="create_a_players">Crea un jugador</string>
     <string name="player_update">Actualizar jugador</string>
     <string name="update_a_player">Actualiza el jugador</string>
+    <string name="player_deleted">Jugador eliminado</string>
     <string name="name_of_the_player">Nombre del jugador</string>
     <string name="first_surname">Primer apellido</string>
     <string name="second_surname">Segundo apellido</string>

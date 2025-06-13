@@ -21,6 +21,8 @@ import com.example.footballcompsuserv2.data.players.PlayerFb
 import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.PlayerItemBinding
 import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val idTeam: String, private val idComp: String, private var user: UserFb?,  private var userId: String? ): ListAdapter<PlayerFb, PlayerListAdapter.PlayerViewHolder>(
     DiffCallback()
@@ -78,12 +80,16 @@ class PlayerListAdapter(private val viewModel: PlayerListViewModel, private val 
             //Botón de borrar
             binding.deletePlayerButton.setOnClickListener {
                 if (isOwner) {
-                    AlertDialog.Builder(binding.root.context)
+                    MaterialAlertDialogBuilder(binding.root.context)
                         .setTitle(deleteTitle)
                         .setMessage(deleteMessage)
                         .setPositiveButton(yes) { dialog, _ ->
                             viewModel.deletePlayer(player.id!!, idTeam)
                             dialog.dismiss()
+                            Snackbar.make(binding.root, R.string.player_deleted, Snackbar.LENGTH_SHORT)
+                                .setAnchorView(R.id.bottom_navigation)
+                                .setAction("X"){}
+                                .show()
                         }
                         .setNegativeButton(cancel) { dialog, _ ->
                             dialog.dismiss()

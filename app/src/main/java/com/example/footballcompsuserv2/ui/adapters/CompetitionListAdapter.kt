@@ -20,6 +20,8 @@ import com.example.footballcompsuserv2.data.leagues.Competition
 import com.example.footballcompsuserv2.data.leagues.CompetitionFb
 import com.example.footballcompsuserv2.data.user.UserFb
 import com.example.footballcompsuserv2.databinding.CompetitionItemBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 class CompetitionListAdapter(private val viewModel: CompetitionViewModel, private var user: UserFb?, private var userId: String? ): ListAdapter<CompetitionFb, CompetitionListAdapter.CompetitionViewHolder>(
     DiffCallback()
@@ -92,12 +94,16 @@ class CompetitionListAdapter(private val viewModel: CompetitionViewModel, privat
 
             binding.deleteCompButton.setOnClickListener {
                 if (isOwner) {
-                    AlertDialog.Builder(binding.root.context)
+                    MaterialAlertDialogBuilder(binding.root.context)
                         .setTitle(deleteTitle)
                         .setMessage(deleteMessage)
                         .setPositiveButton(yes) { dialog, _ ->
                             viewModel.deleteComp(competition.id!!)
                             dialog.dismiss()
+                            Snackbar.make(binding.root, R.string.league_deleted, Snackbar.LENGTH_SHORT)
+                                .setAnchorView(R.id.bottom_navigation)
+                                .setAction("X"){}
+                                .show()
                         }
                         .setNegativeButton(cancel) { dialog, _ ->
                             dialog.dismiss()

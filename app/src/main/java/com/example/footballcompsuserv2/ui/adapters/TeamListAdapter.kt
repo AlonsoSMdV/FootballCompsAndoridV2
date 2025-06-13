@@ -21,6 +21,8 @@
     import com.example.footballcompsuserv2.databinding.TeamItemBinding
     import com.example.footballcompsuserv2.ui.fragments.CompsFragmentDirections
     import com.example.footballcompsuserv2.ui.viewModels.TeamViewModel
+    import com.google.android.material.dialog.MaterialAlertDialogBuilder
+    import com.google.android.material.snackbar.Snackbar
 
     class TeamListAdapter(private val viewModel: TeamViewModel, private val idComp: String, private var user: UserFb?, private var userId: String? ): ListAdapter<TeamFb, TeamListAdapter.TeamViewHolder>(
         DiffCallback()
@@ -78,12 +80,16 @@
 
                 binding.deleteTeamButton.setOnClickListener {
                     if (isOwner) {
-                        AlertDialog.Builder(binding.root.context)
+                        MaterialAlertDialogBuilder(binding.root.context)
                             .setTitle(deleteTitle)
                             .setMessage(deleteMessage)
                             .setPositiveButton(yes) { dialog, _ ->
                                 viewModel.deleteTeam(team.id!!, compId)
                                 dialog.dismiss()
+                                Snackbar.make(binding.root, R.string.team_deleted, Snackbar.LENGTH_SHORT)
+                                    .setAnchorView(R.id.bottom_navigation)
+                                    .setAction("X"){}
+                                    .show()
                             }
                             .setNegativeButton(cancel) { dialog, _ ->
                                 dialog.dismiss()
